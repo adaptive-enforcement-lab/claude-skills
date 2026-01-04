@@ -51,37 +51,54 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Check if there are changes
-          if git diff --quiet && git diff --staged --quiet && ! git ls-files --others --exclude-standard | grep -q .; then
-            echo "No changes detected, skipping PR creation"
+          # Stage changes to check what would be committed
+          git add -A skills/ .claude-plugin/marketplace.json
+
+          # Check if there are staged changes using git status --porcelain
+          # This detects modified files (M), new files (A), and deleted files (D)
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No changes detected in skills/ or marketplace.json, skipping PR creation"
             exit 0
           fi
 
-          # Create branch
-          BRANCH="chore/regenerate-skills-$(date +%Y%m%d-%H%M%S)"
-          git checkout -b "$BRANCH"
+          # Idempotent branch name - same branch for all skill regeneration
+          BRANCH="chore/regenerate-skills"
 
-          # Stage all changes (modified, new, deleted)
-          git add -A skills/ .claude-plugin/marketplace.json
+          # Check if branch exists remotely
+          if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
+            echo "Branch $BRANCH exists, checking out and resetting"
+            git fetch origin "$BRANCH"
+            git checkout -B "$BRANCH" "origin/$BRANCH"
+            # Re-stage changes after checkout
+            git add -A skills/ .claude-plugin/marketplace.json
+          else
+            echo "Creating new branch $BRANCH"
+            git checkout -b "$BRANCH"
+          fi
 
           # Commit changes
+          SKILL_COUNT=$(find skills/ -name "SKILL.md" | wc -l | xargs)
           git commit -m "chore: regenerate skills from AEL docs
 
           Auto-generated from adaptive-enforcement-lab-com documentation.
 
-          Generated $(git diff --cached --numstat skills/ | wc -l | xargs) skills across 4 categories:
+          Generated $SKILL_COUNT skills across 4 categories:
           - patterns
           - enforce
           - build
           - secure"
 
-          # Push branch
-          git push origin "$BRANCH"
+          # Force push to handle idempotent updates
+          git push --force origin "$BRANCH"
 
-          # Create PR
-          gh pr create \
-            --title "chore: regenerate skills from AEL docs" \
-            --body "$(cat <<'EOF'
+          # Create or update PR
+          if gh pr list --head "$BRANCH" --base main --json number --jq '.[0].number' | grep -q .; then
+            echo "PR already exists, updating"
+          else
+            echo "Creating new PR"
+            gh pr create \
+              --title "chore: regenerate skills from AEL docs" \
+              --body "$(cat <<'EOF'
           ## Summary
 
           Auto-generated skills update from AEL documentation changes.
@@ -106,7 +123,9 @@ jobs:
           ---
 
           *This PR was automatically created by the skill generator workflow.*
+          *Workflow is idempotent - safe to rerun multiple times.*
           EOF
           )" \
-            --base main \
-            --head "$BRANCH"
+              --base main \
+              --head "$BRANCH"
+          fi
