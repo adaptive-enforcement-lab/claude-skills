@@ -1,0 +1,98 @@
+---
+name: Sync Marketplace Versions
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  sync-versions:
+    if: startsWith(github.head_ref, 'release-please--')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fetch main branch for comparison
+        run: |
+          git fetch origin main:main --depth=1
+
+      - name: Check if sync needed
+        id: check
+        run: |
+          if git diff origin/main..HEAD --name-only | grep -q "skills/patterns/CHANGELOG.md"; then
+            echo "patterns_changed=true" >> "$GITHUB_OUTPUT"
+          fi
+          if git diff origin/main..HEAD --name-only | grep -q "skills/enforce/CHANGELOG.md"; then
+            echo "enforce_changed=true" >> "$GITHUB_OUTPUT"
+          fi
+          if git diff origin/main..HEAD --name-only | grep -q "skills/build/CHANGELOG.md"; then
+            echo "build_changed=true" >> "$GITHUB_OUTPUT"
+          fi
+          if git diff origin/main..HEAD --name-only | grep -q "skills/secure/CHANGELOG.md"; then
+            echo "secure_changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Sync patterns version to marketplace.json
+        if: steps.check.outputs.patterns_changed == 'true'
+        run: |
+          VERSION=$(jq -r '.["skills/patterns"]' .release-please-manifest.json)
+          jq --arg version "$VERSION" '.plugins[0].version = $version' \
+            .claude-plugin/marketplace.json > .claude-plugin/marketplace.json.tmp
+          mv .claude-plugin/marketplace.json.tmp .claude-plugin/marketplace.json
+          echo "Synced patterns $VERSION to marketplace.json plugins[0].version"
+
+      - name: Sync enforcement version to marketplace.json
+        if: steps.check.outputs.enforce_changed == 'true'
+        run: |
+          VERSION=$(jq -r '.["skills/enforce"]' .release-please-manifest.json)
+          jq --arg version "$VERSION" '.plugins[1].version = $version' \
+            .claude-plugin/marketplace.json > .claude-plugin/marketplace.json.tmp
+          mv .claude-plugin/marketplace.json.tmp .claude-plugin/marketplace.json
+          echo "Synced enforcement $VERSION to marketplace.json plugins[1].version"
+
+      - name: Sync build version to marketplace.json
+        if: steps.check.outputs.build_changed == 'true'
+        run: |
+          VERSION=$(jq -r '.["skills/build"]' .release-please-manifest.json)
+          jq --arg version "$VERSION" '.plugins[2].version = $version' \
+            .claude-plugin/marketplace.json > .claude-plugin/marketplace.json.tmp
+          mv .claude-plugin/marketplace.json.tmp .claude-plugin/marketplace.json
+          echo "Synced build $VERSION to marketplace.json plugins[2].version"
+
+      - name: Sync secure version to marketplace.json
+        if: steps.check.outputs.secure_changed == 'true'
+        run: |
+          VERSION=$(jq -r '.["skills/secure"]' .release-please-manifest.json)
+          jq --arg version "$VERSION" '.plugins[3].version = $version' \
+            .claude-plugin/marketplace.json > .claude-plugin/marketplace.json.tmp
+          mv .claude-plugin/marketplace.json.tmp .claude-plugin/marketplace.json
+          echo "Synced secure $VERSION to marketplace.json plugins[3].version"
+
+      - name: Commit changes to release PR
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet; then
+            echo "No version sync changes needed"
+            exit 0
+          fi
+
+          git add .claude-plugin/marketplace.json
+          git commit -m "chore: sync marketplace versions from skill releases" \
+                     -m "Synchronizes plugin versions in marketplace.json:" \
+                     -m "- Patterns -> plugins[0].version" \
+                     -m "- Enforcement -> plugins[1].version" \
+                     -m "- Build -> plugins[2].version" \
+                     -m "- Secure -> plugins[3].version"
+          git push
