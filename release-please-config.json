@@ -44,7 +44,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".claude-plugin/marketplace.json",
+          "path": "../.claude-plugin/marketplace.json",
           "jsonpath": "$.plugins[0].version"
         }
       ]
@@ -58,7 +58,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".claude-plugin/marketplace.json",
+          "path": "../.claude-plugin/marketplace.json",
           "jsonpath": "$.plugins[1].version"
         }
       ]
@@ -72,7 +72,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".claude-plugin/marketplace.json",
+          "path": "../.claude-plugin/marketplace.json",
           "jsonpath": "$.plugins[2].version"
         }
       ]
@@ -86,7 +86,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".claude-plugin/marketplace.json",
+          "path": "../.claude-plugin/marketplace.json",
           "jsonpath": "$.plugins[3].version"
         }
       ]
