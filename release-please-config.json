@@ -21,6 +21,20 @@
       "include-component-in-tag": true,
       "include-v-in-tag": true
     },
+    ".claude-plugin": {
+      "release-type": "simple",
+      "component": "marketplace",
+      "package-name": "marketplace",
+      "include-component-in-tag": true,
+      "include-v-in-tag": true,
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".claude-plugin/marketplace.json",
+          "jsonpath": "$.metadata.version"
+        }
+      ]
+    },
     "skills/patterns": {
       "release-type": "simple",
       "component": "patterns",

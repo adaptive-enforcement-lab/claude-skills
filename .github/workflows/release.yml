@@ -15,6 +15,8 @@ jobs:
     outputs:
       generator_release_created: ${{ steps.release.outputs.generator--release_created }}
       generator_tag_name: ${{ steps.release.outputs.generator--tag_name }}
+      marketplace_release_created: ${{ steps.release.outputs.marketplace--release_created }}
+      marketplace_tag_name: ${{ steps.release.outputs.marketplace--tag_name }}
       patterns_release_created: ${{ steps.release.outputs.patterns--release_created }}
       patterns_tag_name: ${{ steps.release.outputs.patterns--tag_name }}
       enforcement_release_created: ${{ steps.release.outputs.enforcement--release_created }}
@@ -67,6 +69,7 @@ jobs:
   announce-skills:
     needs: release-please
     if: |
+      needs.release-please.outputs.marketplace_release_created == 'true' ||
       needs.release-please.outputs.patterns_release_created == 'true' ||
       needs.release-please.outputs.enforcement_release_created == 'true' ||
       needs.release-please.outputs.build_release_created == 'true' ||
@@ -75,12 +78,14 @@ jobs:
     steps:
       - name: Skills release notification
         env:
+          MARKETPLACE_TAG: ${{ needs.release-please.outputs.marketplace_tag_name }}
           PATTERNS_TAG: ${{ needs.release-please.outputs.patterns_tag_name }}
           ENFORCEMENT_TAG: ${{ needs.release-please.outputs.enforcement_tag_name }}
           BUILD_TAG: ${{ needs.release-please.outputs.build_tag_name }}
           SECURE_TAG: ${{ needs.release-please.outputs.secure_tag_name }}
         run: |
           echo "Skills released:"
+          [[ -n "$MARKETPLACE_TAG" ]] && echo "  - Marketplace catalog: $MARKETPLACE_TAG"
           [[ -n "$PATTERNS_TAG" ]] && echo "  - Patterns: $PATTERNS_TAG"
           [[ -n "$ENFORCEMENT_TAG" ]] && echo "  - Enforcement: $ENFORCEMENT_TAG"
           [[ -n "$BUILD_TAG" ]] && echo "  - Build: $BUILD_TAG"
