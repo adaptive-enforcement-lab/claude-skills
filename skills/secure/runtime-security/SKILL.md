@@ -8,8 +8,22 @@ description: >-
 
 ## When to Use This Skill
 
+This section covers runtime security for GKE clusters:
+
+- **Pod Security Standards**: Namespace-level security policies (baseline, restricted)
+- **Admission Controllers**: Pre-deployment validation and policy enforcement
+- **Runtime Monitoring**: Behavioral detection with Falco or GKE Cloud Logging
+
+##
 
 
+## Prerequisites
+
+- GCP project with billing enabled
+- Terraform 1.0+
+- kubectl configured for cluster access
+
+##
 
 
 ## Implementation

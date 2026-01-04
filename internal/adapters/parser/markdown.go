@@ -40,53 +40,112 @@ func (p *SectionParser) Parse(markdown string) ([]domain.Section, error) {
 
 // extractSections walks the AST and extracts sections.
 func (p *SectionParser) extractSections(node ast.Node, source []byte) []domain.Section {
-	var sections []domain.Section
-	var currentSection *domain.Section
+	// First pass: collect all headings with their positions
+	type headingInfo struct {
+		title     string
+		level     int
+		startPos  int
+		endPos    int
+		astNode   ast.Node
+	}
+
+	var headings []headingInfo
 
 	ast.Walk(node, func(n ast.Node, entering bool) (ast.WalkStatus, error) {
 		if !entering {
 			return ast.WalkContinue, nil
 		}
 
-		switch v := n.(type) {
-		case *ast.Heading:
-			// Create new section
-			title := p.extractText(v, source)
-			level := v.Level
+		if heading, ok := n.(*ast.Heading); ok {
+			title := p.extractText(heading, source)
+			startPos := heading.Lines().At(0).Start
+			endPos := heading.Lines().At(heading.Lines().Len() - 1).Stop
 
-			section := domain.Section{
-				Title:     title,
-				Level:     level,
-				LineStart: v.Lines().At(0).Start,
-				LineEnd:   v.Lines().At(v.Lines().Len() - 1).Stop,
-			}
-
-			// If this is a top-level heading or same/higher level as current
-			if currentSection == nil || level <= currentSection.Level {
-				// Add previous section if exists
-				if currentSection != nil {
-					sections = append(sections, *currentSection)
-				}
-				currentSection = &section
-			} else {
-				// This is a subsection
-				if currentSection != nil {
-					currentSection.SubSections = append(currentSection.SubSections, section)
-				}
-			}
+			headings = append(headings, headingInfo{
+				title:    title,
+				level:    heading.Level,
+				startPos: startPos,
+				endPos:   endPos,
+				astNode:  n,
+			})
 		}
 
 		return ast.WalkContinue, nil
 	})
 
-	// Add final section
-	if currentSection != nil {
-		sections = append(sections, *currentSection)
+	if len(headings) == 0 {
+		return nil
 	}
 
-	// Extract content for each section
-	for i := range sections {
-		sections[i].Content = p.extractSectionContent(&sections[i], source)
+	// Second pass: build sections with content
+	var sections []domain.Section
+
+	for i, heading := range headings {
+		// Determine content end position (start of next heading of same or higher level)
+		contentEnd := len(source)
+		for j := i + 1; j < len(headings); j++ {
+			if headings[j].level <= heading.level {
+				contentEnd = headings[j].startPos
+				break
+			}
+		}
+
+		// Extract content between heading and next section
+		contentStart := heading.endPos
+		content := strings.TrimSpace(string(source[contentStart:contentEnd]))
+
+		// Build section
+		section := domain.Section{
+			Title:     heading.title,
+			Level:     heading.level,
+			Content:   content,
+			LineStart: heading.startPos,
+			LineEnd:   contentEnd,
+		}
+
+		// Handle subsections
+		for j := i + 1; j < len(headings); j++ {
+			if headings[j].level <= heading.level {
+				break
+			}
+			if headings[j].level == heading.level+1 {
+				// This is a direct subsection
+				subContentEnd := len(source)
+				for k := j + 1; k < len(headings); k++ {
+					if headings[k].level <= headings[j].level {
+						subContentEnd = headings[k].startPos
+						break
+					}
+				}
+
+				subContentStart := headings[j].endPos
+				subContent := strings.TrimSpace(string(source[subContentStart:subContentEnd]))
+
+				subsection := domain.Section{
+					Title:     headings[j].title,
+					Level:     headings[j].level,
+					Content:   subContent,
+					LineStart: headings[j].startPos,
+					LineEnd:   subContentEnd,
+				}
+
+				section.SubSections = append(section.SubSections, subsection)
+			}
+		}
+
+		// Only add top-level sections (subsections are nested)
+		isTopLevel := true
+		for j := 0; j < i; j++ {
+			if headings[j].level < heading.level {
+				// This heading is under a previous heading
+				isTopLevel = false
+				break
+			}
+		}
+
+		if isTopLevel {
+			sections = append(sections, section)
+		}
 	}
 
 	return sections
@@ -114,9 +173,8 @@ func (p *SectionParser) extractText(node ast.Node, source []byte) string {
 	return strings.TrimSpace(buf.String())
 }
 
-// extractSectionContent extracts the markdown content for a section.
+// extractSectionContent is no longer needed as content is extracted during section parsing.
+// Kept for backwards compatibility but returns empty string.
 func (p *SectionParser) extractSectionContent(section *domain.Section, source []byte) string {
-	// This is a simplified implementation
-	// In a more complete version, we'd extract content between this heading and the next
-	return section.Title
+	return section.Content
 }

@@ -8,7 +8,22 @@ description: >-
 
 ## When to Use This Skill
 
+**Use when:**
 
+- Replacing critical production systems
+- High risk of downtime
+- Need gradual validation
+- Rollback must be instant
+
+**Don't use when:**
+
+- Small, non-critical systems (just replace)
+- No production traffic yet
+- Resource cost of running both systems is prohibitive
+
+---
+
+##
 
 
 

@@ -8,7 +8,23 @@ description: >-
 
 ## When to Use This Skill
 
+JWTs authenticate your GitHub App itself, not a specific installation. They enable:
 
+- **Installation discovery** - List where your app is installed
+- **App metadata retrieval** - Get app configuration and manifest
+- **Installation management** - Suspend or configure installations
+- **Bootstrap workflows** - Generate installation tokens dynamically
+
+> **JWT Limitations**
+>
+
+
+    - Cannot access repository contents
+    - Cannot create issues, pull requests, or commits
+    - 10-minute expiration (maximum allowed)
+    - App-level permissions only
+
+##
 
 
 

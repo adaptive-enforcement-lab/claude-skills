@@ -8,7 +8,21 @@ description: >-
 
 ## When to Use This Skill
 
+Installation token lifecycle management enables:
 
+- **Long-running workflows** - Multi-hour operations without interruption
+- **Token refresh automation** - Automatic renewal before expiration
+- **Rate limit optimization** - Efficient token usage across job matrices
+- **Caching strategies** - Share tokens across concurrent jobs
+- **Error recovery** - Graceful handling of expired tokens
+
+> **Token Expiration**
+>
+
+
+    Installation tokens expire **exactly 1 hour after generation**. Plan refresh strategies for workflows exceeding 50 minutes to account for clock drift and API latency.
+
+##
 
 
 

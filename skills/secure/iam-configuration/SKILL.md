@@ -8,8 +8,22 @@ description: >-
 
 ## When to Use This Skill
 
+This section covers identity and access management for GKE clusters:
+
+- **Service Account Roles**: Fine-grained IAM permissions for nodes, admins, and developers
+- **Workload Identity Federation**: External identity provider integration (GitHub, OIDC)
+- **Audit Logging**: Complete visibility into cluster management and API access
+
+##
 
 
+## Prerequisites
+
+- GCP project with billing enabled
+- Terraform 1.0+
+- Appropriate IAM permissions (Security Admin or Project Editor)
+
+##
 
 
 ## Implementation

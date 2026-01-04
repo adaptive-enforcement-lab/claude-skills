@@ -8,7 +8,17 @@ description: >-
 
 ## When to Use This Skill
 
+| Pattern | Best For | Tradeoff |
+| --------- | ---------- | ---------- |
+| [Check-Before-Act](check-before-act.md) | Creating resources | Race conditions possible |
+| [Upsert](upsert.md) | APIs with atomic operations | Not universally available |
+| [Force Overwrite](force-overwrite.md) | Content that can be safely replaced | Destructive if misused |
+| [Unique Identifiers](unique-identifiers.md) | Natural deduplication | ID logic can be complex |
+| [Tombstone Markers](tombstone-markers/index.md) | Multi-step operations | Markers need cleanup |
 
+---
+
+##
 
 
 

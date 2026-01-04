@@ -8,8 +8,47 @@ description: >-
 
 ## When to Use This Skill
 
+```mermaid
+graph TD
+    T[Terraform Module] -->|Applies| BP[Branch Protection Rules]
+    GA[GitHub App] -->|Monitors| BP
+    GA -->|Detects| DRIFT[Configuration Drift]
+    DRIFT -->|Triggers| REM[Automated Remediation]
+    REM -->|Restores| BP
+    BP -->|Enforces| PR[Pull Requests]
+    PR -->|Generates| AUDIT[Audit Evidence]
+
+    %% Ghostty Hardcore Theme
+    style T fill:#a7e22e,color:#1b1d1e
+    style GA fill:#65d9ef,color:#1b1d1e
+    style DRIFT fill:#f92572,color:#1b1d1e
+    style BP fill:#fd971e,color:#1b1d1e
+
+```
+
+**Key Components**:
+
+- **Terraform modules** - Declare protection rules as code
+- **GitHub Apps** - Monitor and enforce compliance organization-wide
+- **Drift detection** - Identify unauthorized changes
+- **Automated remediation** - Restore protection without manual intervention
+- **Audit collection** - Capture evidence for compliance reporting
+
+---
+
+##
 
 
+## Prerequisites
+
+- GitHub organization with admin access
+- Terraform or OpenTofu (for IaC deployment)
+- GitHub App with appropriate permissions (for automated enforcement)
+- Basic understanding of Git workflow and branch protection concepts
+
+---
+
+##
 
 
 ## Implementation

@@ -11,6 +11,13 @@ description: >-
 
 
 
+## Prerequisites
+
+- [GitHub App Setup](../../../../secure/github-apps/index.md) - Organization-level GitHub App
+- [Actions Integration](../../actions-integration/index.md) - Token generation in workflows
+
+##
+
 
 ## Implementation
 

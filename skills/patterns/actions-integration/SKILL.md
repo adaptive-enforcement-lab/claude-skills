@@ -11,6 +11,16 @@ description: >-
 
 
 
+## Prerequisites
+
+Before integrating, ensure you have:
+
+1. **Core App created and installed** - See [GitHub App Setup](../../../secure/github-apps/index.md)
+2. **Secrets configured** - `CORE_APP_ID` and `CORE_APP_PRIVATE_KEY` stored in GitHub
+3. **Required permissions** - App has permissions for your automation tasks
+
+##
+
 
 ## Implementation
 

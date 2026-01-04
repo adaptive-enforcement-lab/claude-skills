@@ -11,6 +11,34 @@ description: >-
 
 
 
+## Prerequisites
+
+### Required Access
+
+> **Required Access**
+>
+
+
+    To create a Core App, you need:
+
+    - **Organization owner** role
+    - Access to organization settings: `https://github.com/organizations/{ORG}/settings/apps`
+
+### Planning Considerations
+
+> **Planning Considerations**
+>
+
+
+    Before creating the app, determine:
+
+    1. **Permission scope** - Which repository and organization permissions are needed
+    2. **Installation scope** - All repositories or specific teams
+    3. **Token management** - Where secrets will be stored (repository or organization level)
+    4. **Naming convention** - Standard naming (e.g., "CORE App", "Automation Core")
+
+##
+
 
 ## Implementation
 

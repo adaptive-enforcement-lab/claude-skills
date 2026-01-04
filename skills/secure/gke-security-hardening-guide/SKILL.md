@@ -8,8 +8,45 @@ description: >-
 
 ## When to Use This Skill
 
+> **Defense in Depth**
+>
 
 
+    GKE security hardening follows a layered approach:
+
+    1. **Control plane** - Private clusters, authenticated access, audit logging
+    2. **Network** - VPC-native networking, network policies, egress controls
+    3. **Identity** - Workload Identity Federation, least-privilege IAM, audit trails
+    4. **Runtime** - Pod Security Standards, admission controllers, monitoring
+
+This guide uses Pulumi for Infrastructure as Code, enabling repeatable, auditable cluster deployments across environments (QAC, DEV, STG, PRD).
+
+> **Environment Promotion Order**
+>
+
+
+    Always promote changes through: **QAC → DEV → STG → PRD → OPS**
+
+    Never skip environments in the promotion pipeline.
+
+##
+
+
+## Prerequisites
+
+- GCP project with billing enabled
+- `gcloud` CLI installed and authenticated
+- Pulumi 3.0+
+- kubectl configured for cluster access
+- Appropriate IAM permissions (Project Editor or Security Admin roles)
+
+> **Production Warning**
+>
+
+
+    These configurations enforce strict security controls. Test in QAC/DEV before production deployment.
+
+##
 
 
 ## Implementation
