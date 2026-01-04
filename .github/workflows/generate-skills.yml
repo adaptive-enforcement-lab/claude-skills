@@ -1,0 +1,40 @@
+name: Generate Skills
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [docs-updated]
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout claude-skills
+        uses: actions/checkout@v4
+
+      - name: Checkout AEL documentation
+        uses: actions/checkout@v4
+        with:
+          repository: adaptive-enforcement-lab/adaptive-enforcement-lab-com
+          path: ael-docs
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+
+      - name: Build generator
+        run: go build -o bin/skillgen ./cmd/skillgen
+
+      - name: Generate skills
+        run: ./bin/skillgen --source ael-docs/docs --output skills
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add skills/ .claude-plugin/marketplace.json
+          if ! git diff --quiet || ! git diff --staged --quiet; then
+            git commit -m "chore: regenerate skills from AEL docs"
+            git push
+          fi

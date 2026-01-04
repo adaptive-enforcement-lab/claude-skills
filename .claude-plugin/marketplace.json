@@ -1,0 +1,47 @@
+{
+  "name": "ael-skills",
+  "owner": {
+    "name": "Adaptive Enforcement Lab",
+    "email": "contact@adaptive-enforcement-lab.com"
+  },
+  "metadata": {
+    "description": "Claude Code skills for secure development patterns, enforcement automation, and build engineering",
+    "version": "0.1.0",
+    "pluginRoot": "./skills"
+  },
+  "plugins": [
+    {
+      "name": "patterns",
+      "source": "./skills/patterns",
+      "description": "Reusable engineering patterns for error handling, state management, performance optimization, and resilience",
+      "version": "0.1.0",
+      "category": "development",
+      "author": {
+        "name": "Adaptive Enforcement Lab"
+      },
+      "tags": ["patterns", "engineering", "best-practices"]
+    },
+    {
+      "name": "enforcement",
+      "source": "./skills/enforcement",
+      "description": "Security and compliance enforcement automation including pre-commit hooks, policy checks, and validation",
+      "version": "0.1.0",
+      "category": "security",
+      "author": {
+        "name": "Adaptive Enforcement Lab"
+      },
+      "tags": ["security", "compliance", "enforcement", "devsecops"]
+    },
+    {
+      "name": "build",
+      "source": "./skills/build",
+      "description": "Build engineering patterns for CI/CD pipelines, release automation, and deployment strategies",
+      "version": "0.1.0",
+      "category": "devops",
+      "author": {
+        "name": "Adaptive Enforcement Lab"
+      },
+      "tags": ["ci-cd", "build", "release", "deployment"]
+    }
+  ]
+}
