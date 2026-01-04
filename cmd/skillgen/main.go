@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/adaptive-enforcement-lab/claude-skills/internal/adapters/filesystem"
 	"github.com/adaptive-enforcement-lab/claude-skills/internal/adapters/logger"
