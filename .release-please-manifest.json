@@ -1,7 +1,7 @@
 {
   ".": "0.2.0",
   ".claude-plugin": "0.2.0",
-  "skills/patterns": "0.1.0",
+  "skills/patterns": "0.2.0",
   "skills/enforce": "0.2.0",
   "skills/build": "0.1.1",
   "skills/secure": "0.2.0"
