@@ -73,6 +73,9 @@ jobs:
       actions: write
       contents: read
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       # CRITICAL: GitHub App token required because GITHUB_TOKEN cannot trigger workflows
       # This ensures the Build Workflow is triggered when Release Workflow completes
       - name: Generate AEL CORE App Token
@@ -86,12 +89,10 @@ jobs:
       - name: Dispatch build workflow
         env:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
-          GH_REPO: ${{ github.repository }}
-          GENERATOR_RELEASE: ${{ needs.release-please.outputs.generator_release_created == 'true' }}
         run: |
           gh workflow run build.yml \
             --ref main \
-            -f generator_is_release="$GENERATOR_RELEASE" \
+            -f generator_is_release="${{ needs.release-please.outputs.generator_release_created == 'true' }}" \
             -f skip_build_version_tags="true" \
             -f triggered_by="release-workflow"
 
