@@ -4,6 +4,21 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      skip_release_please:
+        description: "Skip release-please (use for manual rebuilds)"
+        type: boolean
+        default: false
+      force_all:
+        description: "Force build all components regardless of changes"
+        type: boolean
+        default: false
+
+# Never cancel release workflow to ensure complete changelog
+concurrency:
+  group: release-please
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -11,7 +26,12 @@ permissions:
 
 jobs:
   release-please:
+    name: Release Please
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' || !inputs.skip_release_please }}
+    permissions:
+      contents: write
+      pull-requests: write
     outputs:
       generator_release_created: ${{ steps.release.outputs.generator--release_created }}
       generator_tag_name: ${{ steps.release.outputs.generator--tag_name }}
@@ -25,16 +45,32 @@ jobs:
       build_tag_name: ${{ steps.release.outputs.build--tag_name }}
       secure_release_created: ${{ steps.release.outputs.secure--release_created }}
       secure_tag_name: ${{ steps.release.outputs.secure--tag_name }}
+      releases_created: ${{ steps.release.outputs.releases_created }}
     steps:
+      # CRITICAL: GitHub App token required because GITHUB_TOKEN cannot trigger workflows
+      # This ensures release-please can create PRs and releases with proper permissions
+      - name: Generate AEL CORE App Token
+        id: app_token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.CORE_APP_ID }}
+          private-key: ${{ secrets.CORE_APP_PRIVATE_KEY }}
+          owner: adaptive-enforcement-lab
+
       - name: Run release-please
         id: release
         uses: googleapis/release-please-action@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.app_token.outputs.token }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
 
   build-generator:
+    name: Build Generator Binaries
     needs: release-please
-    if: needs.release-please.outputs.generator_release_created == 'true'
+    if: |
+      needs.release-please.outputs.generator_release_created == 'true' ||
+      (github.event_name == 'workflow_dispatch' && inputs.force_all == true)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -67,13 +103,15 @@ jobs:
             bin/skillgen-windows-amd64.exe
 
   announce-skills:
+    name: Announce Skill Releases
     needs: release-please
     if: |
       needs.release-please.outputs.marketplace_release_created == 'true' ||
       needs.release-please.outputs.patterns_release_created == 'true' ||
       needs.release-please.outputs.enforcement_release_created == 'true' ||
       needs.release-please.outputs.build_release_created == 'true' ||
-      needs.release-please.outputs.secure_release_created == 'true'
+      needs.release-please.outputs.secure_release_created == 'true' ||
+      (github.event_name == 'workflow_dispatch' && inputs.force_all == true)
     runs-on: ubuntu-latest
     steps:
       - name: Skills release notification
