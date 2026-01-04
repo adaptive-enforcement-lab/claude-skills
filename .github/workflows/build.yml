@@ -1,0 +1,107 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - "**"
+      - "!main"
+      - "!renovate/**"
+      - "!release-please--**"
+  workflow_dispatch:
+    inputs:
+      generator_is_release:
+        description: "Is this a generator release build?"
+        type: string
+        default: "false"
+      skip_build_version_tags:
+        description: "Skip build version tags (for release-dispatched builds)"
+        type: string
+        default: "false"
+      triggered_by:
+        description: "What triggered this build"
+        type: string
+        default: "manual"
+
+# Allow only one build at a time per branch
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build-generator:
+    name: Build Generator Binaries
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+
+      - name: Determine build type
+        env:
+          IS_RELEASE: ${{ inputs.generator_is_release }}
+          TRIGGERED_BY: ${{ inputs.triggered_by }}
+          RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          if [[ "$IS_RELEASE" == "true" ]]; then
+            echo "is_release=true" >> $GITHUB_OUTPUT
+            echo "Build type: RELEASE" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "is_release=false" >> $GITHUB_OUTPUT
+            echo "Build type: DEVELOPMENT" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          TRIGGER="${TRIGGERED_BY:-push}"
+          echo "Triggered by: $TRIGGER" >> $GITHUB_STEP_SUMMARY
+          echo "Run number: $RUN_NUMBER" >> $GITHUB_STEP_SUMMARY
+
+      - name: Build binaries
+        run: |
+          # Build for multiple platforms
+          mkdir -p bin
+          GOOS=linux GOARCH=amd64 go build -o bin/skillgen-linux-amd64 ./cmd/skillgen
+          GOOS=darwin GOARCH=amd64 go build -o bin/skillgen-darwin-amd64 ./cmd/skillgen
+          GOOS=darwin GOARCH=arm64 go build -o bin/skillgen-darwin-arm64 ./cmd/skillgen
+          GOOS=windows GOARCH=amd64 go build -o bin/skillgen-windows-amd64.exe ./cmd/skillgen
+
+          echo "✅ Built binaries:" >> $GITHUB_STEP_SUMMARY
+          ls -lh bin/ >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: generator-binaries-${{ github.run_number }}
+          path: bin/*
+          retention-days: 30
+
+  summary:
+    name: Build Summary
+    needs: build-generator
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build summary
+        env:
+          RUN_NUMBER: ${{ github.run_number }}
+          REF: ${{ github.ref }}
+          TRIGGERED_BY: ${{ inputs.triggered_by }}
+          IS_RELEASE: ${{ inputs.generator_is_release }}
+        run: |
+          echo "## Build Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Run**: #$RUN_NUMBER" >> $GITHUB_STEP_SUMMARY
+          echo "**Ref**: \`$REF\`" >> $GITHUB_STEP_SUMMARY
+
+          TRIGGER="${TRIGGERED_BY:-push}"
+          echo "**Triggered by**: $TRIGGER" >> $GITHUB_STEP_SUMMARY
+
+          if [[ "$IS_RELEASE" == "true" ]]; then
+            echo "**Type**: Release build" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "**Type**: Development build" >> $GITHUB_STEP_SUMMARY
+          fi
