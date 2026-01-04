@@ -54,6 +54,7 @@ func (r *DocumentReader) ReadDocument(path string) (*domain.Document, error) {
 	}
 
 	// Extract content components
+	introduction := r.sectionParser.ExtractIntroduction(markdown)
 	codeBlocks := r.contentExtractor.ExtractCodeBlocks(markdown)
 	mermaid := r.contentExtractor.ExtractMermaid(markdown)
 	tables := r.contentExtractor.ExtractTables(markdown)
@@ -61,14 +62,15 @@ func (r *DocumentReader) ReadDocument(path string) (*domain.Document, error) {
 
 	// Build document
 	doc := &domain.Document{
-		Path:        path,
-		Frontmatter: *frontmatter,
-		Sections:    sections,
-		CodeBlocks:  codeBlocks,
-		Mermaid:     mermaid,
-		Tables:      tables,
-		Admonitions: admonitions,
-		RawContent:  markdown,
+		Path:         path,
+		Frontmatter:  *frontmatter,
+		Introduction: introduction,
+		Sections:     sections,
+		CodeBlocks:   codeBlocks,
+		Mermaid:      mermaid,
+		Tables:       tables,
+		Admonitions:  admonitions,
+		RawContent:   markdown,
 	}
 
 	return doc, nil

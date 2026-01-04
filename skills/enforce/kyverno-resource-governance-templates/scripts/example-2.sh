@@ -1,0 +1,1 @@
+kubectl apply -f hpa.yaml

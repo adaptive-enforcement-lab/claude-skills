@@ -1,0 +1,8 @@
+on:
+  push:
+    paths:
+      - 'src/**'
+      - 'package.json'
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'

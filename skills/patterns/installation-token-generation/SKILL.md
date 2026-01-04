@@ -18,14 +18,11 @@ Installation tokens authenticate your GitHub App for specific repository operati
 
 > **Token Limitations**
 >
-
-
-    - 1-hour expiration (automatic refresh available)
-    - Requires GitHub App installation on target repositories
-    - Permissions limited to app's configured scope
-    - Cannot perform user-attributed actions
-
-##
+>
+> - 1-hour expiration (automatic refresh available)
+> - Requires GitHub App installation on target repositories
+> - Permissions limited to app's configured scope
+> - Cannot perform user-attributed actions
 
 
 

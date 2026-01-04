@@ -1,0 +1,11 @@
+myctl
+├── orchestrate          # Main workflow
+├── check                # Cache status
+├── rebuild              # Force cache rebuild
+├── select               # List deployments
+├── restart              # Restart deployments
+├── version              # Show version info
+└── completion           # Shell completion scripts
+    ├── bash
+    ├── zsh
+    └── fish

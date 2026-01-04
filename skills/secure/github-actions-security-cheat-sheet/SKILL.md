@@ -8,7 +8,12 @@ description: >-
 
 ## When to Use This Skill
 
+One-page security reference for hardening GitHub Actions workflows. Copy-paste ready patterns for production use.
 
+> **Start Here**
+>
+>
+> New to GitHub Actions security? Start with SHA pinning and minimal permissions. Both provide high impact with minimal workflow changes.
 
 
 

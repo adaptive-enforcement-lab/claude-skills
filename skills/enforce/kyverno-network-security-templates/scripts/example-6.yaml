@@ -1,0 +1,3 @@
+# Enforced by: ingress-tls.yaml
+# Result: All Ingress objects must define spec.tls with valid secrets
+# Impact: Eliminates plaintext HTTP exposure for external services

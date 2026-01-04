@@ -8,7 +8,9 @@ description: >-
 
 ## When to Use This Skill
 
+Kyverno runs as a dynamic admission controller in Kubernetes. It validates, mutates, and generates resources based on policies written in YAML.
 
+---
 
 
 

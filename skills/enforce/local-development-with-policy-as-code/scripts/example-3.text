@@ -1,0 +1,9 @@
+Applying 1 policy to 1 resource...
+
+pass: 12/12
+fail: 0/12
+warn: 0/12
+error: 0/12
+skip: 0/12
+
+All resources passed policy validation!

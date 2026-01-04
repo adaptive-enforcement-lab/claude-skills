@@ -1,0 +1,46 @@
+graph TB
+    subgraph dev[Development]
+        A[Write Code]
+        B[Pre-commit Hooks]
+        C[Commit]
+        D[Push to PR]
+    end
+
+    subgraph ci[CI Validation]
+        E[Tests + Coverage]
+        F[Security Scan]
+        G[Status Checks Pass]
+        H[Peer Review]
+    end
+
+    subgraph release[Release Automation]
+        I[Merge to Main]
+        J[Release Please PR]
+        K[Merge Release PR]
+        L[GitHub Release]
+    end
+
+    subgraph deploy[Deployment]
+        M[Deploy Artifacts]
+    end
+
+    A --> B --> C --> D
+    D --> E --> F --> G --> H
+    H --> I
+    I --> J --> K --> L
+    L --> M
+
+    %% Ghostty Hardcore Theme
+    style A fill:#5e7175,color:#f8f8f3
+    style B fill:#65d9ef,color:#1b1d1e
+    style C fill:#a7e22e,color:#1b1d1e
+    style D fill:#fd971e,color:#1b1d1e
+    style E fill:#65d9ef,color:#1b1d1e
+    style F fill:#f92572,color:#1b1d1e
+    style G fill:#a7e22e,color:#1b1d1e
+    style H fill:#fd971e,color:#1b1d1e
+    style I fill:#a7e22e,color:#1b1d1e
+    style J fill:#65d9ef,color:#1b1d1e
+    style K fill:#fd971e,color:#1b1d1e
+    style L fill:#9e6ffe,color:#1b1d1e
+    style M fill:#f92572,color:#1b1d1e

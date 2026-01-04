@@ -16,11 +16,8 @@ This section covers the foundational security configurations for GKE clusters:
 
 > **Public Cluster Risk**
 >
-
-
-    Public control planes expose your cluster API to the internet. Even with strong authentication, this increases attack surface and is not recommended for production.
-
-##
+>
+> Public control planes expose your cluster API to the internet. Even with strong authentication, this increases attack surface and is not recommended for production.
 
 
 ## Prerequisites
@@ -33,11 +30,8 @@ This section covers the foundational security configurations for GKE clusters:
 
 > **Production Warning**
 >
-
-
-    These configurations enforce strict security controls. Test in QAC/DEV before production deployment.
-
-##
+>
+> These configurations enforce strict security controls. Test in QAC/DEV before production deployment.
 
 
 ## Implementation

@@ -1,0 +1,3 @@
+# Enforced by: hpa.yaml
+# Result: Deployments in prod-* namespaces must have corresponding HPA
+# Impact: Ensures production services scale automatically under load

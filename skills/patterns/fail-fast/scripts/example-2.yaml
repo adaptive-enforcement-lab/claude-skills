@@ -1,0 +1,19 @@
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      # Fail fast: Check all preconditions before expensive operations
+      - name: Validate environment
+        run: |
+          # Required secrets
+          [ -n "${{ secrets.DEPLOY_TOKEN }}" ] || { echo "::error::DEPLOY_TOKEN not set"; exit 1; }
+
+          # Required tools
+          command -v kubectl >/dev/null || { echo "::error::kubectl not found"; exit 1; }
+
+          # Required access
+          kubectl auth can-i create deployments || { echo "::error::No deploy permission"; exit 1; }
+
+      # Now safe to proceed with expensive operations
+      - name: Deploy
+        run: kubectl apply -f manifests/

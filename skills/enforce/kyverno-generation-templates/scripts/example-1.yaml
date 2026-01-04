@@ -1,0 +1,12 @@
+exclude:
+  resources:
+    names:
+      - kube-system
+      - kube-public
+      - kube-node-lease
+
+preconditions:
+  all:
+    - key: "{{ request.object.spec.replicas }}"
+      operator: GreaterThanOrEquals
+      value: 2

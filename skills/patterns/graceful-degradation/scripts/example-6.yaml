@@ -1,0 +1,20 @@
+- uses: actions/cache@v4
+  id: artifact-cache
+  with:
+    path: dist/
+    key: build-${{ hashFiles('src/**') }}
+
+- uses: actions/cache@v4
+  if: steps.artifact-cache.outputs.cache-hit != 'true'
+  id: dep-cache
+  with:
+    path: node_modules/
+    key: deps-${{ hashFiles('package-lock.json') }}
+
+- name: Install dependencies
+  if: steps.dep-cache.outputs.cache-hit != 'true'
+  run: npm ci
+
+- name: Build
+  if: steps.artifact-cache.outputs.cache-hit != 'true'
+  run: npm run build

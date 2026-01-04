@@ -8,7 +8,12 @@ description: >-
 
 ## When to Use This Skill
 
+Environments add approval gates, wait timers, and deployment controls to GitHub Actions workflows. Production deployments should never execute without human review.
 
+> **The Risk**
+>
+>
+> Workflows without environment protection can deploy malicious code to production in seconds. A compromised PR or workflow modification can push backdoors, exfiltrate data, or take down services before security teams detect the breach.
 
 
 

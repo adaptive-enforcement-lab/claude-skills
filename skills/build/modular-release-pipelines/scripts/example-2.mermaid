@@ -1,0 +1,42 @@
+flowchart TD
+    subgraph detect[Change Detection]
+        Contracts[Contracts Changed?]
+        Backend[Backend Changed?]
+        Frontend[Frontend Changed?]
+        Charts[Charts Changed?]
+    end
+
+    subgraph cascade[Cascade Logic]
+        BNB[Backend Needs Build]
+        FNB[Frontend Needs Build]
+    end
+
+    subgraph build[Conditional Build]
+        Test[Test Node Packages]
+        BB[Build Backend]
+        BF[Build Frontend]
+        HC[Helm Charts]
+    end
+
+    Contracts -->|yes| BNB
+    Contracts -->|yes| FNB
+    Backend -->|yes| BNB
+    Frontend -->|yes| FNB
+
+    BNB --> Test
+    FNB --> Test
+    BNB --> BB
+    FNB --> BF
+    Charts --> HC
+
+    %% Ghostty Hardcore Theme
+    style Contracts fill:#fd971e,color:#1b1d1e
+    style Backend fill:#fd971e,color:#1b1d1e
+    style Frontend fill:#fd971e,color:#1b1d1e
+    style Charts fill:#fd971e,color:#1b1d1e
+    style BNB fill:#a7e22e,color:#1b1d1e
+    style FNB fill:#a7e22e,color:#1b1d1e
+    style Test fill:#9e6ffe,color:#1b1d1e
+    style BB fill:#a7e22e,color:#1b1d1e
+    style BF fill:#a7e22e,color:#1b1d1e
+    style HC fill:#bded5f,color:#1b1d1e

@@ -1,0 +1,23 @@
+flowchart LR
+    subgraph trigger[Trigger]
+        Event[Event Received]
+    end
+
+    subgraph detect[Detection]
+        Check{Work Needed?}
+    end
+
+    subgraph action[Action]
+        Skip[Skip]
+        Execute[Execute]
+    end
+
+    Event --> Check
+    Check -->|No| Skip
+    Check -->|Yes| Execute
+
+    %% Ghostty Hardcore Theme
+    style Event fill:#65d9ef,color:#1b1d1e
+    style Check fill:#fd971e,color:#1b1d1e
+    style Skip fill:#5e7175,color:#f8f8f3
+    style Execute fill:#a7e22e,color:#1b1d1e

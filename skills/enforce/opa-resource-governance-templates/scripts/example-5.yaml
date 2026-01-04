@@ -1,0 +1,3 @@
+# Enforced by: governance.yaml
+# Result: All containers must define resources.limits.cpu and resources.limits.memory
+# Impact: Prevents single pod from consuming entire node capacity

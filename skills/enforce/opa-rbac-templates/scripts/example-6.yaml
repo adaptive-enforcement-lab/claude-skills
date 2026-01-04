@@ -1,0 +1,3 @@
+# Enforced by: cluster-admin.yaml
+# Result: Only subjects in approved list can receive cluster-admin binding
+# Impact: Prevents privilege escalation to cluster-admin

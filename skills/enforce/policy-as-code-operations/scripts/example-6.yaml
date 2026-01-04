@@ -1,0 +1,4 @@
+# security-policy/cd/prd/values.yaml
+policies:
+  networkPolicy:
+    validationFailureAction: Enforce  # Now block violations

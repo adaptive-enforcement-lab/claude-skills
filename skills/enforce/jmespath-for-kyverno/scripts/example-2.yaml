@@ -1,0 +1,21 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-resource-limits
+spec:
+  validationFailureAction: Enforce
+  rules:
+  - name: validate-limits
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+    validate:
+      message: "All containers must define resource limits"
+      deny:
+        conditions:
+          any:
+          - key: "{{ request.object.spec.containers[?!resources.limits.memory].name | length(@) }}"
+            operator: GreaterThan
+            value: 0

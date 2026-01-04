@@ -1,0 +1,3 @@
+# Enforced by: privileges.yaml
+# Result: No containers can run with privileged: true
+# Impact: Eliminates most container breakout vectors

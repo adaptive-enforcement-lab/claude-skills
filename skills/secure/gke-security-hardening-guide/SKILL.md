@@ -10,26 +10,23 @@ description: >-
 
 > **Defense in Depth**
 >
-
-
-    GKE security hardening follows a layered approach:
-
-    1. **Control plane** - Private clusters, authenticated access, audit logging
-    2. **Network** - VPC-native networking, network policies, egress controls
-    3. **Identity** - Workload Identity Federation, least-privilege IAM, audit trails
-    4. **Runtime** - Pod Security Standards, admission controllers, monitoring
+>
+> GKE security hardening follows a layered approach:
+>
+> 1. **Control plane** - Private clusters, authenticated access, audit logging
+> 2. **Network** - VPC-native networking, network policies, egress controls
+> 3. **Identity** - Workload Identity Federation, least-privilege IAM, audit trails
+> 4. **Runtime** - Pod Security Standards, admission controllers, monitoring
+>
 
 This guide uses Pulumi for Infrastructure as Code, enabling repeatable, auditable cluster deployments across environments (QAC, DEV, STG, PRD).
 
 > **Environment Promotion Order**
 >
-
-
-    Always promote changes through: **QAC → DEV → STG → PRD → OPS**
-
-    Never skip environments in the promotion pipeline.
-
-##
+>
+> Always promote changes through: **QAC → DEV → STG → PRD → OPS**
+>
+> Never skip environments in the promotion pipeline.
 
 
 ## Prerequisites
@@ -42,11 +39,8 @@ This guide uses Pulumi for Infrastructure as Code, enabling repeatable, auditabl
 
 > **Production Warning**
 >
-
-
-    These configurations enforce strict security controls. Test in QAC/DEV before production deployment.
-
-##
+>
+> These configurations enforce strict security controls. Test in QAC/DEV before production deployment.
 
 
 ## Implementation

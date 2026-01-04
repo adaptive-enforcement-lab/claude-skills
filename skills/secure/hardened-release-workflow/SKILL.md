@@ -8,7 +8,12 @@ description: >-
 
 ## When to Use This Skill
 
+Copy-paste ready release workflow templates with comprehensive security hardening. Each example demonstrates signed releases, SLSA provenance generation, artifact attestations, minimal permissions, and secure artifact distribution.
 
+> **Complete Security Patterns**
+>
+>
+> These workflows integrate all security patterns from the hub: SHA-pinned actions, minimal GITHUB_TOKEN permissions, SLSA provenance, artifact attestations, signature verification, and secure distribution. Use as production templates for secure software supply chain.
 
 
 

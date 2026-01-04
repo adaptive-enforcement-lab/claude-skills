@@ -1,0 +1,5 @@
+# BAD: Deploy first, check permissions later
+- name: Deploy
+  run: kubectl apply -f manifests/
+- name: Check RBAC
+  run: kubectl auth can-i create deployments

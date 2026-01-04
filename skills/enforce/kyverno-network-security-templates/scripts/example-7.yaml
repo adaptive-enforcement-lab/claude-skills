@@ -1,0 +1,3 @@
+# Enforced by: security.yaml
+# Result: Namespaces must have NetworkPolicy resources before accepting workloads
+# Impact: Prevents pods from communicating across namespace boundaries by default

@@ -7,6 +7,7 @@ import "time"
 type Document struct {
 	Path         string
 	Frontmatter  Frontmatter
+	Introduction string // Content before first heading (after title)
 	Sections     []Section
 	CodeBlocks   []CodeBlock
 	Mermaid      []MermaidDiagram

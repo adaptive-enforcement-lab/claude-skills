@@ -8,7 +8,12 @@ description: >-
 
 ## When to Use This Skill
 
+Persistent runners are persistence vectors. Deploy disposable infrastructure instead.
 
+> **The Goal**
+>
+>
+> Every job executes in a fresh environment. Malicious workflows cannot plant backdoors because the execution environment is destroyed after completion. State isolation prevents cross-job contamination.
 
 
 

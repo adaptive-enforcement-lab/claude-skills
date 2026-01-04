@@ -1,0 +1,3 @@
+# Enforced by: security.yaml
+# Result: Images must have scan results with no high/critical vulnerabilities
+# Impact: Prevents deployment of exploitable container images

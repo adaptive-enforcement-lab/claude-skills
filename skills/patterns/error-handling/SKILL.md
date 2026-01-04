@@ -18,14 +18,11 @@ Error handling for GitHub App tokens addresses:
 
 > **Error Handling Strategy**
 >
-
-
-    1. **Detect** - Identify error type from HTTP status codes
-    2. **Classify** - Determine if error is retryable
-    3. **Retry** - Use exponential backoff for transient errors
-    4. **Escalate** - Provide actionable messages for permanent failures
-
-##
+>
+> 1. **Detect** - Identify error type from HTTP status codes
+> 2. **Classify** - Determine if error is retryable
+> 3. **Retry** - Use exponential backoff for transient errors
+> 4. **Escalate** - Provide actionable messages for permanent failures
 
 
 

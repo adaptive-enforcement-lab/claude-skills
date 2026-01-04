@@ -1,0 +1,9 @@
+validate:
+  pattern:
+    spec:
+      containers:
+        - resources:
+            limits:
+              memory: "?*"
+              cpu: "?*"
+          # Requests optional

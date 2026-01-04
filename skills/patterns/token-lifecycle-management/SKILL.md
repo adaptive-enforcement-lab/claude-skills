@@ -18,11 +18,8 @@ Installation token lifecycle management enables:
 
 > **Token Expiration**
 >
-
-
-    Installation tokens expire **exactly 1 hour after generation**. Plan refresh strategies for workflows exceeding 50 minutes to account for clock drift and API latency.
-
-##
+>
+> Installation tokens expire **exactly 1 hour after generation**. Plan refresh strategies for workflows exceeding 50 minutes to account for clock drift and API latency.
 
 
 

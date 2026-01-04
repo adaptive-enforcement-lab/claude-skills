@@ -38,6 +38,60 @@ func (p *SectionParser) Parse(markdown string) ([]domain.Section, error) {
 	return sections, nil
 }
 
+// ExtractIntroduction extracts content before the first heading (after title).
+func (p *SectionParser) ExtractIntroduction(markdown string) string {
+	source := []byte(markdown)
+	reader := text.NewReader(source)
+
+	// Parse markdown into AST
+	doc := p.markdown.Parser().Parse(reader)
+
+	// Find first heading
+	var firstHeadingPos int = -1
+	var titleHeadingEnd int = 0
+
+	ast.Walk(doc, func(n ast.Node, entering bool) (ast.WalkStatus, error) {
+		if !entering {
+			return ast.WalkContinue, nil
+		}
+
+		if heading, ok := n.(*ast.Heading); ok {
+			headingStart := heading.Lines().At(0).Start
+
+			// First heading is the title (H1)
+			if heading.Level == 1 && titleHeadingEnd == 0 {
+				titleHeadingEnd = heading.Lines().At(heading.Lines().Len() - 1).Stop
+				return ast.WalkContinue, nil
+			}
+
+			// Second heading (first content heading) marks end of introduction
+			if firstHeadingPos == -1 && titleHeadingEnd > 0 {
+				firstHeadingPos = headingStart
+				return ast.WalkStop, nil
+			}
+		}
+
+		return ast.WalkContinue, nil
+	})
+
+	// Extract introduction content
+	if titleHeadingEnd > 0 {
+		endPos := len(source)
+		if firstHeadingPos > 0 {
+			endPos = firstHeadingPos
+		}
+
+		introduction := strings.TrimSpace(string(source[titleHeadingEnd:endPos]))
+
+		// Remove any trailing heading markers
+		introduction = p.removeTrailingHeadings(introduction)
+
+		return introduction
+	}
+
+	return ""
+}
+
 // extractSections walks the AST and extracts sections.
 func (p *SectionParser) extractSections(node ast.Node, source []byte) []domain.Section {
 	// First pass: collect all headings with their positions
@@ -94,6 +148,9 @@ func (p *SectionParser) extractSections(node ast.Node, source []byte) []domain.S
 		contentStart := heading.endPos
 		content := strings.TrimSpace(string(source[contentStart:contentEnd]))
 
+		// Remove any trailing heading markers that might have been included
+		content = p.removeTrailingHeadings(content)
+
 		// Build section
 		section := domain.Section{
 			Title:     heading.title,
@@ -120,6 +177,9 @@ func (p *SectionParser) extractSections(node ast.Node, source []byte) []domain.S
 
 				subContentStart := headings[j].endPos
 				subContent := strings.TrimSpace(string(source[subContentStart:subContentEnd]))
+
+				// Remove any trailing heading markers
+				subContent = p.removeTrailingHeadings(subContent)
 
 				subsection := domain.Section{
 					Title:     headings[j].title,
@@ -171,6 +231,26 @@ func (p *SectionParser) extractText(node ast.Node, source []byte) string {
 	})
 
 	return strings.TrimSpace(buf.String())
+}
+
+// removeTrailingHeadings removes any heading markers (##, ###, etc.) from the end of content.
+// This can happen when section content includes the start of the next section's heading.
+func (p *SectionParser) removeTrailingHeadings(content string) string {
+	lines := strings.Split(content, "\n")
+
+	// Remove trailing lines that are just heading markers or empty
+	for len(lines) > 0 {
+		lastLine := strings.TrimSpace(lines[len(lines)-1])
+
+		// Check if line is empty or just heading markers
+		if lastLine == "" || (strings.HasPrefix(lastLine, "#") && strings.TrimLeft(lastLine, "#") == "") {
+			lines = lines[:len(lines)-1]
+		} else {
+			break
+		}
+	}
+
+	return strings.Join(lines, "\n")
 }
 
 // extractSectionContent is no longer needed as content is extracted during section parsing.

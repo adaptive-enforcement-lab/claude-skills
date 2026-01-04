@@ -1,0 +1,4 @@
+Given: [Normal operating conditions]
+When: [Specific failure injected]
+Then: [Expected system behavior]
+And: [Observable metrics that validate behavior]

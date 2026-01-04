@@ -1,0 +1,15 @@
+# Bad: always does full install
+- run: npm ci
+- uses: actions/cache/save@v4
+  with:
+    path: node_modules/
+
+# Good: cache-first approach
+- uses: actions/cache@v4
+  id: cache
+  with:
+    path: node_modules/
+    key: deps-${{ hashFiles('package-lock.json') }}
+
+- if: steps.cache.outputs.cache-hit != 'true'
+  run: npm ci

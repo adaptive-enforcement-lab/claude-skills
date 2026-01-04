@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: temporary-debug-access
+  annotations:
+    rbac.expires: "2025-01-05T00:00:00Z"
+subjects:
+  - kind: User
+    name: engineer@company.com
+roleRef:
+  kind: ClusterRole
+  name: debug-read-only

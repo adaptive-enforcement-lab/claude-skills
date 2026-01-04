@@ -105,6 +105,9 @@ func (e *SkillExtractor) extractMappedSections(doc *domain.Document, metadata *d
 	// Extract WhenToUse
 	if section := e.sectionMapper.FindSection(doc.Sections, mapper.GetKeywordsForComponent("WhenToUse")); section != nil {
 		metadata.WhenToUse = e.admonitionConverter.Convert(section.Content)
+	} else if doc.Introduction != "" {
+		// Fallback: use introduction if no "When to Use" section found
+		metadata.WhenToUse = e.admonitionConverter.Convert(doc.Introduction)
 	}
 
 	// Extract Prerequisites

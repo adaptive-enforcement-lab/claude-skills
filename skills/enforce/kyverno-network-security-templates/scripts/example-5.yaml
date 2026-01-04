@@ -1,0 +1,3 @@
+# Enforced by: services.yaml
+# Result: Only ingress-nginx namespace can create LoadBalancer services
+# Impact: Prevents accidental exposure of internal services to the internet

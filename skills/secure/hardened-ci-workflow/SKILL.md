@@ -8,7 +8,12 @@ description: >-
 
 ## When to Use This Skill
 
+Copy-paste ready CI workflow templates with comprehensive security hardening. Each example demonstrates action pinning, minimal GITHUB_TOKEN permissions, input validation, and security scanning.
 
+> **Complete Security Patterns**
+>
+>
+> These workflows integrate all security patterns from the hub: SHA-pinned actions, job-level permissions, secret scanning prevention, fork PR safety, and security tooling. Use as production templates.
 
 
 

@@ -12,9 +12,9 @@ Secrets in GitHub Actions are the keys to your kingdom. Exposed credentials mean
 
 > **The Risk**
 >
-
-
-    Secrets in GitHub Actions grant access to production systems, cloud accounts, package registries, and third-party services. A single leaked credential can mean full infrastructure compromise, data exfiltration, or supply chain attacks against your users.
+>
+> Secrets in GitHub Actions grant access to production systems, cloud accounts, package registries, and third-party services. A single leaked credential can mean full infrastructure compromise, data exfiltration, or supply chain attacks against your users.
+>
 
 ## What are GitHub Actions Secrets?
 

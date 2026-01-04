@@ -1,0 +1,6 @@
+# Get digest for tagged image
+crane digest registry.company.com/nginx:v1.21
+# Output: sha256:abcdef123456...
+
+# Update deployment to use digest
+kubectl set image deployment/nginx nginx=registry.company.com/nginx@sha256:abcdef123456...

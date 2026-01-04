@@ -1,0 +1,3 @@
+# Enforced by: base.yaml
+# Result: Only images from registry.company.com allowed
+# Impact: Eliminates supply chain attacks via public registries

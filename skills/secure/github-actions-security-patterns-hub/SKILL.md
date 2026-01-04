@@ -8,7 +8,12 @@ description: >-
 
 ## When to Use This Skill
 
+Consolidated, authoritative resource for securing GitHub Actions workflows. From action pinning to runner hardening, we cover what vendor cheat sheets miss.
 
+> **Why This Hub Exists**
+>
+>
+> GitHub Actions security guidance is scattered across vendor cheat sheets from GitGuardian, StepSecurity, Salesforce, and Wiz. No single authoritative source exists. This hub consolidates production-tested patterns for DevSecOps teams.
 
 
 

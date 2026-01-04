@@ -8,7 +8,12 @@ description: >-
 
 ## When to Use This Skill
 
+Trust but verify. Every third-party action you adopt into your workflows executes with access to your secrets, code, and deployment infrastructure. Know what you're trusting.
 
+> **The Risk**
+>
+>
+> Third-party actions run arbitrary code inside your CI/CD pipeline with full access to repository secrets, cloud credentials, and source code. A malicious or compromised action can exfiltrate everything, deploy backdoors, or modify your codebase.
 
 
 

@@ -16,11 +16,8 @@ When your workflow fails at step 47 of 50, you have three options:
 
 > **The Scalable Choice**
 >
-
-
-    Safe reruns are the only scalable choice. Manual intervention and abandoning runs require human effort, don't scale, and introduce errors.
-
-##
+>
+> Safe reruns are the only scalable choice. Manual intervention and abandoning runs require human effort, don't scale, and introduce errors.
 
 
 

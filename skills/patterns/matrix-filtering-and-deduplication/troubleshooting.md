@@ -21,5 +21,3 @@ Common issues:
 - Missing quotes in shell scripts mangle arrays
 
 ---
-
-##

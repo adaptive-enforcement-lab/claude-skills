@@ -1,0 +1,8 @@
+# GOOD: Check if changes exist first
+- name: Create PR if changes exist
+  run: |
+    if git diff --quiet HEAD origin/main; then
+      echo "No changes, skipping PR"
+    else
+      gh pr create --fill
+    fi

@@ -1,0 +1,5 @@
+# Generate SBOM on every release
+- name: Generate SBOM
+  run: syft packages . -o spdx-json > sbom.spdx.json
+- name: Attach to release
+  run: gh release upload ${{ github.ref_name }} sbom.spdx.json

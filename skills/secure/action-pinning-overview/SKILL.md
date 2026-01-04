@@ -12,9 +12,9 @@ Lock down your GitHub Actions supply chain. Unpinned actions are the fastest rou
 
 > **The Risk**
 >
-
-
-    Every action in your workflow executes with access to your repository secrets, cloud credentials, and deployment permissions. A single compromised action can exfiltrate everything.
+>
+> Every action in your workflow executes with access to your repository secrets, cloud credentials, and deployment permissions. A single compromised action can exfiltrate everything.
+>
 
 ## Why Action Pinning Matters
 
@@ -351,15 +351,14 @@ Ready to implement SHA pinning? Continue with:
 
 > **Start Today**
 >
-
-
-    Pin your most critical workflows first. Focus on workflows with:
-
-    - Production deployment access
-    - Cloud credential usage
-    - Cross-repository permissions
-
-    Use automation scripts to detect unpinned actions and generate SHA-pinned versions.
+>
+> Pin your most critical workflows first. Focus on workflows with:
+>
+> - Production deployment access
+> - Cloud credential usage
+> - Cross-repository permissions
+>
+> Use automation scripts to detect unpinned actions and generate SHA-pinned versions.
 
 
 

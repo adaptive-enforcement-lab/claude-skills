@@ -1,0 +1,1 @@
+docker build -t policy-platform:latest -f ci/Dockerfile .

@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: prod-image-filter
+spec:
+  dependencies:
+    - name: image-push
+      eventSourceName: container-registry
+      eventName: push
+      filters:
+        data:
+          - path: body.tag
+            type: string
+            value:
+              - "v*"
+              - "release-*"

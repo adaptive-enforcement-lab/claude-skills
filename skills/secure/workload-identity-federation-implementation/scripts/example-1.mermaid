@@ -1,0 +1,18 @@
+sequenceDiagram
+    participant Pod
+    participant K8s API
+    participant GCP STS
+    participant GCP API
+
+    Pod->>K8s API: Request token (ServiceAccount JWT)
+    K8s API->>Pod: Return signed JWT (1hr expiry)
+    Pod->>GCP STS: Exchange JWT for access token
+    GCP STS->>GCP STS: Validate JWT signature
+    GCP STS->>Pod: Return GCP access token
+    Pod->>GCP API: Call API with access token
+    GCP API->>Pod: Return data
+
+    %% Ghostty Hardcore Theme
+    style K8s API fill:#2D4263
+    style GCP STS fill:#4A7A8C
+    style GCP API fill:#6B8E9F

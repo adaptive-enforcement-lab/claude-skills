@@ -8,7 +8,12 @@ description: >-
 
 ## When to Use This Skill
 
+Runner groups are security boundaries. Organize by trust level. Restrict by default. Enforce with workflow controls.
 
+> **The Risk**
+>
+>
+> Without runner groups, all self-hosted runners are available to all repositories. One compromised repository means access to production runners with elevated permissions. Malicious workflows can target high-value runners for lateral movement.
 
 
 

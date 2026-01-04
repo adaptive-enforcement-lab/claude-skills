@@ -8,7 +8,15 @@ description: >-
 
 ## When to Use This Skill
 
+Comprehensive guide to securely storing GitHub App credentials across different environments and platforms.
 
+> **Storage Environment Decision**
+>
+>
+> - **GitHub Actions** - Native GitHub Secrets (recommended for GitHub-hosted workflows)
+> - **External CI** - Platform-specific secret management (Jenkins, GitLab CI, CircleCI)
+> - **Kubernetes** - External Secrets Operator or Sealed Secrets
+> - **Local Development** - Environment variables or encrypted vaults (never in code)
 
 
 

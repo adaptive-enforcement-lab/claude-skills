@@ -1,0 +1,3 @@
+# Enforced by: digest.yaml
+# Result: Image references must use @sha256:... format
+# Impact: Guarantees deployed image matches approved version

@@ -1,0 +1,18 @@
+security-policy/
+├── charts/
+│   └── security-policy/
+│       ├── Chart.yaml
+│       ├── values.yaml
+│       └── templates/
+│           ├── require-resource-limits.yaml
+│           ├── disallow-latest-tag.yaml
+│           ├── require-probes.yaml
+│           ├── disallow-privileged.yaml
+│           └── ...
+├── cd/
+│   ├── values.yaml          # Common values
+│   ├── dev/values.yaml      # Dev overrides
+│   ├── qac/values.yaml
+│   ├── stg/values.yaml
+│   └── prd/values.yaml
+└── Dockerfile               # Build repo as OCI container

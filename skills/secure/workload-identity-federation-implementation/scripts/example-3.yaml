@@ -1,0 +1,12 @@
+# Kubernetes Secret with private key
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-sa-key
+type: Opaque
+stringData:
+  key.json: |
+    {
+      "type": "service_account",
+      "private_key": "-----BEGIN RSA PRIVATE KEY-----\n..."
+    }

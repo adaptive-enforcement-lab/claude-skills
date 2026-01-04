@@ -1,0 +1,5 @@
+{
+  "charts/my-app": "1.0.0",
+  "packages/backend": "1.0.0",
+  "packages/frontend": "1.0.0"
+}

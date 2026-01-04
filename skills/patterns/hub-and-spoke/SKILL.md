@@ -8,7 +8,9 @@ description: >-
 
 ## When to Use This Skill
 
+One hub coordinates. Many spokes execute. The hub doesn't do the work. It distributes, tracks, and summarizes.
 
+This pattern scales horizontally. Add workers without touching the orchestrator.
 
 
 

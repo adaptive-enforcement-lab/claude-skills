@@ -8,7 +8,15 @@ description: >-
 
 ## When to Use This Skill
 
+> **Ready-to-Deploy Templates**
+>
+>
+> These examples integrate multiple security controls into production-ready workflows. Each template includes inline security comments, permission scoping, and cross-references to detailed pattern documentation.
+>
 
+Copy-paste ready workflows demonstrating all security patterns from this hub.
+
+Each example integrates multiple security controls from across the hub: action pinning, minimal permissions, secret management, safe triggers, and more. All examples are complete and production-ready.
 
 
 

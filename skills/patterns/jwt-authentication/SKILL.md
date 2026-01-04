@@ -17,14 +17,11 @@ JWTs authenticate your GitHub App itself, not a specific installation. They enab
 
 > **JWT Limitations**
 >
-
-
-    - Cannot access repository contents
-    - Cannot create issues, pull requests, or commits
-    - 10-minute expiration (maximum allowed)
-    - App-level permissions only
-
-##
+>
+> - Cannot access repository contents
+> - Cannot create issues, pull requests, or commits
+> - 10-minute expiration (maximum allowed)
+> - App-level permissions only
 
 
 

@@ -1,0 +1,12 @@
+apiVersion: argoproj.io/v1alpha1
+kind: EventBus
+metadata:
+  name: default
+spec:
+  jetstream:
+    version: "2.9.11"
+    persistence:
+      accessMode: ReadWriteOnce
+      storageClassName: standard
+      volumeSize: 10Gi
+    replicas: 3

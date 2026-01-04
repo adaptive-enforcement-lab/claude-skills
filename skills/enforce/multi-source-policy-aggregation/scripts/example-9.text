@@ -1,0 +1,7 @@
+backend-applications/
+├── charts/
+│   └── backend-applications/
+│       ├── values.yaml
+│       └── ...
+├── .spectral.yaml           # Values schema validation
+└── Dockerfile

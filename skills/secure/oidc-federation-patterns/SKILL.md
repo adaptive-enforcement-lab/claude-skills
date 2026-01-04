@@ -8,7 +8,12 @@ description: >-
 
 ## When to Use This Skill
 
+Eliminate stored credentials entirely. OIDC federation replaces long-lived secrets with short-lived tokens tied to workflow context.
 
+> **The Win**
+>
+>
+> OIDC federation means zero stored secrets for cloud authentication. No rotation burden, no credential sprawl, no leaked keys in logs. Tokens expire in minutes and are cryptographically bound to your repository, branch, and commit.
 
 
 

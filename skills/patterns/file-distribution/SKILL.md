@@ -8,15 +8,17 @@ description: >-
 
 ## When to Use This Skill
 
+Automated file distribution across multiple repositories using GitHub Actions and GitHub Apps.
 
+> **Pattern Overview**
+>
+> A three-stage workflow that discovers targets, distributes files in parallel, and reports results. Idempotent design ensures safe reruns.
 
 
 ## Prerequisites
 
 - [GitHub App Setup](../../../../secure/github-apps/index.md) - Organization-level GitHub App
 - [Actions Integration](../../actions-integration/index.md) - Token generation in workflows
-
-##
 
 
 ## Implementation

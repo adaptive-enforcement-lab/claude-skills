@@ -8,7 +8,12 @@ description: >-
 
 ## When to Use This Skill
 
+Copy-paste ready security scanning workflow templates with comprehensive coverage. Each example demonstrates SAST with CodeQL, dependency vulnerability detection, container image scanning with Trivy, and SARIF upload to GitHub Security tab for centralized visibility.
 
+> **Complete Security Patterns**
+>
+>
+> These workflows integrate all security scanning patterns: SHA-pinned actions, minimal GITHUB_TOKEN permissions (`security-events: write` for SARIF upload), automated scanning on every PR and push, SARIF result aggregation in GitHub Security tab, and security gates that block merges on critical findings.
 
 
 

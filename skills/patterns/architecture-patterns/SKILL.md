@@ -8,7 +8,14 @@ description: >-
 
 ## When to Use This Skill
 
+These patterns govern how systems are structured and how components interact.
 
+> **Implementation Guide**
+>
+> This guide is part of a modular documentation set. Refer to related guides for complete context.
+>
+
+---
 
 
 

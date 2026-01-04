@@ -1,0 +1,3 @@
+# Enforced by: profiles.yaml
+# Result: Containers must define runAsNonRoot: true
+# Impact: Prevents root-level filesystem access and privilege escalation

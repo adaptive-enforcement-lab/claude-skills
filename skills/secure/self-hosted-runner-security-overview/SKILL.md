@@ -12,9 +12,9 @@ Self-hosted runners put your infrastructure in the execution path. One compromis
 
 > **The Risk**
 >
-
-
-    Self-hosted runners execute untrusted code from pull requests and workflow files. Without proper isolation, a malicious workflow can escape the runner, persist in your network, exfiltrate data from adjacent systems, or pivot to production infrastructure.
+>
+> Self-hosted runners execute untrusted code from pull requests and workflow files. Without proper isolation, a malicious workflow can escape the runner, persist in your network, exfiltrate data from adjacent systems, or pivot to production infrastructure.
+>
 
 ## Why Self-Hosted Runners Create Risk
 

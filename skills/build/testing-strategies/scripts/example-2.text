@@ -1,0 +1,15 @@
+myctl/
+├── cmd/
+│   ├── check.go
+│   └── check_test.go        # Command tests
+├── pkg/
+│   ├── k8s/
+│   │   ├── client.go
+│   │   ├── client_test.go   # Unit tests with fakes
+│   │   └── fake_client.go   # Test doubles
+│   └── selector/
+│       ├── selector.go
+│       └── selector_test.go
+└── test/
+    ├── e2e/                  # E2E tests
+    └── fixtures/             # Test resources

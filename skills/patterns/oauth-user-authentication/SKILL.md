@@ -18,14 +18,11 @@ OAuth authentication provides user-context access for GitHub Apps. It enables:
 
 > **OAuth Limitations**
 >
-
-
-    - Not suitable for automated workflows (no user present)
-    - Requires user consent for each installation
-    - Rate limits apply per user (5,000/hour)
-    - More complex setup than installation tokens
-
-##
+>
+> - Not suitable for automated workflows (no user present)
+> - Requires user consent for each installation
+> - Rate limits apply per user (5,000/hour)
+> - More complex setup than installation tokens
 
 
 

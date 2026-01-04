@@ -1,0 +1,5 @@
+# security-policy/charts/security-policy/values.yaml
+policies:
+  networkPolicy:
+    enabled: true
+    validationFailureAction: Audit  # Start with Audit

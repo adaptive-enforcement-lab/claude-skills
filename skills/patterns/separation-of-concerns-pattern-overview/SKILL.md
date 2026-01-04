@@ -10,9 +10,9 @@ description: >-
 
 > **One Responsibility Per Component**
 >
-
-
-    Every component should do one thing well. Orchestration logic separated from business logic. Testability through clear boundaries. This pattern is the foundation of maintainable systems.
+>
+> Every component should do one thing well. Orchestration logic separated from business logic. Testability through clear boundaries. This pattern is the foundation of maintainable systems.
+>
 
 ## Intent
 

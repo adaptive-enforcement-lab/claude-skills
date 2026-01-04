@@ -1,0 +1,14 @@
+flowchart TD
+    A[Operation Request] --> B{Already done?}
+    B -->|Yes| C[Work Avoidance: Skip]
+    B -->|No| D{May be retried?}
+    D -->|Yes| E[Idempotency: Safe retry]
+    D -->|No| F[Execute normally]
+
+    %% Ghostty Hardcore Theme
+    style A fill:#65d9ef,color:#1b1d1e
+    style B fill:#fd971e,color:#1b1d1e
+    style C fill:#a7e22e,color:#1b1d1e
+    style D fill:#fd971e,color:#1b1d1e
+    style E fill:#a7e22e,color:#1b1d1e
+    style F fill:#9e6ffe,color:#1b1d1e

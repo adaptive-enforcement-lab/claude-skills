@@ -14,16 +14,12 @@ This section covers identity and access management for GKE clusters:
 - **Workload Identity Federation**: External identity provider integration (GitHub, OIDC)
 - **Audit Logging**: Complete visibility into cluster management and API access
 
-##
-
 
 ## Prerequisites
 
 - GCP project with billing enabled
 - Terraform 1.0+
 - Appropriate IAM permissions (Security Admin or Project Editor)
-
-##
 
 
 ## Implementation

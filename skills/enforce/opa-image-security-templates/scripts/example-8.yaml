@@ -1,0 +1,3 @@
+# Enforced by: verification.yaml
+# Result: Images must be signed by trusted key in KMS
+# Impact: Ensures images originated from approved CI/CD pipelines

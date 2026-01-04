@@ -23,8 +23,6 @@ description: >-
 
 ---
 
-##
-
 
 
 ## Implementation

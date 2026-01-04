@@ -1,0 +1,28 @@
+flowchart LR
+    subgraph prereq[Prerequisite Phase]
+        A[Check Tools]
+        B[Check Access]
+        C[Check State]
+        D[Check Resources]
+    end
+
+    subgraph gate[Gate]
+        G{All Pass?}
+    end
+
+    subgraph exec[Execution Phase]
+        E[Execute Operation]
+    end
+
+    A --> B --> C --> D --> G
+    G -->|Yes| E
+    G -->|No| F[Abort with Report]
+
+    %% Ghostty Hardcore Theme
+    style A fill:#65d9ef,color:#1b1d1e
+    style B fill:#65d9ef,color:#1b1d1e
+    style C fill:#65d9ef,color:#1b1d1e
+    style D fill:#65d9ef,color:#1b1d1e
+    style G fill:#fd971e,color:#1b1d1e
+    style E fill:#a7e22e,color:#1b1d1e
+    style F fill:#f92572,color:#1b1d1e

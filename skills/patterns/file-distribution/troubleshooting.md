@@ -11,5 +11,3 @@ Maintaining consistent files (documentation, configuration, policies) across man
 - Tracking which repos need updates
 - Creating PRs and waiting for reviews
 - Ensuring nothing gets missed
-
-##

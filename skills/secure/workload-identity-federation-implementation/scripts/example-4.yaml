@@ -1,0 +1,7 @@
+# Kubernetes ServiceAccount with annotation
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: app-sa
+  annotations:
+    iam.gke.io/gcp-service-account: app-gcp@PROJECT_ID.iam.gserviceaccount.com

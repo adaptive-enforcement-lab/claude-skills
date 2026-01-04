@@ -1,0 +1,12 @@
+devops-policy/
+├── charts/
+│   └── devops-policy/
+│       └── templates/
+│           ├── require-labels.yaml         # Standard labels
+│           ├── require-annotations.yaml    # Ownership metadata
+│           ├── naming-conventions.yaml     # Resource naming
+│           └── ...
+├── cd/
+│   ├── dev/values.yaml
+│   └── prd/values.yaml
+└── Dockerfile

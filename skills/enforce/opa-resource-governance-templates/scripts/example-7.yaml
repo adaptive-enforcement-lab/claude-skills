@@ -1,0 +1,3 @@
+# Enforced by: storage.yaml
+# Result: PVCs in dev-* namespaces cannot exceed 50Gi
+# Impact: Prevents accidental provisioning of expensive storage volumes

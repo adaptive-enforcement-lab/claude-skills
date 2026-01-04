@@ -1,0 +1,7 @@
+# GOOD: Check before creating
+- name: Create issue if not exists
+  run: |
+    existing=$(gh issue list --search "Alert" --state all --json number -q '.[0].number')
+    if [ -z "$existing" ]; then
+      gh issue create --title "Alert" --body "Problem detected"
+    fi

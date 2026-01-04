@@ -36,8 +36,6 @@ graph TD
 
 ---
 
-##
-
 
 ## Prerequisites
 
@@ -47,8 +45,6 @@ graph TD
 - Basic understanding of Git workflow and branch protection concepts
 
 ---
-
-##
 
 
 ## Implementation

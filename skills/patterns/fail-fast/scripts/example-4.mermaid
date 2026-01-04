@@ -1,0 +1,16 @@
+flowchart TD
+    A[Error Occurs] --> B{Error Type?}
+
+    B -->|Precondition Failure| C[Fail Fast]
+    B -->|Runtime Failure| D[Graceful Degradation]
+
+    C --> E[Report Error Immediately]
+    D --> F[Try Fallback]
+
+    %% Ghostty Hardcore Theme
+    style A fill:#65d9ef,color:#1b1d1e
+    style B fill:#fd971e,color:#1b1d1e
+    style C fill:#f92572,color:#1b1d1e
+    style D fill:#a7e22e,color:#1b1d1e
+    style E fill:#f92572,color:#1b1d1e
+    style F fill:#a7e22e,color:#1b1d1e

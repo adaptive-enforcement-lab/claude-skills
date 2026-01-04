@@ -1,0 +1,18 @@
+# Example: Simple pod deletion experiment
+apiVersion: chaos-mesh.org/v1alpha1
+kind: PodChaos
+metadata:
+  namespace: chaos-testing
+  name: pod-deletion-staging
+spec:
+  action: pod-kill
+  mode: fixed
+  value: 1
+  selector:
+    namespaces:
+      - staging
+    labelSelectors:
+      app: api-gateway
+  duration: 2m
+  schedule:
+    cron: "0 2 * * 1-4"  # 2 AM, Monday-Thursday

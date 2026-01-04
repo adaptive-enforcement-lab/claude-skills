@@ -1,0 +1,22 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-standard-labels
+spec:
+  validationFailureAction: {{ .Values.policies.labels.validationFailureAction }}
+  background: true
+  rules:
+    - name: check-labels
+      match:
+        resources:
+          kinds:
+            - Deployment
+            - StatefulSet
+      validate:
+        message: "Standard labels required: app, environment, team"
+        pattern:
+          metadata:
+            labels:
+              app: "?*"
+              environment: "?*"
+              team: "?*"

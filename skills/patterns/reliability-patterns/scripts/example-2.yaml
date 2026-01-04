@@ -1,0 +1,13 @@
+triggers:
+  - template:
+      name: deploy-with-retry
+      argoWorkflow:
+        operation: submit
+        source:
+          resource:
+            # ...
+    retryStrategy:
+      steps: 3
+      duration: 10s
+      factor: 2
+      jitter: 0.1

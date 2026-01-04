@@ -1,0 +1,9 @@
+- name: Report cache tier
+  run: |
+    if [ "${{ steps.mount-cache.outcome }}" = "success" ]; then
+      echo "cache_tier=mount" >> metrics.txt
+    elif [ "${{ steps.api-cache.outcome }}" = "success" ]; then
+      echo "cache_tier=api" >> metrics.txt
+    else
+      echo "cache_tier=rebuild" >> metrics.txt
+    fi

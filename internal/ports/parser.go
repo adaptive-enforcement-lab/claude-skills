@@ -13,6 +13,9 @@ type FrontmatterParser interface {
 type SectionParser interface {
 	// Parse parses markdown and returns a tree of sections.
 	Parse(markdown string) ([]domain.Section, error)
+
+	// ExtractIntroduction extracts content before the first heading (after title).
+	ExtractIntroduction(markdown string) string
 }
 
 // ContentExtractor extracts specific types of content from markdown.

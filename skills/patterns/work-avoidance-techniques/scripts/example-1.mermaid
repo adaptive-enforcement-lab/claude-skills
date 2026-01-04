@@ -1,0 +1,31 @@
+flowchart TD
+    subgraph layer1[Layer 1: Existence]
+        Exists{Resource exists?}
+    end
+
+    subgraph layer2[Layer 2: Content]
+        Hash{Content hash matches?}
+    end
+
+    subgraph layer3[Layer 3: Semantic]
+        Volatile{Only volatile fields changed?}
+    end
+
+    subgraph action[Action]
+        Skip[Skip]
+        Execute[Execute]
+    end
+
+    Exists -->|Yes| Hash
+    Exists -->|No| Execute
+    Hash -->|Yes| Skip
+    Hash -->|No| Volatile
+    Volatile -->|Yes| Skip
+    Volatile -->|No| Execute
+
+    %% Ghostty Hardcore Theme
+    style Exists fill:#65d9ef,color:#1b1d1e
+    style Hash fill:#fd971e,color:#1b1d1e
+    style Volatile fill:#9e6ffe,color:#1b1d1e
+    style Skip fill:#5e7175,color:#f8f8f3
+    style Execute fill:#a7e22e,color:#1b1d1e

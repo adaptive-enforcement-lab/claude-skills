@@ -8,7 +8,12 @@ description: >-
 
 ## When to Use This Skill
 
+Secrets don't age well. Automate rotation before credentials become liabilities.
 
+> **The Risk**
+>
+>
+> Long-lived credentials are time bombs. Every day a secret remains unchanged increases the probability it has already leaked. Rotation limits blast radius when compromise happens, not if.
 
 
 

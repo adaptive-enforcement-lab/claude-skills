@@ -53,11 +53,20 @@ func (c *AdmonitionConverter) Convert(content string) string {
 				} else {
 					admonitionLines = append(admonitionLines, "> "+content)
 				}
+			} else if strings.TrimSpace(line) == "" {
+				// Blank line within admonition - add empty blockquote line
+				admonitionLines = append(admonitionLines, ">")
 			} else {
-				// End of admonition (no longer indented)
+				// Non-blank, non-indented line - exit admonition
 				result = append(result, admonitionLines...)
 				result = append(result, "")
-				result = append(result, line)
+
+				// Don't add the line if it's just a heading marker (##, ###, etc.)
+				trimmed := strings.TrimSpace(line)
+				if !(strings.HasPrefix(trimmed, "#") && strings.TrimLeft(trimmed, "#") == "") {
+					result = append(result, line)
+				}
+
 				inAdmonition = false
 				admonitionLines = nil
 			}

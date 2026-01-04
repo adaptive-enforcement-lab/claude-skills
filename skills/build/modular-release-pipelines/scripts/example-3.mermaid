@@ -1,0 +1,18 @@
+flowchart LR
+    Main[Push to Main] --> Token[Generate App Token]
+    Token --> RP[Release Please]
+    RP --> DC[Detect Changes]
+    DC --> Test[Test]
+    DC --> Build[Build]
+    Build --> Scan[Security Scan]
+    Scan --> Deploy[Deploy Signal]
+
+    %% Ghostty Hardcore Theme
+    style Main fill:#65d9ef,color:#1b1d1e
+    style Token fill:#9e6ffe,color:#1b1d1e
+    style RP fill:#9e6ffe,color:#1b1d1e
+    style DC fill:#fd971e,color:#1b1d1e
+    style Test fill:#9e6ffe,color:#1b1d1e
+    style Build fill:#a7e22e,color:#1b1d1e
+    style Scan fill:#f92572,color:#1b1d1e
+    style Deploy fill:#e6db74,color:#1b1d1e

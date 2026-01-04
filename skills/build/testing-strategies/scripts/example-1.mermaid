@@ -1,0 +1,11 @@
+graph TB
+    E2E[E2E Tests<br/>Full workflow in real cluster]
+    Integration[Integration Tests<br/>Real API server with kind/envtest]
+    Unit[Unit Tests<br/>Fake clients and mock interfaces]
+
+    E2E --> Integration --> Unit
+
+    %% Ghostty Hardcore Theme
+    style E2E fill:#9e6ffe,color:#1b1d1e
+    style Integration fill:#65d9ef,color:#1b1d1e
+    style Unit fill:#a7e22e,color:#1b1d1e

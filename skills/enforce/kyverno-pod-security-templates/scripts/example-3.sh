@@ -1,0 +1,1 @@
+kubectl apply -f profiles.yaml

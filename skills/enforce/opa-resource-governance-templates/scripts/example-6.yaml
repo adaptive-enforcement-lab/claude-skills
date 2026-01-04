@@ -1,0 +1,3 @@
+# Enforced by: limitrange.yaml
+# Result: Pods cannot request more CPU/memory than LimitRange allows
+# Impact: Ensures fair resource distribution across namespace

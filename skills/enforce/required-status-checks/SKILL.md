@@ -8,7 +8,11 @@ description: >-
 
 ## When to Use This Skill
 
+Branch protection can require CI checks to pass before merge.
 
+This turns "you should test" into "untested code cannot merge."
+
+---
 
 
 

@@ -12,9 +12,9 @@ Lock down workflow permissions. The GITHUB_TOKEN grants access to repository res
 
 > **The Risk**
 >
-
-
-    Default `permissions: write-all` grants workflows the ability to push code, modify releases, create issues, and access packages. A compromised workflow or script injection can weaponize these permissions for persistent access.
+>
+> Default `permissions: write-all` grants workflows the ability to push code, modify releases, create issues, and access packages. A compromised workflow or script injection can weaponize these permissions for persistent access.
+>
 
 ## What is GITHUB_TOKEN?
 
@@ -368,9 +368,8 @@ Ready to implement minimal permissions? Continue with:
 
 > **Start Minimal, Escalate as Needed**
 >
-
-
-    Begin with `permissions: { contents: read }` for every workflow. Add permissions only when you encounter "Resource not accessible" errors. Document why each permission is required.
+>
+> Begin with `permissions: { contents: read }` for every workflow. Add permissions only when you encounter "Resource not accessible" errors. Document why each permission is required.
 
 
 

@@ -1,0 +1,22 @@
+extends: spectral:oas
+rules:
+  required-fields:
+    given: $
+    severity: error
+    then:
+      - field: name
+        function: truthy
+      - field: namespace
+        function: truthy
+      - field: replicas
+        function: truthy
+  replica-count:
+    given: $.replicas
+    severity: warning
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 10

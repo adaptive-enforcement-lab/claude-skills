@@ -8,26 +8,15 @@ description: >-
 
 ## When to Use This Skill
 
-> **Good Fit**
->
-
-
-    - Processing multiple repositories, files, or services
-    - Operations that are independent and can run in parallel
-    - Workloads that benefit from horizontal scaling
-    - Batch operations with predictable per-target runtime
-
 > **Poor Fit**
 >
-
-
-    - Sequential operations where order matters
-    - Operations with shared state between targets
-    - When total job count would exceed GitHub Actions limits (256)
+>
+> - Sequential operations where order matters
+> - Operations with shared state between targets
+> - When total job count would exceed GitHub Actions limits (256)
+>
 
 ---
-
-##
 
 
 

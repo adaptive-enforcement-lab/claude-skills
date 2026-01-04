@@ -8,7 +8,12 @@ description: >-
 
 ## When to Use This Skill
 
+Prevention is good. Detection is essential. Assume secrets will leak. Build systems to catch them before damage spreads.
 
+> **The Risk**
+>
+>
+> Secrets leak through commits, workflow logs, artifacts, pull requests, and third-party integrations. Without automated scanning, credentials remain exposed for days or months before detection. By then, your infrastructure is already compromised.
 
 
 

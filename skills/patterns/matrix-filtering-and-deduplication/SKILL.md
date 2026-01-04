@@ -24,8 +24,6 @@ description: >-
 
 ---
 
-##
-
 
 
 ## Implementation

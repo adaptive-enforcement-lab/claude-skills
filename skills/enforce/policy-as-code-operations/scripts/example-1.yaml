@@ -1,0 +1,25 @@
+# security-policy/charts/security-policy/templates/require-network-policy.yaml
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-network-policy
+  annotations:
+    policies.kyverno.io/title: Require NetworkPolicy
+    policies.kyverno.io/category: Security
+    policies.kyverno.io/severity: high
+spec:
+  validationFailureAction: {{ .Values.policies.networkPolicy.validationFailureAction }}
+  background: true
+  rules:
+    - name: check-network-policy-exists
+      match:
+        resources:
+          kinds:
+            - Namespace
+      validate:
+        message: "Namespace must have a NetworkPolicy"
+        deny:
+          conditions:
+            - key: "{{ request.object.metadata.name }}"
+              operator: AnyNotIn
+              value: [" kube-system", "kube-public", "kube-node-lease"]

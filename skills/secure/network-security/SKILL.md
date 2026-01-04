@@ -15,16 +15,12 @@ This section covers network security configurations for GKE clusters:
 - **Private Service Connect**: Private connectivity to GCP services
 - **Cloud Armor**: Layer 7 DDoS protection and Web Application Firewall
 
-##
-
 
 ## Prerequisites
 
 - GCP project with billing enabled
 - Terraform 1.0+
 - kubectl configured for cluster access
-
-##
 
 
 ## Implementation

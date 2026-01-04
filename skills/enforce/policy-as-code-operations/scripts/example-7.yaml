@@ -1,0 +1,11 @@
+validate:
+  pattern:
+    spec:
+      containers:
+        - resources:
+            limits:
+              memory: "?*"
+              cpu: "?*"
+            requests:              # Requires both limits AND requests
+              memory: "?*"
+              cpu: "?*"

@@ -1,0 +1,10 @@
+# Bitbucket Pipelines
+- step:
+    name: Build Policy Platform
+    services:
+      - docker
+    script:
+      - docker build -t policy-platform:${BITBUCKET_BUILD_NUMBER} -f ci/Dockerfile .
+      - docker tag policy-platform:${BITBUCKET_BUILD_NUMBER} policy-platform:latest
+      - docker push policy-platform:${BITBUCKET_BUILD_NUMBER}
+      - docker push policy-platform:latest

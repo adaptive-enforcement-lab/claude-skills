@@ -1,0 +1,12 @@
+# Bad: ignores validation failure
+- name: Validate and deploy
+  run: |
+    ./validate.sh || true  # Swallowed!
+    ./deploy.sh
+
+# Good: fail on validation error
+- name: Validate
+  run: ./validate.sh
+
+- name: Deploy
+  run: ./deploy.sh

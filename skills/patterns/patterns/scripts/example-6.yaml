@@ -1,0 +1,7 @@
+# GOOD: Validate before deploying
+- name: Prerequisite checks
+  run: |
+    kubectl auth can-i create deployments || exit 1
+    kubectl get namespace production || exit 1
+- name: Deploy
+  run: kubectl apply -f manifests/

@@ -1,0 +1,17 @@
+graph TD
+    A["Incident Alert Triggered"] --> B{"Severity Level?"}
+    B -->|Critical - Cluster unavailable| C["CRITICAL: Execute <br/>Active Threat Response"]
+    B -->|High - Service degradation| D["HIGH: Execute <br/>Active Container Threat"]
+    B -->|Medium - Anomalous behavior| E["MEDIUM: Execute <br/>Suspicious Activity Assessment"]
+    B -->|Low - Policy violation| F["LOW: Execute <br/>Compliance Audit"]
+
+    C --> C1["Page on-call engineer<br/>Declare SEV-1 incident<br/>Start war room"]
+    D --> D1["Alert primary on-call<br/>Declare SEV-2 incident<br/>Notify team"]
+    E --> E1["Create incident ticket<br/>Assign to engineer<br/>Set 1-hour response SLO"]
+    F --> F1["Log for audit<br/>Schedule review<br/>No immediate response"]
+
+    %% Ghostty Hardcore Theme
+    style C fill:#dc2626
+    style D fill:#ea580c
+    style E fill:#eab308
+    style F fill:#22c55e

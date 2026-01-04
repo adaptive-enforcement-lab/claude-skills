@@ -8,7 +8,12 @@ description: >-
 
 ## When to Use This Skill
 
+Hardening is not optional. Every layer of defense you skip is an attack vector you gift to adversaries. Deploy runners defensively or accept the breach.
 
+> **The Default Is Insecure**
+>
+>
+> A default runner installation has root access, unrestricted network, cloud metadata endpoints, persistent filesystem, and ambient credentials. One malicious workflow means full infrastructure compromise. Apply every hardening layer.
 
 
 
