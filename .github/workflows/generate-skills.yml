@@ -54,9 +54,10 @@ jobs:
           # Stage changes to check what would be committed
           git add -A skills/ .claude-plugin/marketplace.json
 
-          # Check if there are staged changes using git status --porcelain
+          # Check if there are staged changes using git status --porcelain on specific paths
           # This detects modified files (M), new files (A), and deleted files (D)
-          if [ -z "$(git status --porcelain)" ]; then
+          # but only in the paths we care about (not untracked ael-docs/)
+          if [ -z "$(git status --porcelain skills/ .claude-plugin/marketplace.json)" ]; then
             echo "No changes detected in skills/ or marketplace.json, skipping PR creation"
             exit 0
           fi
