@@ -21,33 +21,55 @@
       "include-component-in-tag": true,
       "include-v-in-tag": true
     },
-    "skills": {
+    "skills/patterns": {
       "release-type": "simple",
-      "component": "marketplace",
-      "package-name": "ael-skills",
+      "component": "patterns",
+      "package-name": "patterns",
       "include-component-in-tag": true,
       "include-v-in-tag": true,
       "extra-files": [
         {
           "type": "json",
           "path": ".claude-plugin/marketplace.json",
-          "jsonpath": "$.metadata.version"
-        },
-        {
-          "type": "json",
-          "path": ".claude-plugin/marketplace.json",
           "jsonpath": "$.plugins[0].version"
-        },
+        }
+      ]
+    },
+    "skills/enforce": {
+      "release-type": "simple",
+      "component": "enforcement",
+      "package-name": "enforcement",
+      "include-component-in-tag": true,
+      "include-v-in-tag": true,
+      "extra-files": [
         {
           "type": "json",
           "path": ".claude-plugin/marketplace.json",
           "jsonpath": "$.plugins[1].version"
-        },
+        }
+      ]
+    },
+    "skills/build": {
+      "release-type": "simple",
+      "component": "build",
+      "package-name": "build",
+      "include-component-in-tag": true,
+      "include-v-in-tag": true,
+      "extra-files": [
         {
           "type": "json",
           "path": ".claude-plugin/marketplace.json",
           "jsonpath": "$.plugins[2].version"
-        },
+        }
+      ]
+    },
+    "skills/secure": {
+      "release-type": "simple",
+      "component": "secure",
+      "package-name": "secure",
+      "include-component-in-tag": true,
+      "include-v-in-tag": true,
+      "extra-files": [
         {
           "type": "json",
           "path": ".claude-plugin/marketplace.json",

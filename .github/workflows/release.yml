@@ -15,8 +15,14 @@ jobs:
     outputs:
       generator_release_created: ${{ steps.release.outputs.generator--release_created }}
       generator_tag_name: ${{ steps.release.outputs.generator--tag_name }}
-      marketplace_release_created: ${{ steps.release.outputs.marketplace--release_created }}
-      marketplace_tag_name: ${{ steps.release.outputs.marketplace--tag_name }}
+      patterns_release_created: ${{ steps.release.outputs.patterns--release_created }}
+      patterns_tag_name: ${{ steps.release.outputs.patterns--tag_name }}
+      enforcement_release_created: ${{ steps.release.outputs.enforcement--release_created }}
+      enforcement_tag_name: ${{ steps.release.outputs.enforcement--tag_name }}
+      build_release_created: ${{ steps.release.outputs.build--release_created }}
+      build_tag_name: ${{ steps.release.outputs.build--tag_name }}
+      secure_release_created: ${{ steps.release.outputs.secure--release_created }}
+      secure_tag_name: ${{ steps.release.outputs.secure--tag_name }}
     steps:
       - name: Run release-please
         id: release
@@ -58,14 +64,26 @@ jobs:
             bin/skillgen-darwin-arm64 \
             bin/skillgen-windows-amd64.exe
 
-  release-marketplace:
+  announce-skills:
     needs: release-please
-    if: needs.release-please.outputs.marketplace_release_created == 'true'
+    if: |
+      needs.release-please.outputs.patterns_release_created == 'true' ||
+      needs.release-please.outputs.enforcement_release_created == 'true' ||
+      needs.release-please.outputs.build_release_created == 'true' ||
+      needs.release-please.outputs.secure_release_created == 'true'
     runs-on: ubuntu-latest
     steps:
-      - name: Marketplace release notification
+      - name: Skills release notification
         env:
-          TAG_NAME: ${{ needs.release-please.outputs.marketplace_tag_name }}
+          PATTERNS_TAG: ${{ needs.release-please.outputs.patterns_tag_name }}
+          ENFORCEMENT_TAG: ${{ needs.release-please.outputs.enforcement_tag_name }}
+          BUILD_TAG: ${{ needs.release-please.outputs.build_tag_name }}
+          SECURE_TAG: ${{ needs.release-please.outputs.secure_tag_name }}
         run: |
-          echo "Marketplace released: $TAG_NAME"
-          echo "Skills can now be installed via: /plugin marketplace add adaptive-enforcement-lab/claude-skills"
+          echo "Skills released:"
+          [[ -n "$PATTERNS_TAG" ]] && echo "  - Patterns: $PATTERNS_TAG"
+          [[ -n "$ENFORCEMENT_TAG" ]] && echo "  - Enforcement: $ENFORCEMENT_TAG"
+          [[ -n "$BUILD_TAG" ]] && echo "  - Build: $BUILD_TAG"
+          [[ -n "$SECURE_TAG" ]] && echo "  - Secure: $SECURE_TAG"
+          echo ""
+          echo "Install via: /plugin marketplace add adaptive-enforcement-lab/claude-skills"

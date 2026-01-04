@@ -1,4 +1,7 @@
 {
   ".": "0.1.0",
-  "skills": "0.1.0"
+  "skills/patterns": "0.1.0",
+  "skills/enforce": "0.1.0",
+  "skills/build": "0.1.0",
+  "skills/secure": "0.1.0"
 }
