@@ -13,8 +13,10 @@ jobs:
   release-please:
     runs-on: ubuntu-latest
     outputs:
-      release_created: ${{ steps.release.outputs.release_created }}
-      tag_name: ${{ steps.release.outputs.tag_name }}
+      generator_release_created: ${{ steps.release.outputs.generator--release_created }}
+      generator_tag_name: ${{ steps.release.outputs.generator--tag_name }}
+      marketplace_release_created: ${{ steps.release.outputs.marketplace--release_created }}
+      marketplace_tag_name: ${{ steps.release.outputs.marketplace--tag_name }}
     steps:
       - name: Run release-please
         id: release
@@ -22,9 +24,9 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-  build-release:
+  build-generator:
     needs: release-please
-    if: needs.release-please.outputs.release_created == 'true'
+    if: needs.release-please.outputs.generator_release_created == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -43,15 +45,27 @@ jobs:
           GOOS=darwin GOARCH=arm64 go build -o bin/skillgen-darwin-arm64 ./cmd/skillgen
           GOOS=windows GOARCH=amd64 go build -o bin/skillgen-windows-amd64.exe ./cmd/skillgen
 
-      - name: Upload release artifacts
+      - name: Upload generator release artifacts
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG_NAME: ${{ needs.release-please.outputs.tag_name }}
+          TAG_NAME: ${{ needs.release-please.outputs.generator_tag_name }}
         run: |
-          # Upload binaries to release
+          # Upload binaries to generator release
           # TAG_NAME comes from release-please action output (not user input)
           gh release upload "$TAG_NAME" \
             bin/skillgen-linux-amd64 \
             bin/skillgen-darwin-amd64 \
             bin/skillgen-darwin-arm64 \
             bin/skillgen-windows-amd64.exe
+
+  release-marketplace:
+    needs: release-please
+    if: needs.release-please.outputs.marketplace_release_created == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Marketplace release notification
+        env:
+          TAG_NAME: ${{ needs.release-please.outputs.marketplace_tag_name }}
+        run: |
+          echo "Marketplace released: $TAG_NAME"
+          echo "Skills can now be installed via: /plugin marketplace add adaptive-enforcement-lab/claude-skills"
