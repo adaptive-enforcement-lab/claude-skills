@@ -1,0 +1,45 @@
+---
+name: {{.Metadata.Name}}
+description: >-
+  {{.Metadata.Description}}
+---
+
+# {{.Metadata.Title}}
+
+## When to Use This Skill
+
+{{.Metadata.WhenToUse}}
+
+{{if .Metadata.Prerequisites}}
+## Prerequisites
+
+{{.Metadata.Prerequisites}}
+{{end}}
+
+## Implementation
+
+{{/* This will be filled from implementation steps section */}}
+See the full implementation guide in the source documentation.
+
+{{if .Examples}}
+## Examples
+
+See [examples.md](examples.md) for code examples.
+{{end}}
+
+{{if .Troubleshooting}}
+## Troubleshooting
+
+See [troubleshooting.md](troubleshooting.md) for common issues and solutions.
+{{end}}
+
+{{if .Reference}}
+## Full Reference
+
+See [reference.md](reference.md) for complete documentation.
+{{end}}
+
+## References
+
+- [Source Documentation]({{.Metadata.SourceURL}})
+- [AEL {{.Metadata.Category | title}}](https://adaptive-enforcement-lab.com/{{.Metadata.Category}}/)

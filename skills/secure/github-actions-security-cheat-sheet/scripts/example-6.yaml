@@ -1,0 +1,7 @@
+# Example policy: Tier 1 + Tier 2 only
+Allowed actions and reusable workflows:
+  - Allow actions created by GitHub: ✅
+  - Allow actions by Marketplace verified creators: ✅
+  - Allow specified actions and reusable workflows:
+      - aquasecurity/trivy-action@*
+      - google-github-actions/*@*

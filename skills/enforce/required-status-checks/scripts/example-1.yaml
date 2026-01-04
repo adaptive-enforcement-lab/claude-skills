@@ -1,0 +1,30 @@
+# .github/workflows/required-checks.yml
+name: Required Checks
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run tests
+        run: make test
+
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Container scan
+        run: |
+          trivy image --severity HIGH,CRITICAL --exit-code 1 \
+            gcr.io/project/app:${{ github.sha }}
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint
+        run: golangci-lint run

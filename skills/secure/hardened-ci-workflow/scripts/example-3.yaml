@@ -1,0 +1,87 @@
+name: Python CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Test on Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: true
+      matrix:
+        python-version: ['3.10', '3.11', '3.12']
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@0a5c61591373683505ea898e09a3ea4f39ef2b9c  # v5.0.0
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      # SECURITY: Install dependencies from locked requirements
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      # SECURITY: Bandit scans for common security issues in Python code
+      - name: Run Bandit security scan
+        run: |
+          pip install bandit[toml]
+          bandit -r . -f json -o bandit-report.json || true
+
+      # SECURITY: Safety checks for known vulnerabilities in dependencies
+      - name: Check dependencies with Safety
+        run: |
+          pip install safety
+          safety check --json
+
+      - name: Lint with ruff
+        run: |
+          pip install ruff
+          ruff check .
+
+      - name: Type check with mypy
+        run: |
+          pip install mypy
+          mypy .
+
+      - name: Run tests with pytest
+        run: |
+          pip install pytest pytest-cov
+          pytest --cov=. --cov-report=xml --cov-report=term
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@e0b68c6749509c5f83f984dd99a76a1c1a231044  # v4.0.1
+        with:
+          files: ./coverage.xml
+          fail_ci_if_error: false
+
+  security-scan:
+    name: Security Scanning
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+        with:
+          persist-credentials: false
+
+      # SECURITY: CodeQL for Python static analysis
+      - uses: github/codeql-action/init@cdcdbb579706841c47f7063dda365e292e5cad7a  # v2.13.4
+        with:
+          languages: python
+          queries: security-extended
+
+      - uses: github/codeql-action/autobuild@cdcdbb579706841c47f7063dda365e292e5cad7a  # v2.13.4

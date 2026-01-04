@@ -1,0 +1,55 @@
+- name: API call with auto-refresh on expiration
+  env:
+    APP_ID: ${{ secrets.CORE_APP_ID }}
+    PRIVATE_KEY: ${{ secrets.CORE_APP_PRIVATE_KEY }}
+  run: |
+    # Function to generate fresh token
+    generate_token() {
+      gh api /app/installations \
+        --jq '.[0].id' | xargs -I {} \
+        gh api /app/installations/{}/access_tokens \
+        -X POST --jq .token
+    }
+
+    # Function to call API with auto-refresh on 401
+    api_call_with_refresh() {
+      local endpoint="$1"
+      local max_attempts=2
+      local attempt=1
+
+      while [ $attempt -le $max_attempts ]; do
+        # Attempt API call
+        if response=$(gh api "$endpoint" 2>&1); then
+          echo "$response"
+          return 0
+        fi
+
+        # Check if error is 401 (expired token)
+        if echo "$response" | grep -q "401\|Bad credentials"; then
+          if [ $attempt -lt $max_attempts ]; then
+            echo "::warning::Token expired, refreshing (attempt $attempt/$max_attempts)"
+
+            # Refresh token
+            export GH_TOKEN=$(generate_token)
+            echo "::notice::Token refreshed successfully"
+
+            ((attempt++))
+            sleep 2
+          else
+            echo "::error::Failed to refresh token after $max_attempts attempts"
+            return 1
+          fi
+        else
+          # Non-401 error - fail immediately
+          echo "::error::API call failed: $response"
+          return 1
+        fi
+      done
+    }
+
+    # Initial token
+    export GH_TOKEN=$(generate_token)
+
+    # Make API calls with auto-refresh
+    api_call_with_refresh "user"
+    api_call_with_refresh "orgs/adaptive-enforcement-lab/repos"

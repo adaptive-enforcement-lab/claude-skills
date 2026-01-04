@@ -1,0 +1,4 @@
+- name: Scan container
+  run: |
+    trivy image --severity HIGH,CRITICAL --exit-code 1 \
+      gcr.io/project/app:${{ github.sha }}

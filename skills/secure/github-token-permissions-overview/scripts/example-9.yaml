@@ -1,0 +1,11 @@
+permissions:
+  contents: read  # Default
+
+jobs:
+  comment:
+    permissions:
+      contents: read
+      pull-requests: write  # Escalate for this job only
+    runs-on: ubuntu-latest
+    steps:
+      - run: gh pr comment ${{ github.event.number }} --body "Tests passed"

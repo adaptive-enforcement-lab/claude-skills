@@ -1,0 +1,26 @@
+flowchart TD
+    A["Unpinned Action<br/>uses: actions/checkout@v4"] --> B["Tag Reference"]
+    B --> C{"Maintainer Updates Tag"}
+
+    C -->|Legitimate Update| D["New Features"]
+    C -->|Compromised Account| E["Malicious Code"]
+    C -->|Hijacked Repo| F["Backdoor Injection"]
+
+    E --> G["Exfiltrate Secrets"]
+    E --> H["Deploy Backdoor"]
+    E --> I["Modify Code"]
+
+    F --> G
+    F --> H
+    F --> I
+
+    %% Ghostty Hardcore Theme
+    style A fill:#f92572,color:#1b1d1e
+    style B fill:#fd971e,color:#1b1d1e
+    style C fill:#e6db74,color:#1b1d1e
+    style D fill:#a6e22e,color:#1b1d1e
+    style E fill:#f92572,color:#1b1d1e
+    style F fill:#f92572,color:#1b1d1e
+    style G fill:#66d9ef,color:#1b1d1e
+    style H fill:#66d9ef,color:#1b1d1e
+    style I fill:#66d9ef,color:#1b1d1e

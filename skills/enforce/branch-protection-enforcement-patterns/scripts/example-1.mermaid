@@ -1,0 +1,14 @@
+graph TD
+    T[Terraform Module] -->|Applies| BP[Branch Protection Rules]
+    GA[GitHub App] -->|Monitors| BP
+    GA -->|Detects| DRIFT[Configuration Drift]
+    DRIFT -->|Triggers| REM[Automated Remediation]
+    REM -->|Restores| BP
+    BP -->|Enforces| PR[Pull Requests]
+    PR -->|Generates| AUDIT[Audit Evidence]
+
+    %% Ghostty Hardcore Theme
+    style T fill:#a7e22e,color:#1b1d1e
+    style GA fill:#65d9ef,color:#1b1d1e
+    style DRIFT fill:#f92572,color:#1b1d1e
+    style BP fill:#fd971e,color:#1b1d1e

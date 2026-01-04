@@ -1,0 +1,4 @@
+# Runner group configuration (Settings UI)
+Group: internal-runners
+Access: Private repositories
+Workflow restrictions: None

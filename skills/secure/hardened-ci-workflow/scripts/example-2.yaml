@@ -1,0 +1,71 @@
+name: Node.js CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Test on Node ${{ matrix.node-version }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    strategy:
+      # SECURITY: fail-fast prevents wasting resources on known failures
+      fail-fast: true
+      matrix:
+        node-version: [18, 20]
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d  # v3.8.1
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      # SECURITY: Audit dependencies for known vulnerabilities
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
+
+      - name: Install dependencies
+        run: npm ci
+
+      # SECURITY: Type checking catches bugs before runtime
+      - name: Type check
+        run: npm run type-check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Run tests
+        run: npm test -- --coverage --maxWorkers=2
+
+      - name: Build
+        run: npm run build
+
+  dependency-review:
+    name: Dependency Review
+    runs-on: ubuntu-latest
+    # SECURITY: Only run on PRs to catch risky dependencies before merge
+    if: github.event_name == 'pull_request'
+    permissions:
+      contents: read
+      pull-requests: write  # Post review comments
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+        with:
+          persist-credentials: false
+
+      # SECURITY: Dependency review detects malicious or vulnerable packages in PRs
+      - uses: actions/dependency-review-action@c74b580d73376b7750d3d2a50bfb8adc2c937507  # v3.1.0
+        with:
+          # Fail on critical/high vulnerabilities
+          fail-on-severity: high
+          # Deny known malicious packages
+          deny-licenses: AGPL-3.0, GPL-3.0

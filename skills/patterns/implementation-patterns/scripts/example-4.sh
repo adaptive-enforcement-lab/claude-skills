@@ -1,0 +1,1 @@
+BRANCH="update-$(sha256sum file.txt | cut -c1-8)"

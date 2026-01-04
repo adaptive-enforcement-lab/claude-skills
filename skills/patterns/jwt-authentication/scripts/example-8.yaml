@@ -1,0 +1,33 @@
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check installation health
+        env:
+          GH_APP_ID: ${{ secrets.CORE_APP_ID }}
+          GH_APP_PRIVATE_KEY: ${{ secrets.CORE_APP_PRIVATE_KEY }}
+        run: |
+          echo "## Installation Health Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          gh api /app/installations | jq -r '.[] |
+            "### \(.account.login)\n" +
+            "- **ID**: \(.id)\n" +
+            "- **Type**: \(.account.type)\n" +
+            "- **Status**: \(.suspended_at // "Active")\n" +
+            "- **Repository Access**: \(.repository_selection)\n" +
+            "- **Created**: \(.created_at)\n"
+          ' >> $GITHUB_STEP_SUMMARY
+
+      - name: Alert on suspended installations
+        env:
+          GH_APP_ID: ${{ secrets.CORE_APP_ID }}
+          GH_APP_PRIVATE_KEY: ${{ secrets.CORE_APP_PRIVATE_KEY }}
+        run: |
+          SUSPENDED=$(gh api /app/installations --jq '
+            [.[] | select(.suspended_at != null) | .account.login] |
+            join(", ")
+
+          if [ -n "$SUSPENDED" ]; then
+            echo "::warning::Suspended installations: $SUSPENDED"
+          fi

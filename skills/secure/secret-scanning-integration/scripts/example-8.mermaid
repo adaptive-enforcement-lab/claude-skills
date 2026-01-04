@@ -1,0 +1,26 @@
+flowchart TD
+    Alert["Secret Detected"] --> Verify["1. Verify Alert<br/>Real or False Positive?"]
+
+    Verify -->|Real Secret| Classify["2. Classify Severity<br/>Production or Test?"]
+    Verify -->|False Positive| Dismiss["Dismiss as<br/>False Positive"]
+
+    Classify -->|Production Credential| Critical["🔴 CRITICAL<br/>Immediate Response"]
+    Classify -->|Test/Dev Credential| Medium["🟡 MEDIUM<br/>Standard Response"]
+
+    Critical --> Revoke1["3a. Revoke credential<br/>(within 15 minutes)"]
+    Medium --> Revoke2["3b. Revoke credential<br/>(within 24 hours)"]
+
+    Revoke1 --> Rotate1["4a. Rotate credential<br/>Update GitHub secret"]
+    Revoke2 --> Rotate2["4b. Rotate credential<br/>Update GitHub secret"]
+
+    Rotate1 --> Clean1["5a. Remove from history<br/>BFG Repo-Cleaner"]
+    Rotate2 --> Clean2["5b. Remove from history<br/>Git filter-branch"]
+
+    Clean1 --> Document1["6. Document incident"]
+    Clean2 --> Document2["6. Document incident"]
+
+    %% Ghostty Hardcore Theme
+    style Alert fill:#66d9ef,color:#1b1d1e
+    style Critical fill:#f92572,color:#1b1d1e
+    style Medium fill:#e6db74,color:#1b1d1e
+    style Dismiss fill:#75715e,color:#f8f8f2

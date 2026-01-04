@@ -1,0 +1,47 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: hub-orchestrator
+spec:
+  entrypoint: hub
+  templates:
+    - name: hub
+      inputs:
+        parameters:
+          - name: repositories
+      steps:
+        # Discover work
+        - - name: discover
+            template: get-repositories
+
+        # Fan out to spokes
+        - - name: process-repo
+            template: spawn-spoke
+            arguments:
+              parameters:
+                - name: repo
+                  value: "{{item}}"
+            withParam: "{{steps.discover.outputs.result}}"
+
+        # Collect results
+        - - name: summarize
+            template: collect-results
+
+    - name: spawn-spoke
+      inputs:
+        parameters:
+          - name: repo
+      resource:
+        action: create
+        manifest: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Workflow
+          metadata:
+            generateName: spoke-{{inputs.parameters.repo}}-
+          spec:
+            workflowTemplateRef:
+              name: spoke-worker
+            arguments:
+              parameters:
+                - name: repository
+                  value: "{{inputs.parameters.repo}}"

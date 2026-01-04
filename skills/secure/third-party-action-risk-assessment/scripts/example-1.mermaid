@@ -1,0 +1,39 @@
+flowchart TD
+    A["Third-Party Action"] --> B["Execution Context"]
+
+    B --> C["Secrets Access"]
+    B --> D["Code Access"]
+    B --> E["Token Permissions"]
+
+    C --> C1["GITHUB_TOKEN"]
+    C --> C2["Cloud Credentials"]
+    C --> C3["API Keys"]
+    C --> C4["Deployment Tokens"]
+
+    D --> D1["Source Code"]
+    D --> D2["Git History"]
+    D --> D3["Dependencies"]
+
+    E --> E1["Write to Repo"]
+    E --> E2["Create Releases"]
+    E --> E3["Modify Workflows"]
+
+    C1 --> F["Attack Vectors"]
+    C2 --> F
+    C3 --> F
+    D1 --> F
+    E3 --> F
+
+    F --> G["Exfiltrate Secrets"]
+    F --> H["Backdoor Codebase"]
+    F --> I["Persistent Access"]
+    F --> J["Supply Chain Compromise"]
+
+    %% Ghostty Hardcore Theme
+    style A fill:#f92572,color:#1b1d1e
+    style B fill:#fd971e,color:#1b1d1e
+    style F fill:#e6db74,color:#1b1d1e
+    style G fill:#66d9ef,color:#1b1d1e
+    style H fill:#66d9ef,color:#1b1d1e
+    style I fill:#66d9ef,color:#1b1d1e
+    style J fill:#66d9ef,color:#1b1d1e

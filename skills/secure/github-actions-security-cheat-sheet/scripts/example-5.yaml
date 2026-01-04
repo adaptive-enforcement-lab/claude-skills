@@ -1,0 +1,15 @@
+# .github/workflows/secret-scan.yml
+name: Secret Scanning
+on: [push, pull_request]
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+        with:
+          fetch-depth: 0  # Full history for scanning
+
+      - uses: gitleaks/gitleaks-action@cb7149a9a1d86f1c2e3ab90ae2f43a75ed56e95a  # v2.3.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

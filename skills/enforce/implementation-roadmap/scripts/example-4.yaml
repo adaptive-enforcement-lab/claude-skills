@@ -1,0 +1,10 @@
+name: Monthly Evidence
+on:
+  schedule:
+    - cron: '0 0 1 * *'
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - run: gh api repos/org/repo/branches/main/protection > config.json
+      - run: gsutil cp *.json gs://audit-evidence/

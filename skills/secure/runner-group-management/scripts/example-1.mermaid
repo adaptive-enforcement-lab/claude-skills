@@ -1,0 +1,23 @@
+flowchart TB
+    A["All Repositories"] --> B{"Trust Level"}
+
+    B --> C["Public Repos"]
+    B --> D["Internal Repos"]
+    B --> E["Private Repos"]
+
+    C --> C1["public-runners group<br/>No self-hosted access"]
+
+    D --> D1["dev-runners group<br/>Non-production access"]
+    D --> D2["test-runners group<br/>Isolated test networks"]
+
+    E --> E1["prod-runners group<br/>Production deployment"]
+    E --> E2["compliance-runners group<br/>Audited workloads"]
+    E --> E3["gpu-runners group<br/>High-cost resources"]
+
+    %% Ghostty Hardcore Theme
+    style C1 fill:#f92572,color:#1b1d1e
+    style D1 fill:#e6db74,color:#1b1d1e
+    style D2 fill:#e6db74,color:#1b1d1e
+    style E1 fill:#a6e22e,color:#1b1d1e
+    style E2 fill:#a6e22e,color:#1b1d1e
+    style E3 fill:#fd971e,color:#1b1d1e

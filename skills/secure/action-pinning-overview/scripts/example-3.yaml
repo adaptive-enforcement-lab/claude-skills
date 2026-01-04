@@ -1,0 +1,5 @@
+# actions/checkout v4.1.1
+- uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+
+# actions/setup-node v3.8.1
+- uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d

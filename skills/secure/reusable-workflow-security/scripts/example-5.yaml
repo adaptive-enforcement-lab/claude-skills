@@ -1,0 +1,79 @@
+# .github/workflows/reusable-release.yml
+name: Reusable Release
+on:
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+        description: 'Semantic version (e.g., v1.2.3)'
+      prerelease:
+        required: false
+        type: boolean
+        default: false
+      deploy:
+        required: false
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    outputs:
+      valid: ${{ steps.check.outputs.valid }}
+    steps:
+      - name: Validate version format
+        id: check
+        run: |
+          VERSION="${{ inputs.version }}"
+
+          # Validate semantic version format
+          if [[ ! "$VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)?$ ]]; then
+            echo "::error::Invalid version format. Expected: vX.Y.Z or vX.Y.Z-prerelease"
+            exit 1
+          fi
+
+          echo "valid=true" >> $GITHUB_OUTPUT
+
+  release:
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+
+      - name: Create release
+        env:
+          VERSION: ${{ inputs.version }}
+          PRERELEASE: ${{ inputs.prerelease }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          PRERELEASE_FLAG=""
+          if [ "$PRERELEASE" = "true" ]; then
+            PRERELEASE_FLAG="--prerelease"
+          fi
+
+          gh release create "$VERSION" $PRERELEASE_FLAG \
+            --title "Release $VERSION" \
+            --generate-notes
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: release
+    if: inputs.deploy == true
+    environment: production
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+
+      - uses: google-github-actions/auth@55bd3a7c6e2ae7cf1877fd1ccb9d54c0503c457c  # v2.1.2
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
+
+      - name: Deploy release
+        env:
+          VERSION: ${{ inputs.version }}
+        run: ./scripts/deploy-release.sh "$VERSION"

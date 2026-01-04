@@ -1,0 +1,4 @@
+# gpu-runners group configuration
+Allowed workflows:
+  - org/ml-training/.github/workflows/train-model.yml@refs/heads/main
+  - org/ml-inference/.github/workflows/batch-inference.yml@refs/heads/main

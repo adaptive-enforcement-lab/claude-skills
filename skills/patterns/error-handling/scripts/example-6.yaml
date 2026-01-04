@@ -1,0 +1,30 @@
+- name: Diagnose permission error
+  if: failure()
+  env:
+    GH_TOKEN: ${{ steps.app_token.outputs.token }}
+  run: |
+    echo "::group::Diagnostic Information"
+
+    # Check token validity
+    echo "Token status:"
+    if gh api user --jq '.login' 2>/dev/null; then
+      echo "  ✅ Token is valid"
+    else
+      echo "  ❌ Token is invalid or expired"
+    fi
+
+    # Check installation access
+    echo ""
+    echo "Installation scope:"
+    gh api /app/installations \
+      --jq '.[] | "  - \(.account.login) (ID: \(.id))"'
+
+    # Attempt to identify missing permission
+    echo ""
+    echo "::error::Common 403 causes:"
+    echo "  1. App lacks required repository/organization permissions"
+    echo "  2. Installation doesn't include target repository"
+    echo "  3. Repository is private but app has 'public_only' access"
+    echo "  4. Organization requires approval for app installation"
+
+    echo "::endgroup::"

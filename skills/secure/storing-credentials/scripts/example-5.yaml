@@ -1,0 +1,9 @@
+- name: Generate multi-repo token
+  uses: actions/create-github-app-token@v2
+  with:
+    app-id: ${{ secrets.CORE_APP_ID }}
+    private-key: ${{ secrets.CORE_APP_PRIVATE_KEY }}
+    repositories: |
+      repo-one
+      repo-two
+      repo-three

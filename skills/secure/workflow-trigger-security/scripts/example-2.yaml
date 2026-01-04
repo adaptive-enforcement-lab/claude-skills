@@ -1,0 +1,22 @@
+name: Fork CI
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read  # Explicit read-only
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      # Safe: Checkout fork PR code in isolated context
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+
+      # Safe: No secrets, runs untrusted code
+      - name: Run tests
+        run: npm test
+
+      # Safe: Read-only token cannot modify repository
+      - name: Verify build
+        run: npm run build

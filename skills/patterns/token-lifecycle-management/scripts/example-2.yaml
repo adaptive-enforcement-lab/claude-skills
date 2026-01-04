@@ -1,0 +1,31 @@
+name: Long-Running Workflow with Auto-Refresh
+
+on:
+  workflow_dispatch:
+
+jobs:
+  long-operation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate token
+        id: app_token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.CORE_APP_ID }}
+          private-key: ${{ secrets.CORE_APP_PRIVATE_KEY }}
+          owner: adaptive-enforcement-lab
+
+      - name: Long-running operation (2+ hours)
+        env:
+          GH_TOKEN: ${{ steps.app_token.outputs.token }}
+        run: |
+          # Action automatically refreshes token in background
+          for i in {1..150}; do
+            echo "Iteration $i at $(date)"
+
+            # API calls use fresh token automatically
+            gh api user --jq .login
+
+            # Sleep for 1 minute (150 iterations = 2.5 hours)
+            sleep 60
+          done

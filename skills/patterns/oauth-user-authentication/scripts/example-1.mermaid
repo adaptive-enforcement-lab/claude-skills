@@ -1,0 +1,25 @@
+flowchart TD
+    A["Need user context?"] --> B{"Who initiates<br/>the action?"}
+
+    B -->|"Human user<br/>(web app, CLI)"| C["Use OAuth"]
+    B -->|"Automated process<br/>(GitHub Actions)"| D["Use Installation Token"]
+
+    C --> C1["User attribution required"]
+    C --> C2["Personal repos access"]
+    C --> C3["User-level permissions"]
+
+    D --> D1["No user present"]
+    D --> D2["Organization repos"]
+    D --> D3["App-level permissions"]
+
+    %% Ghostty Hardcore Theme
+    style A fill:#515354,stroke:#ccccc7,stroke-width:2px,color:#ccccc7
+    style B fill:#fd971e,stroke:#e6db74,stroke-width:2px,color:#1b1d1e
+    style C fill:#a7e22e,stroke:#bded5f,stroke-width:2px,color:#1b1d1e
+    style D fill:#f92572,stroke:#ff669d,stroke-width:2px,color:#1b1d1e
+    style C1 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style C2 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style C3 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style D1 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style D2 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style D3 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7

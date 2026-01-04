@@ -1,0 +1,24 @@
+flowchart LR
+    A["Malicious Workflow"] --> B["OS Hardening"]
+    B --> C["Network Isolation"]
+    C --> D["Credential Protection"]
+    D --> E["Audit Logging"]
+    E --> F["Runtime Monitoring"]
+
+    B -.->|"Bypass"| G["Attack Detected"]
+    C -.->|"Bypass"| G
+    D -.->|"Bypass"| G
+    E -.->|"Bypass"| G
+    F --> G
+
+    G --> H["Automated Response"]
+
+    %% Ghostty Hardcore Theme
+    style A fill:#f92572,color:#1b1d1e
+    style B fill:#a6e22e,color:#1b1d1e
+    style C fill:#a6e22e,color:#1b1d1e
+    style D fill:#a6e22e,color:#1b1d1e
+    style E fill:#a6e22e,color:#1b1d1e
+    style F fill:#a6e22e,color:#1b1d1e
+    style G fill:#66d9ef,color:#1b1d1e
+    style H fill:#e6db74,color:#1b1d1e

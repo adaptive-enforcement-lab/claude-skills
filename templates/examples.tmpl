@@ -1,0 +1,21 @@
+---
+name: {{.Metadata.Name}} - Examples
+description: Code examples for {{.Metadata.Title}}
+---
+
+# {{.Metadata.Title}} - Examples
+
+{{range $index, $block := .Examples.CodeBlocks}}
+## Example {{add $index 1}}{{if $block.Filename}}: {{$block.Filename}}{{end}}
+
+{{if $block.Language}}
+```{{$block.Language}}
+{{$block.Content}}
+```
+{{else}}
+```
+{{$block.Content}}
+```
+{{end}}
+
+{{end}}

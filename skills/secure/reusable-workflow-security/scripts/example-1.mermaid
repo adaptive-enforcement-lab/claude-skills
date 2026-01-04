@@ -1,0 +1,40 @@
+flowchart TD
+    A["Caller Workflow"] --> B{"Reusable Workflow<br/>Referenced"}
+
+    B -->|Pinned to SHA| C["Secure Reference"]
+    B -->|Branch/Tag| D["SUPPLY CHAIN RISK"]
+
+    C --> E{"Caller<br/>Authorized?"}
+
+    E -->|Yes| F["Input Validation"]
+    E -->|No| G["Workflow Fails"]
+
+    F --> H{"Inputs<br/>Valid?"}
+
+    H -->|Yes| I{"Secrets<br/>Method?"}
+    H -->|No| J["Reject Invalid Input"]
+
+    I -->|"secrets: inherit"| K["All Secrets Passed"]
+    I -->|Explicit Secrets| L["Only Named Secrets"]
+
+    K --> M["HIGH RISK:<br/>Full Secret Access"]
+    L --> N["Low Risk:<br/>Minimal Secrets"]
+
+    M --> O["Workflow Executes"]
+    N --> O
+
+    O --> P["Inherits Caller's<br/>GITHUB_TOKEN Permissions"]
+
+    %% Ghostty Hardcore Theme
+    style A fill:#66d9ef,color:#1b1d1e
+    style B fill:#e6db74,color:#1b1d1e
+    style C fill:#a6e22e,color:#1b1d1e
+    style D fill:#f92572,color:#1b1d1e
+    style E fill:#e6db74,color:#1b1d1e
+    style G fill:#f92572,color:#1b1d1e
+    style H fill:#e6db74,color:#1b1d1e
+    style J fill:#f92572,color:#1b1d1e
+    style K fill:#f92572,color:#1b1d1e
+    style L fill:#a6e22e,color:#1b1d1e
+    style M fill:#f92572,color:#1b1d1e
+    style N fill:#a6e22e,color:#1b1d1e

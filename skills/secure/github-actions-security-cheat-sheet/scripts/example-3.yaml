@@ -1,0 +1,23 @@
+name: Secure CI
+on: [push, pull_request]
+
+# Workflow-level: deny most access
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    # Job inherits workflow-level permissions
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+      - run: npm test
+
+  publish:
+    runs-on: ubuntu-latest
+    # Job-level: override for specific needs
+    permissions:
+      contents: read
+      packages: write  # Only this job can publish
+    steps:
+      - run: npm publish

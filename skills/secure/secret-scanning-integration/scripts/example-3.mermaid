@@ -1,0 +1,21 @@
+sequenceDiagram
+
+%% Ghostty Hardcore Theme
+    participant Dev as Developer
+    participant Git as Git Client
+    participant GH as GitHub
+    participant Scan as Secret Scanner
+
+    Dev->>Git: git push origin main
+    Git->>GH: Push commit
+    GH->>Scan: Scan commit contents
+
+    alt Secret Detected
+        Scan-->>GH: Secret found (API key pattern)
+        GH-->>Git: ❌ Push rejected
+        Git-->>Dev: Error: secret detected<br/>Remove secret and retry
+    else No Secret
+        Scan-->>GH: No secrets found
+        GH-->>Git: ✓ Push accepted
+        Git-->>Dev: Push successful
+    end

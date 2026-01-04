@@ -1,0 +1,44 @@
+jobs:
+  manual-jwt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate JWT manually
+        id: jwt
+        env:
+          APP_ID: ${{ secrets.CORE_APP_ID }}
+          PRIVATE_KEY: ${{ secrets.CORE_APP_PRIVATE_KEY }}
+        run: |
+          # Install JWT tool
+          npm install -g jsonwebtoken
+
+          # Create JWT generation script
+          cat > generate-jwt.js << 'EOF'
+          const jwt = require('jsonwebtoken');
+          const fs = require('fs');
+
+          const appId = process.env.APP_ID;
+          const privateKey = process.env.PRIVATE_KEY;
+
+          const now = Math.floor(Date.now() / 1000);
+          const payload = {
+            iat: now - 60,        // Issued 60 seconds in past
+            exp: now + (10 * 60), // Expires in 10 minutes
+            iss: appId
+          };
+
+          const token = jwt.sign(payload, privateKey, { algorithm: 'RS256' });
+          console.log(token);
+          EOF
+
+          # Generate JWT
+          JWT_TOKEN=$(node generate-jwt.js)
+          echo "::add-mask::$JWT_TOKEN"
+          echo "token=$JWT_TOKEN" >> $GITHUB_OUTPUT
+
+      - name: Use JWT
+        env:
+          GITHUB_TOKEN: ${{ steps.jwt.outputs.token }}
+        run: |
+          curl -H "Authorization: Bearer $GITHUB_TOKEN" \
+               -H "Accept: application/vnd.github+json" \
+               https://api.github.com/app

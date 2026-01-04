@@ -1,0 +1,61 @@
+name: Matrix with Token Refresh
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-token:
+    runs-on: ubuntu-latest
+    outputs:
+      token: ${{ steps.app_token.outputs.token }}
+    steps:
+      - name: Generate fresh token
+        id: app_token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.CORE_APP_ID }}
+          private-key: ${{ secrets.CORE_APP_PRIVATE_KEY }}
+          owner: adaptive-enforcement-lab
+
+  process:
+    needs: generate-token
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repo: [repo-1, repo-2, repo-3, repo-4, repo-5]
+    steps:
+      - name: Use shared token
+        env:
+          GH_TOKEN: ${{ needs.generate-token.outputs.token }}
+        run: |
+          # All matrix jobs use same token
+          gh api repos/adaptive-enforcement-lab/${{ matrix.repo }}
+
+  refresh-token:
+    needs: process
+    runs-on: ubuntu-latest
+    if: always()
+    outputs:
+      token: ${{ steps.new_token.outputs.token }}
+    steps:
+      - name: Generate refreshed token
+        id: new_token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.CORE_APP_ID }}
+          private-key: ${{ secrets.CORE_APP_PRIVATE_KEY }}
+          owner: adaptive-enforcement-lab
+
+  continue-processing:
+    needs: [process, refresh-token]
+    runs-on: ubuntu-latest
+    if: always()
+    strategy:
+      matrix:
+        repo: [repo-6, repo-7, repo-8, repo-9, repo-10]
+    steps:
+      - name: Use refreshed token
+        env:
+          GH_TOKEN: ${{ needs.refresh-token.outputs.token }}
+        run: |
+          gh api repos/adaptive-enforcement-lab/${{ matrix.repo }}

@@ -1,0 +1,46 @@
+name: Cross-Installation Operation
+
+on:
+  workflow_dispatch:
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      installations: ${{ steps.list.outputs.installations }}
+    steps:
+      - name: List installations (JWT)
+        id: list
+        env:
+          GH_APP_ID: ${{ secrets.CORE_APP_ID }}
+          GH_APP_PRIVATE_KEY: ${{ secrets.CORE_APP_PRIVATE_KEY }}
+        run: |
+          # Use JWT to discover installations
+          INSTALLATIONS=$(gh api /app/installations --jq '[.[] | {
+            id: .id,
+            account: .account.login
+          }]')
+
+          echo "installations=$INSTALLATIONS" >> $GITHUB_OUTPUT
+
+  process:
+    needs: discover
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        installation: ${{ fromJson(needs.discover.outputs.installations) }}
+    steps:
+      - name: Generate installation token
+        id: token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.CORE_APP_ID }}
+          private-key: ${{ secrets.CORE_APP_PRIVATE_KEY }}
+          owner: ${{ matrix.installation.account }}
+
+      - name: Operate on installation
+        env:
+          GH_TOKEN: ${{ steps.token.outputs.token }}
+        run: |
+          echo "Processing: ${{ matrix.installation.account }}"
+          gh repo list ${{ matrix.installation.account }} --limit 5

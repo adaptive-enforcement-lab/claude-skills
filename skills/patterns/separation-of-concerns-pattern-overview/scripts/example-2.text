@@ -1,0 +1,14 @@
+project/
+├── cmd/                    # CLI layer (presentation)
+│   └── deploy/
+│       └── deploy.go       # Cobra command setup, flag parsing, output
+├── pkg/                    # Business logic layer (portable)
+│   ├── deployer/
+│   │   └── deployer.go     # Deployment orchestration
+│   ├── validator/
+│   │   └── validator.go    # Configuration validation
+│   └── k8s/
+│       └── client.go       # Kubernetes client wrapper
+└── internal/               # Private implementation details
+    └── config/
+        └── loader.go       # Config file parsing

@@ -1,0 +1,13 @@
+# Explicit permissions - ALWAYS SPECIFY
+name: CI
+on: [push]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+      - run: echo "Token has explicitly scoped access"

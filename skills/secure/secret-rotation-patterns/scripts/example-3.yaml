@@ -1,0 +1,49 @@
+name: Revoke Old Secrets
+
+on:
+  schedule:
+    # Run daily at 03:00 UTC
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  revoke-expired:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      # google-github-actions/auth v2.1.0
+      - uses: google-github-actions/auth@f112390a2df9932162083945e46d439060d66ec2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
+          service_account: 'secret-rotator@project.iam.gserviceaccount.com'
+
+      - name: Check revocation schedule
+        id: check
+        run: |
+          revoke_at=$(gcloud secrets versions access latest --secret=deploy-key-revoke-at || echo "")
+          if [[ -z "$revoke_at" ]]; then
+            echo "No revocation scheduled"
+            exit 0
+          fi
+
+          if [[ $(date -u +%s) -ge $(date -d "$revoke_at" +%s) ]]; then
+            echo "revoke=true" >> $GITHUB_OUTPUT
+          else
+            echo "Not yet time to revoke (scheduled for $revoke_at)"
+            exit 0
+          fi
+
+      - name: Remove old key from authorized_keys
+        if: steps.check.outputs.revoke == 'true'
+        run: |
+          # Remove all but most recent key from servers
+          gcloud compute ssh deploy-target \
+            --command="tail -n1 ~/.ssh/authorized_keys > ~/.ssh/authorized_keys.new && mv ~/.ssh/authorized_keys.new ~/.ssh/authorized_keys"
+
+      - name: Delete revocation marker
+        if: steps.check.outputs.revoke == 'true'
+        run: |
+          gcloud secrets delete deploy-key-revoke-at --quiet

@@ -1,0 +1,8 @@
+# Pulumi.stg.yaml
+environment          = "stg"
+kubernetes_version   = "1.28"
+machine_type         = "e2-standard-4"
+min_node_count       = 2
+max_node_count       = 10
+enable_monitoring    = true
+pod_security_standard = "restricted"

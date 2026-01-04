@@ -1,0 +1,4 @@
+strategy:
+  matrix:
+    target: ${{ fromJson(needs.discover.outputs.targets) }}
+  fail-fast: false  # Critical: continue processing other targets

@@ -1,0 +1,7 @@
+# Runner group configuration (Settings UI)
+Group: prod-runners
+Workflow access: Selected workflows
+Allowed workflows:
+  - org/production-api/.github/workflows/deploy-production.yml@refs/heads/main
+  - org/production-web/.github/workflows/deploy-production.yml@refs/heads/main
+  - org/production-infra/.github/workflows/terraform-apply.yml@refs/heads/main

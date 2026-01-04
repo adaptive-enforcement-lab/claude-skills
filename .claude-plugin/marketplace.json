@@ -19,7 +19,11 @@
       "author": {
         "name": "Adaptive Enforcement Lab"
       },
-      "tags": ["patterns", "engineering", "best-practices"]
+      "tags": [
+        "patterns",
+        "engineering",
+        "best-practices"
+      ]
     },
     {
       "name": "enforcement",
@@ -30,7 +34,12 @@
       "author": {
         "name": "Adaptive Enforcement Lab"
       },
-      "tags": ["security", "compliance", "enforcement", "devsecops"]
+      "tags": [
+        "security",
+        "compliance",
+        "enforcement",
+        "devsecops"
+      ]
     },
     {
       "name": "build",
@@ -41,7 +50,28 @@
       "author": {
         "name": "Adaptive Enforcement Lab"
       },
-      "tags": ["ci-cd", "build", "release", "deployment"]
+      "tags": [
+        "ci-cd",
+        "build",
+        "release",
+        "deployment"
+      ]
+    },
+    {
+      "name": "secure",
+      "source": "./skills/secure",
+      "description": "Security patterns and hardening guides for cloud-native applications, GitHub Actions, and supply chain security",
+      "version": "0.1.0",
+      "category": "security",
+      "author": {
+        "name": "Adaptive Enforcement Lab"
+      },
+      "tags": [
+        "security",
+        "hardening",
+        "devsecops",
+        "supply-chain"
+      ]
     }
   ]
 }

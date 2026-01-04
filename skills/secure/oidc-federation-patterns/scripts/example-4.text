@@ -1,0 +1,1 @@
+token.actions.githubusercontent.com:sub = "repo:adaptive-enforcement-lab/api-service:ref:refs/heads/*"

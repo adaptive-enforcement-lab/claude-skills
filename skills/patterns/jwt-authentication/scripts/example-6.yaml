@@ -1,0 +1,29 @@
+jobs:
+  check-app-config:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get app details
+        env:
+          GH_APP_ID: ${{ secrets.CORE_APP_ID }}
+          GH_APP_PRIVATE_KEY: ${{ secrets.CORE_APP_PRIVATE_KEY }}
+        run: |
+          echo "## App Configuration" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Get app metadata
+          gh api /app --jq '{
+            name: .name,
+            slug: .slug,
+            owner: .owner.login,
+            html_url: .html_url,
+            created_at: .created_at,
+            updated_at: .updated_at
+          }' >> $GITHUB_STEP_SUMMARY
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Permissions" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Get permissions
+          gh api /app --jq '.permissions | to_entries[] |
+            "- **\(.key)**: \(.value)"' >> $GITHUB_STEP_SUMMARY

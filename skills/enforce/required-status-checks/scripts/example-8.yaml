@@ -1,0 +1,7 @@
+forbidden-tech:
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v4
+    - name: Check for forbidden technologies
+      run: |
+        ./scripts/check-forbidden-tech.sh

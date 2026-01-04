@@ -1,0 +1,25 @@
+flowchart TD
+    A["Need to authenticate?"] --> B{"What scope?"}
+
+    B -->|"App-level<br/>(installations, manifest)"| C["Use JWT"]
+    B -->|"Repository-level<br/>(code, PRs, issues)"| D["Use Installation Token"]
+
+    C --> C1["List installations"]
+    C --> C2["Get app manifest"]
+    C --> C3["Manage installations"]
+
+    D --> D1["Access repositories"]
+    D --> D2["Create PRs/issues"]
+    D --> D3["Commit code"]
+
+    %% Ghostty Hardcore Theme
+    style A fill:#515354,stroke:#ccccc7,stroke-width:2px,color:#ccccc7
+    style B fill:#fd971e,stroke:#e6db74,stroke-width:2px,color:#1b1d1e
+    style C fill:#9e6ffe,stroke:#9e6ffe,stroke-width:2px,color:#1b1d1e
+    style D fill:#f92572,stroke:#ff669d,stroke-width:2px,color:#1b1d1e
+    style C1 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style C2 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style C3 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style D1 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style D2 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style D3 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7

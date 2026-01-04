@@ -1,0 +1,12 @@
+jobs:
+  list-installations:
+    runs-on: ubuntu-latest
+    steps:
+      - name: List app installations
+        env:
+          GH_APP_ID: ${{ secrets.CORE_APP_ID }}
+          GH_APP_PRIVATE_KEY: ${{ secrets.CORE_APP_PRIVATE_KEY }}
+        run: |
+          # gh CLI generates JWT automatically
+          gh api /app/installations \
+            --jq '.[] | {id: .id, account: .account.login}'

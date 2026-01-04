@@ -1,0 +1,41 @@
+# .github/workflows/monitor-bypasses.yml
+# Alert security team when push protection bypassed
+
+name: Monitor Push Protection Bypasses
+on:
+  schedule:
+    - cron: '0 */4 * * *'  # Every 4 hours
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-bypasses:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get recent bypasses
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        with:
+          script: |
+            const bypasses = await github.paginate(
+              github.rest.secretScanning.listPushProtectionBypasses,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo
+              }
+            );
+
+            const recent = bypasses.filter(b => {
+              const created = new Date(b.created_at);
+              const fourHoursAgo = new Date(Date.now() - 4 * 60 * 60 * 1000);
+              return created > fourHoursAgo;
+            });
+
+            if (recent.length > 0) {
+              core.warning(`${recent.length} push protection bypasses in last 4 hours`);
+              for (const bypass of recent) {
+                core.warning(`Bypass by ${bypass.pusher.login}: ${bypass.token_type}`);
+              }
+              // Trigger alert to security team (Slack, PagerDuty, etc.)
+            }

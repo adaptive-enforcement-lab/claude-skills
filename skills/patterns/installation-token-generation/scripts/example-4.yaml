@@ -1,0 +1,29 @@
+name: Multi-Repository Operation
+
+on:
+  workflow_dispatch:
+
+jobs:
+  repo-scope:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate repo-scoped token
+        id: app_token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.CORE_APP_ID }}
+          private-key: ${{ secrets.CORE_APP_PRIVATE_KEY }}
+          repositories: |
+            frontend-app
+            backend-api
+            infrastructure
+
+      - name: Check repository status
+        env:
+          GH_TOKEN: ${{ steps.app_token.outputs.token }}
+        run: |
+          for repo in frontend-app backend-api infrastructure; do
+            echo "Checking $repo..."
+            gh api repos/adaptive-enforcement-lab/$repo \
+              --jq '{name: .name, default_branch: .default_branch, private: .private}'
+          done

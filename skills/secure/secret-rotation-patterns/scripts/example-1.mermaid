@@ -1,0 +1,15 @@
+gantt
+
+%% Ghostty Hardcore Theme
+    title Zero-Downtime Secret Rotation
+    dateFormat  YYYY-MM-DD
+    axisFormat %m-%d
+
+    section Old Secret
+    Active (OLD_SECRET)           :a1, 2026-01-01, 7d
+    Grace period (both valid)     :a2, 2026-01-08, 7d
+    Revoked                       :crit, 2026-01-15, 1d
+
+    section New Secret
+    Created (NEW_SECRET)          :b1, 2026-01-08, 7d
+    Active (promoted to primary)  :b2, 2026-01-15, 30d

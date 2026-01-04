@@ -1,0 +1,2 @@
+# DANGEROUS - Exposes secret in logs
+- run: echo "Deploying with key ${{ secrets.DEPLOY_KEY }}"

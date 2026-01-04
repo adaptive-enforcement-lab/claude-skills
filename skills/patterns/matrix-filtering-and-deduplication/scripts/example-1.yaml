@@ -1,0 +1,10 @@
+jobs:
+  test:
+    strategy:
+      matrix:
+        service: [api, auth, billing, notifications, scheduler, worker]
+        environment: [dev, staging, prod]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test ${{ matrix.service }} in ${{ matrix.environment }}
+        run: make test-${{ matrix.service }}

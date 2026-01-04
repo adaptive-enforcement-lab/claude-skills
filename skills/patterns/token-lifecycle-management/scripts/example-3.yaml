@@ -1,0 +1,54 @@
+name: Manual Token Refresh
+
+on:
+  workflow_dispatch:
+
+jobs:
+  manual-refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Multi-hour operation with manual refresh
+        env:
+          APP_ID: ${{ secrets.CORE_APP_ID }}
+          PRIVATE_KEY: ${{ secrets.CORE_APP_PRIVATE_KEY }}
+        run: |
+          # Function to generate token
+          generate_token() {
+            TOKEN=$(gh api /app/installations \
+              --jq '.[0].id' | xargs -I {} \
+              gh api /app/installations/{}/access_tokens \
+              -X POST --jq .token)
+            echo "$TOKEN"
+          }
+
+          # Function to check if token needs refresh
+          needs_refresh() {
+            local token_age=$1
+            local max_age=3300  # 55 minutes in seconds
+            [ $token_age -gt $max_age ]
+          }
+
+          # Initial token generation
+          export GH_TOKEN=$(generate_token)
+          TOKEN_CREATED=$(date +%s)
+
+          # Long-running operation
+          for i in {1..150}; do
+            # Calculate token age
+            CURRENT_TIME=$(date +%s)
+            TOKEN_AGE=$((CURRENT_TIME - TOKEN_CREATED))
+
+            # Refresh if needed
+            if needs_refresh $TOKEN_AGE; then
+              echo "::notice::Token age: $((TOKEN_AGE / 60)) minutes - refreshing"
+              export GH_TOKEN=$(generate_token)
+              TOKEN_CREATED=$(date +%s)
+            fi
+
+            # Perform API operation
+            gh api repos/adaptive-enforcement-lab/example-repo \
+              --jq '.full_name + " (iteration " + ($i | tostring) + ")"' \
+              --arg i "$i"
+
+            sleep 60
+          done

@@ -1,0 +1,17 @@
+- name: API call with expiration handling
+  env:
+    GH_TOKEN: ${{ steps.app_token.outputs.token }}
+  run: |
+    # Capture both stdout and stderr
+    if ! response=$(gh api user --jq .login 2>&1); then
+      if echo "$response" | grep -q "401\|Bad credentials"; then
+        echo "::error::Token expired or invalid"
+        echo "::error::Token age may exceed 1 hour"
+        exit 1
+      else
+        echo "::error::API call failed: $response"
+        exit 1
+      fi
+    fi
+
+    echo "Authenticated as: $response"

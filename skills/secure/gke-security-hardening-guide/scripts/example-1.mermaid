@@ -1,0 +1,31 @@
+graph TB
+    subgraph "Control Plane (Private)"
+        API[API Server]
+        ETCD[etcd]
+        SCH[Scheduler]
+    end
+
+    subgraph "Data Plane (VPC-Native)"
+        WI[Workload Identity]
+        NP[Network Policies]
+        PSS[Pod Security Standards]
+    end
+
+    subgraph "Security Layer"
+        BA[Binary Authorization]
+        CA[Cloud Armor]
+        PSC[Private Service Connect]
+    end
+
+    API --> WI
+    API --> NP
+    API --> PSS
+    BA --> API
+    CA --> API
+    PSC --> API
+
+    %% Ghostty Hardcore Theme
+    style API fill:#2D4263
+    style WI fill:#4A7A8C
+    style BA fill:#6B8E9F
+    style CA fill:#6B8E9F

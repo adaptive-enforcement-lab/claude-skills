@@ -1,0 +1,16 @@
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write  # Request OIDC token
+      contents: read
+    environment: production  # Restrict trust to environment
+    steps:
+      # ✅ GOOD: No stored credentials
+      - uses: google-github-actions/auth@55bd3a7c6e2ae7cf1877fd1ccb9d54c0503c457c  # v2.1.2
+        with:
+          workload_identity_provider: 'projects/123/locations/global/workloadIdentityPools/github/providers/github'
+          service_account: 'deploy@project.iam.gserviceaccount.com'
+
+      # ❌ BAD: Stored service account key
+      # - run: echo "${{ secrets.GCP_SA_KEY }}" | base64 -d > key.json

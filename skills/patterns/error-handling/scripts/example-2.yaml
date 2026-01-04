@@ -1,0 +1,19 @@
+- name: Generate token
+  id: app_token
+  uses: actions/create-github-app-token@v2
+  with:
+    app-id: ${{ secrets.CORE_APP_ID }}
+    private-key: ${{ secrets.CORE_APP_PRIVATE_KEY }}
+    owner: adaptive-enforcement-lab
+  continue-on-error: true
+
+- name: Check token generation
+  if: steps.app_token.outcome == 'failure'
+  run: |
+    echo "::error::Token generation failed"
+    echo "::error::Check:"
+    echo "  - App ID is correct: ${{ secrets.CORE_APP_ID != '' }}"
+    echo "  - Private key is configured"
+    echo "  - App is installed on: adaptive-enforcement-lab"
+    echo "  - Installation is not suspended"
+    exit 1

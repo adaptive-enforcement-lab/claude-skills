@@ -1,0 +1,5 @@
+strategy:
+  matrix:
+    target: ${{ fromJson(needs.discover.outputs.targets) }}
+  fail-fast: false
+  max-parallel: 10

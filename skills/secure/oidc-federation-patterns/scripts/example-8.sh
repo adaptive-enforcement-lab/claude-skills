@@ -1,0 +1,1 @@
+--member="principalSet://iam.googleapis.com/projects/123456789/locations/global/workloadIdentityPools/github-pool/attribute.repository/adaptive-enforcement-lab/api-service/attribute.environment/production"

@@ -1,0 +1,12 @@
+- name: Generate SBOM
+  uses: anchore/sbom-action@v0
+  with:
+    image: app:${{ github.sha }}
+    format: cyclonedx-json
+    output-file: sbom.json
+
+- name: Upload SBOM
+  uses: actions/upload-artifact@v4
+  with:
+    name: sbom
+    path: sbom.json

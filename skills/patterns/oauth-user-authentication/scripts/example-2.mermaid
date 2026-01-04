@@ -1,0 +1,21 @@
+sequenceDiagram
+
+%% Ghostty Hardcore Theme
+    participant U as User
+    participant A as Your App
+    participant G as GitHub
+    participant R as Repository
+
+    U->>A: Click "Login with GitHub"
+    A->>A: Generate state parameter
+    A->>U: Redirect to GitHub OAuth
+    U->>G: Authorize application
+    G->>U: Redirect with code
+    U->>A: Return with code + state
+    A->>A: Validate state
+    A->>G: Exchange code for token
+    G->>A: Return access token
+    A->>A: Store token securely
+    A->>R: API operations as user
+
+    Note over U,R: Token valid until revoked

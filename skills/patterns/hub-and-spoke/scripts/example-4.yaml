@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: spoke-worker
+spec:
+  entrypoint: process
+  arguments:
+    parameters:
+      - name: repository
+  templates:
+    - name: process
+      inputs:
+        parameters:
+          - name: repository
+      container:
+        image: gcr.io/project/worker:v1
+        command: ["/app/worker"]
+        args:
+          - "--repo={{inputs.parameters.repository}}"
+          - "--action=process"

@@ -1,0 +1,17 @@
+discover:
+  outputs:
+    targets: ${{ steps.query.outputs.targets }}
+  steps:
+    - name: Build target list
+      id: query
+      run: |
+        TARGETS='[{"name": "repo-1"}, {"name": "repo-2"}]'
+        echo "targets=$TARGETS" >> $GITHUB_OUTPUT
+
+distribute:
+  needs: discover
+  strategy:
+    matrix:
+      target: ${{ fromJson(needs.discover.outputs.targets) }}
+  steps:
+    - run: echo "Processing ${{ matrix.target.name }}"

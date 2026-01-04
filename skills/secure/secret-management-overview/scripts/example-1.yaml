@@ -1,0 +1,11 @@
+name: Deploy
+on: [push]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+
+      # Repository secret - available to this repo only
+      - run: echo "${{ secrets.DEPLOY_KEY }}" | base64 -d > deploy.key

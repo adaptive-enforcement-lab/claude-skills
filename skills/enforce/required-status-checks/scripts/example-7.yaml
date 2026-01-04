@@ -1,0 +1,9 @@
+sbom:
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v4
+    - uses: anchore/sbom-action@v0
+      with:
+        image: app:${{ github.sha }}
+        format: cyclonedx-json
+        output-file: sbom.json

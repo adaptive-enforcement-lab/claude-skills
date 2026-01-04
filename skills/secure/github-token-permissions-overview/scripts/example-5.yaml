@@ -1,0 +1,8 @@
+# Step 1: Start minimal
+permissions:
+  contents: read
+
+# Step 2: Add permissions as errors occur
+permissions:
+  contents: read        # Checkout code
+  pull-requests: write  # Post test results as comment

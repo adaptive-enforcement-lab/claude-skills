@@ -1,0 +1,76 @@
+name: Secret Expiration Monitor
+
+on:
+  schedule:
+    # Run weekly on Monday at 09:00 UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write  # Create expiration warnings
+
+jobs:
+  check-expiration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+
+      - name: Check secret ages
+        id: check
+        run: |
+          # Read secret inventory with last rotation dates
+          expiring=$(python3 << 'EOF'
+          import json
+          from datetime import datetime, timedelta
+
+          with open('.github/secret-inventory.json') as f:
+              inventory = json.load(f)
+
+          now = datetime.now()
+          expiring_secrets = []
+
+          for secret in inventory['secrets']:
+              last_rotated = datetime.fromisoformat(secret['last_rotated'])
+              age_days = (now - last_rotated).days
+              max_age = secret['rotation_tier_days']
+
+              days_remaining = max_age - age_days
+
+              if days_remaining <= 7:
+                  expiring_secrets.append({
+                      'name': secret['name'],
+                      'days_remaining': days_remaining,
+                      'tier': secret['tier']
+                  })
+
+          print(json.dumps(expiring_secrets))
+          EOF
+          )
+
+          echo "expiring=$expiring" >> $GITHUB_OUTPUT
+
+      - name: Create warning issue
+        if: steps.check.outputs.expiring != '[]'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          expiring='${{ steps.check.outputs.expiring }}'
+
+          body=$(cat << EOF
+          ## ⚠️ Secrets Expiring Soon
+
+          The following secrets require rotation:
+
+          $(echo "$expiring" | jq -r '.[] | "- **\(.name)** (Tier \(.tier)): \(.days_remaining) days remaining"')
+
+          **Action Required**: Trigger rotation workflows in the next 7 days.
+
+          See [Secret Rotation Patterns](https://adaptive-enforcement-lab.com/secure/github-actions-security/secrets/rotation/) for procedures.
+          EOF
+          )
+
+          gh issue create \
+            --title "Secret Rotation Required" \
+            --label "security,secrets,rotation" \
+            --body "$body"

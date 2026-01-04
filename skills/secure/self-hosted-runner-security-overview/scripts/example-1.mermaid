@@ -1,0 +1,42 @@
+flowchart TD
+    A["Malicious Workflow"] --> B["Self-Hosted Runner"]
+
+    B --> C["Attack Surface"]
+
+    C --> D["Runner Filesystem"]
+    C --> E["Network Access"]
+    C --> F["Cloud Metadata"]
+    C --> G["Adjacent Systems"]
+
+    D --> D1["Persistent Backdoor"]
+    D --> D2["Credential Theft"]
+    D --> D3["Code Injection"]
+
+    E --> E1["Internal Services"]
+    E --> E2["Databases"]
+    E --> E3["Production Systems"]
+
+    F --> F1["Cloud IAM Tokens"]
+    F --> F2["Instance Credentials"]
+
+    G --> G1["Lateral Movement"]
+    G --> G2["Data Exfiltration"]
+
+    D1 --> H["Breach Outcomes"]
+    D2 --> H
+    E3 --> H
+    F1 --> H
+    G2 --> H
+
+    H --> I["Production Compromise"]
+    H --> J["Data Breach"]
+    H --> K["Supply Chain Attack"]
+
+    %% Ghostty Hardcore Theme
+    style A fill:#f92572,color:#1b1d1e
+    style B fill:#fd971e,color:#1b1d1e
+    style C fill:#e6db74,color:#1b1d1e
+    style H fill:#66d9ef,color:#1b1d1e
+    style I fill:#f92572,color:#1b1d1e
+    style J fill:#f92572,color:#1b1d1e
+    style K fill:#f92572,color:#1b1d1e

@@ -1,0 +1,9 @@
+jobs:
+  deploy:
+    environment: production
+    steps:
+      - name: Generate token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.CORE_APP_ID }}
+          private-key: ${{ secrets.CORE_APP_PRIVATE_KEY }}

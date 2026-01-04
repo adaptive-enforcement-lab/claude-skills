@@ -1,0 +1,7 @@
+# Pattern components
+(?i)                           # Case insensitive
+\b                             # Word boundary
+(internal_api_key|secret_key)  # Secret identifier
+[\s:=]+                        # Separator
+([a-f0-9]{64})                 # Secret value pattern
+\b                             # Word boundary

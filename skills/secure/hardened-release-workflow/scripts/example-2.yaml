@@ -1,0 +1,97 @@
+name: SLSA L3 Release
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: read
+
+jobs:
+  # Job 1: Build with SLSA provenance generator
+  # SECURITY: Uses official SLSA generator (isolated build with provenance)
+  build:
+    permissions:
+      id-token: write   # Generate OIDC tokens
+      contents: write   # Upload assets to release
+      actions: read     # Read workflow metadata
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.0.0
+    with:
+      # SECURITY: Build command runs in isolated environment
+      compile-generator: true
+      # Artifact paths to attest
+      base64-subjects: |
+        {
+          "name": "binary-linux-amd64",
+          "digest": {
+            "sha256": "${{ needs.build-binary.outputs.hash-linux-amd64 }}"
+          }
+        }
+
+  # Job 2: Build actual release artifacts
+  build-binary:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      hash-linux-amd64: ${{ steps.hash.outputs.hash-linux-amd64 }}
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-go@93397bea11091df50f3d7e59dc26a7711a8bcfbe  # v4.1.0
+        with:
+          go-version: '1.22'
+          cache: true
+
+      # SECURITY: Reproducible build with -trimpath
+      - name: Build binary
+        run: |
+          go build -trimpath -ldflags="-s -w \
+            -X main.version=${{ github.ref_name }} \
+            -X main.commit=${{ github.sha }} \
+            -X main.date=$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            -o binary-linux-amd64 .
+
+      # SECURITY: Generate hash for provenance
+      - name: Generate hash
+        id: hash
+        run: |
+          echo "hash-linux-amd64=$(sha256sum binary-linux-amd64 | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+
+      - name: Upload binary
+        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        with:
+          name: binary-linux-amd64
+          path: binary-linux-amd64
+          retention-days: 90
+
+  # Job 3: Create release with SLSA provenance
+  release:
+    needs: [build, build-binary]
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: write
+    steps:
+      - name: Download binary
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16  # v4.1.8
+        with:
+          name: binary-linux-amd64
+
+      # SECURITY: Download SLSA provenance from generator
+      - name: Download provenance
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16  # v4.1.8
+        with:
+          name: binary-linux-amd64.intoto.jsonl
+
+      - name: Create release
+        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844  # v0.1.15
+        with:
+          generate_release_notes: true
+          files: |
+            binary-linux-amd64
+            binary-linux-amd64.intoto.jsonl
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

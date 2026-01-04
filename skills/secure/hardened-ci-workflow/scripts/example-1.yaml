@@ -1,0 +1,134 @@
+name: Hardened CI
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    # SECURITY: pull_request (not pull_request_target) runs untrusted code in isolated context
+    # Fork PRs run with read-only GITHUB_TOKEN and no access to secrets
+    branches: [main, develop]
+
+# SECURITY: Workflow-level permissions deny all by default
+# Job-level permissions grant minimal access per job
+permissions:
+  contents: read
+
+jobs:
+  # Job 1: Build and test with minimal permissions
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read  # Read repository code
+      # No write permissions - prevents tampering
+    steps:
+      # SECURITY: All actions pinned to full SHA-256 commit hashes
+      # Version comments (# vX.Y.Z) provide human readability
+      # Dependabot will update SHAs via PRs
+      - name: Checkout code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+        with:
+          # SECURITY: Shallow clone (depth: 1) reduces attack surface
+          # Full history not needed for CI builds
+          persist-credentials: false  # Don't persist git credentials
+
+      - name: Set up build environment
+        uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d  # v3.8.1
+        with:
+          node-version: '20'
+          cache: 'npm'  # Cache dependencies for speed
+
+      - name: Install dependencies
+        run: npm ci  # Use ci (not install) for reproducible builds
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Run unit tests
+        run: npm test -- --coverage
+
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@e0b68c6749509c5f83f984dd99a76a1c1a231044  # v4.0.1
+        with:
+          # SECURITY: Never use secrets in fork PRs
+          # Codecov token optional for public repos
+          fail_ci_if_error: false  # Don't fail on upload errors
+          files: ./coverage/coverage.xml
+        env:
+          # SECURITY: Secrets not exposed to fork PRs with pull_request trigger
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  # Job 2: Security scanning with isolated permissions
+  security-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read       # Read repository code
+      security-events: write  # Upload SARIF to Security tab
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+        with:
+          persist-credentials: false
+
+      # SECURITY: CodeQL for static analysis
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@cdcdbb579706841c47f7063dda365e292e5cad7a  # v2.13.4
+        with:
+          languages: javascript
+          # SECURITY: Use default query suite (security-extended for more coverage)
+          queries: security-extended
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@cdcdbb579706841c47f7063dda365e292e5cad7a  # v2.13.4
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@cdcdbb579706841c47f7063dda365e292e5cad7a  # v2.13.4
+        with:
+          # SECURITY: Upload SARIF to Security tab (requires security-events: write)
+          category: "/language:javascript"
+
+      # SECURITY: Trivy for dependency and vulnerability scanning
+      - name: Run Trivy scanner
+        uses: aquasecurity/trivy-action@d43c1f16c00cfd3978dde6c07f4bbcf9eb6993ca  # 0.16.1
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Upload Trivy results
+        uses: github/codeql-action/upload-sarif@cdcdbb579706841c47f7063dda365e292e5cad7a  # v2.13.4
+        with:
+          sarif_file: 'trivy-results.sarif'
+          category: 'trivy'
+
+  # Job 3: Build artifacts with minimal permissions
+  build:
+    runs-on: ubuntu-latest
+    # SECURITY: Only build on non-fork PRs and main branch
+    # Prevents malicious fork PRs from creating artifacts
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+        with:
+          persist-credentials: false
+
+      - name: Set up build environment
+        uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d  # v3.8.1
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        with:
+          name: build-artifacts
+          path: dist/
+          retention-days: 7  # SECURITY: Short retention to reduce exposure

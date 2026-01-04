@@ -1,0 +1,14 @@
+flowchart LR
+    A[Legacy System] --> B[6 Month Rewrite]
+    B --> C[Deploy New System]
+    C --> D{Works?}
+    D -->|No| E[Disaster]
+    D -->|Yes| F[Success Maybe]
+
+    %% Ghostty Hardcore Theme
+    style A fill:#65d9ef,color:#1b1d1e
+    style B fill:#fd971e,color:#1b1d1e
+    style C fill:#f92572,color:#1b1d1e
+    style D fill:#f92572,color:#1b1d1e
+    style E fill:#f92572,color:#1b1d1e
+    style F fill:#a7e22e,color:#1b1d1e

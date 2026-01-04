@@ -1,0 +1,47 @@
+flowchart TD
+    A["API Call"] --> B{"HTTP Status"}
+
+    B -->|"200 OK"| C["Success"]
+    B -->|"401 Unauthorized"| D["Token Expired"]
+    B -->|"403 Forbidden"| E["Permission Error"]
+    B -->|"429 Rate Limited"| F["Rate Limit"]
+    B -->|"5xx Server Error"| G["Transient Error"]
+
+    D --> D1["Refresh Token"]
+    D1 --> D2["Retry Request"]
+    D2 --> B
+
+    E --> E1{"Installation<br/>Exists?"}
+    E1 -->|"No"| E2["Install App"]
+    E1 -->|"Yes"| E3["Grant Permissions"]
+    E2 --> H["Configuration Required"]
+    E3 --> H
+
+    F --> F1["Check Headers"]
+    F1 --> F2["Wait for Reset"]
+    F2 --> B
+
+    G --> G1["Exponential Backoff"]
+    G1 --> G2{"Max Retries?"}
+    G2 -->|"No"| B
+    G2 -->|"Yes"| I["Fail"]
+
+    %% Ghostty Hardcore Theme
+    style A fill:#515354,stroke:#ccccc7,stroke-width:2px,color:#ccccc7
+    style B fill:#fd971e,stroke:#e6db74,stroke-width:2px,color:#1b1d1e
+    style C fill:#a7e22e,stroke:#a7e22e,stroke-width:2px,color:#1b1d1e
+    style D fill:#f92572,stroke:#ff669d,stroke-width:2px,color:#1b1d1e
+    style E fill:#f92572,stroke:#ff669d,stroke-width:2px,color:#1b1d1e
+    style F fill:#9e6ffe,stroke:#9e6ffe,stroke-width:2px,color:#1b1d1e
+    style G fill:#66d9ef,stroke:#66d9ef,stroke-width:2px,color:#1b1d1e
+    style I fill:#f92572,stroke:#ff669d,stroke-width:2px,color:#1b1d1e
+    style H fill:#fd971e,stroke:#e6db74,stroke-width:2px,color:#1b1d1e
+    style D1 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style D2 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style E1 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style E2 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style E3 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style F1 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style F2 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style G1 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style G2 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7

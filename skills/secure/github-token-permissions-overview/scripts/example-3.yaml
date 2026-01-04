@@ -1,0 +1,11 @@
+# Org/repo configured for read-only defaults
+# Still implicit - no permissions block needed
+name: CI
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+      - run: echo "Token has read-only access"

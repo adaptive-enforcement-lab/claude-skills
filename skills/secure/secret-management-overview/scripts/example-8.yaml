@@ -1,0 +1,4 @@
+# Safe - secret passed via environment, not command line
+- run: ./deploy.sh
+  env:
+    DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}

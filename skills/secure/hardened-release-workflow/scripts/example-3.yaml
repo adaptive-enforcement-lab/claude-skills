@@ -1,0 +1,35 @@
+name: Secure Container Release
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: read
+
+jobs:
+  # Job 1: Build and push container with attestations
+  build-container:
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      packages: write      # Push to GitHub Container Registry
+      id-token: write      # Sign with OIDC
+      attestations: write  # Create provenance/SBOM
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+        with:
+          persist-credentials: false
+
+      # SECURITY: Log in to GHCR using GITHUB_TOKEN (no long-lived credentials)
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d  # v3.0.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # SECURITY: Extract metadata for tags and labels
+      - name: Extract container metadata
+        id: meta

@@ -1,0 +1,34 @@
+flowchart TD
+    A["What repositories<br/>need access?"] --> B{"Access pattern?"}
+
+    B -->|"All org repos<br/>(flexible scope)"| C["Organization-Scoped Token"]
+    B -->|"Specific repos only<br/>(minimal scope)"| D["Repository-Scoped Token"]
+    B -->|"Current repo only<br/>(workflow repo)"| E["Default Token"]
+
+    C --> C1["Use owner parameter"]
+    C --> C2["Access all installed repos"]
+    C --> C3["Best for dynamic workflows"]
+
+    D --> D1["Use repositories parameter"]
+    D --> D2["Explicit allow list"]
+    D --> D3["Best for security"]
+
+    E --> E1["No parameters needed"]
+    E --> E2["Single repo access"]
+    E --> E3["Simplest pattern"]
+
+    %% Ghostty Hardcore Theme
+    style A fill:#515354,stroke:#ccccc7,stroke-width:2px,color:#ccccc7
+    style B fill:#fd971e,stroke:#e6db74,stroke-width:2px,color:#1b1d1e
+    style C fill:#a7e22e,stroke:#bded5f,stroke-width:2px,color:#1b1d1e
+    style D fill:#9e6ffe,stroke:#9e6ffe,stroke-width:2px,color:#1b1d1e
+    style E fill:#66d9ee,stroke:#a1efe4,stroke-width:2px,color:#1b1d1e
+    style C1 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style C2 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style C3 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style D1 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style D2 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style D3 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style E1 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style E2 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7
+    style E3 fill:#515354,stroke:#ccccc7,stroke-width:1px,color:#ccccc7

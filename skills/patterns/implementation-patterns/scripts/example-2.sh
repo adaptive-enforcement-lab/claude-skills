@@ -1,0 +1,1 @@
+gh release create v1.0.0 --notes "Release" || gh release edit v1.0.0 --notes "Release"

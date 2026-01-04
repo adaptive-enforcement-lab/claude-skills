@@ -1,0 +1,8 @@
+# Pulumi.dev.yaml
+environment          = "dev"
+kubernetes_version   = "1.28"
+machine_type         = "e2-standard-2"
+min_node_count       = 1
+max_node_count       = 5
+enable_monitoring    = true
+pod_security_standard = "baseline"

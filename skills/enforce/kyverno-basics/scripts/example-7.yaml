@@ -1,0 +1,20 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy  # or Policy for namespaced
+metadata:
+  name: policy-name
+spec:
+  validationFailureAction: Enforce | Audit
+  background: true | false  # Apply to existing resources
+  rules:
+    - name: rule-name
+      match:  # What resources to check
+        any:
+          - resources:
+              kinds: [Deployment, StatefulSet]
+              namespaces: [production, staging]
+      exclude:  # What to skip
+        any:
+          - resources:
+              namespaces: [kube-system]
+      validate | mutate | generate:  # What to do
+        # Policy logic here

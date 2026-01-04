@@ -1,0 +1,5 @@
+# prod-runners group configuration
+Allowed workflows:
+  - org/app-api/.github/workflows/deploy-prod.yml@refs/heads/main
+  - org/app-web/.github/workflows/deploy-prod.yml@refs/heads/main
+  - org/app-worker/.github/workflows/deploy-prod.yml@refs/heads/main

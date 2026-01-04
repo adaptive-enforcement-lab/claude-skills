@@ -1,0 +1,2 @@
+# Internal shared action
+- uses: my-org/shared-workflows/.github/actions/deploy@main

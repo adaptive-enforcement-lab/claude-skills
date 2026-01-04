@@ -1,0 +1,8 @@
+# Runner group configuration (Settings UI)
+Group: prod-runners
+Access: Selected repositories
+Repositories:
+  - org/production-api
+  - org/production-web
+  - org/production-infra
+Workflow restrictions: Selected workflows

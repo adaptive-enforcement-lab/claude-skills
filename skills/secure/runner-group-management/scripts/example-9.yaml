@@ -1,0 +1,4 @@
+# hipaa-runners group configuration
+Allowed workflows:
+  - org/patient-portal/.github/workflows/deploy-hipaa.yml@refs/heads/main
+  - org/ehr-integration/.github/workflows/deploy-hipaa.yml@refs/heads/main

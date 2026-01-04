@@ -1,0 +1,60 @@
+name: Rotate Production Secrets
+
+on:
+  schedule:
+    # Run monthly on 1st at 02:00 UTC
+    - cron: '0 2 1 * *'
+  workflow_dispatch:  # Manual trigger
+
+permissions:
+  contents: read
+
+jobs:
+  rotate-deploy-key:
+    runs-on: ubuntu-latest
+    environment: production  # Requires approval
+    steps:
+      # google-github-actions/auth v2.1.0
+      - uses: google-github-actions/auth@f112390a2df9932162083945e46d439060d66ec2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
+          service_account: 'secret-rotator@project.iam.gserviceaccount.com'
+
+      - name: Generate new SSH key
+        id: keygen
+        run: |
+          ssh-keygen -t ed25519 -N '' -f deploy_key -C "deploy-$(date +%Y%m%d)"
+          echo "public_key=$(cat deploy_key.pub)" >> $GITHUB_OUTPUT
+          echo "private_key<<EOF" >> $GITHUB_OUTPUT
+          cat deploy_key >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Store new key in Secret Manager
+        run: |
+          # Store with version suffix for dual-key pattern
+          echo "${{ steps.keygen.outputs.private_key }}" | \
+            gcloud secrets versions add deploy-key-new --data-file=-
+
+      - name: Update authorized_keys on servers
+        run: |
+          # Add new key to authorized_keys (old key still valid)
+          gcloud compute ssh deploy-target \
+            --command="echo '${{ steps.keygen.outputs.public_key }}' >> ~/.ssh/authorized_keys"
+
+      - name: Verify new key works
+        run: |
+          # Test deployment with new key
+          ssh -i deploy_key -o StrictHostKeyChecking=no deploy@target 'echo "New key verified"'
+
+      - name: Update GitHub secret
+        env:
+          GH_TOKEN: ${{ secrets.ROTATION_GITHUB_TOKEN }}
+        run: |
+          # Update repository secret via GitHub CLI
+          gh secret set DEPLOY_KEY --body "${{ steps.keygen.outputs.private_key }}"
+
+      - name: Schedule old key revocation
+        run: |
+          # Store revocation timestamp in Secret Manager
+          date -d '+7 days' -u +%Y-%m-%dT%H:%M:%SZ | \
+            gcloud secrets versions add deploy-key-revoke-at --data-file=-

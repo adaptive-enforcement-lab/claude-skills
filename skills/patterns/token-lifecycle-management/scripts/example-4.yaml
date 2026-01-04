@@ -1,0 +1,46 @@
+name: Step-Based Token Refresh
+
+on:
+  workflow_dispatch:
+
+jobs:
+  step-refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate initial token
+        id: token_1
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.CORE_APP_ID }}
+          private-key: ${{ secrets.CORE_APP_PRIVATE_KEY }}
+          owner: adaptive-enforcement-lab
+
+      - name: Phase 1 (up to 55 minutes)
+        env:
+          GH_TOKEN: ${{ steps.token_1.outputs.token }}
+        run: |
+          # First batch of operations
+          for repo in repo-1 repo-2 repo-3; do
+            gh api repos/adaptive-enforcement-lab/$repo
+            # Heavy processing...
+            sleep 1000  # ~16 minutes per repo
+          done
+
+      - name: Refresh token before phase 2
+        id: token_2
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.CORE_APP_ID }}
+          private-key: ${{ secrets.CORE_APP_PRIVATE_KEY }}
+          owner: adaptive-enforcement-lab
+
+      - name: Phase 2 (next 55 minutes)
+        env:
+          GH_TOKEN: ${{ steps.token_2.outputs.token }}
+        run: |
+          # Second batch of operations
+          for repo in repo-4 repo-5 repo-6; do
+            gh api repos/adaptive-enforcement-lab/$repo
+            # Heavy processing...
+            sleep 1000
+          done

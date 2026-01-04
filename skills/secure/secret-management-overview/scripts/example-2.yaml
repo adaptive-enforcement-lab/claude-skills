@@ -1,0 +1,13 @@
+name: Publish
+on: [release]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+
+      # Organization secret - shared across repos
+      - run: npm publish --registry=https://npm.example.com
+        env:
+          NPM_TOKEN: ${{ secrets.ORG_NPM_TOKEN }}

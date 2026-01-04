@@ -1,0 +1,10 @@
+# .github/workflows/ci.yml
+name: CI
+on:
+  pull_request:  # Safe for untrusted code
+    branches: [main]
+
+permissions:
+  contents: read  # Read-only access
+
+jobs:

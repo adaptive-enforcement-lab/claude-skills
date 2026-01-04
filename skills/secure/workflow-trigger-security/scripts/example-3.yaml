@@ -1,0 +1,19 @@
+# DO NOT USE THIS PATTERN - SEVERE SECURITY RISK
+name: Dangerous PR Target
+on:
+  pull_request_target:  # Base context with secrets
+    branches: [main]
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    steps:
+      # DANGER: Checks out fork code in base context with secrets
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      # DANGER: Executes fork code with full secret access
+      - run: npm run deploy-preview
+        env:
+          AWS_SECRET: ${{ secrets.AWS_SECRET }}

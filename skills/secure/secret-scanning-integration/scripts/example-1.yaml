@@ -1,0 +1,38 @@
+# .github/workflows/verify-security.yml
+# Workflow to enforce security features are enabled
+
+name: Verify Security Configuration
+on:
+  schedule:
+    - cron: '0 8 * * 1'  # Weekly Monday 8 AM
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-scanning:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check secret scanning enabled
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        with:
+          script: |
+            const { data: repo } = await github.rest.repos.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+
+            const required = [
+              { setting: 'security_and_analysis.secret_scanning.status', name: 'Secret Scanning' },
+              { setting: 'security_and_analysis.secret_scanning_push_protection.status', name: 'Push Protection' }
+            ];
+
+            for (const check of required) {
+              const value = check.setting.split('.').reduce((o, k) => o?.[k], repo);
+              if (value !== 'enabled') {
+                core.setFailed(`${check.name} is not enabled (status: ${value})`);
+              } else {
+                core.info(`✓ ${check.name} enabled`);
+              }
+            }

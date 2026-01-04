@@ -1,0 +1,3 @@
+env:
+  DATABASE_PASSWORD: ${{ secrets.DB_PASSWORD }}
+  API_TOKEN: ${{ secrets.EXTERNAL_API_TOKEN }}

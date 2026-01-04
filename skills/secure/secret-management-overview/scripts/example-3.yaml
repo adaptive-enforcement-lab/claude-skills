@@ -1,0 +1,15 @@
+name: Deploy Production
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production  # Triggers environment protection
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+
+      # Environment secret - production only, requires approval
+      - run: ./deploy.sh
+        env:
+          PROD_API_KEY: ${{ secrets.PROD_API_KEY }}

@@ -1,0 +1,7 @@
+lint:
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v4
+    - uses: golangci/golangci-lint-action@v4
+      with:
+        args: --timeout=5m

@@ -1,0 +1,43 @@
+flowchart TD
+    A["Workflow Executes"] --> B{"Environment<br/>Configured?"}
+
+    B -->|No Environment| C["Immediate Execution"]
+    B -->|Environment Set| D{"Protection Rules"}
+
+    C --> C1["No Review"]
+    C --> C2["No Wait Timer"]
+    C --> C3["No Branch Policy"]
+    C --> C4["Risk: HIGH"]
+
+    D --> E{"Required<br/>Reviewers?"}
+    E -->|Yes| F["Wait for Approval"]
+    E -->|No| G{"Wait Timer?"}
+
+    F --> H["Reviewer Approves"]
+    H --> G
+
+    G -->|Yes| I["Wait N Minutes"]
+    G -->|No| J{"Branch<br/>Policy?"}
+
+    I --> J
+
+    J -->|Yes| K["Verify Branch"]
+    J -->|No| L["Deploy"]
+
+    K -->|Allowed| L
+    K -->|Denied| M["Deployment Failed"]
+
+    L --> N["Deployment Tracked"]
+    C4 --> O["Immediate Risk"]
+
+    %% Ghostty Hardcore Theme
+    style A fill:#66d9ef,color:#1b1d1e
+    style B fill:#e6db74,color:#1b1d1e
+    style C fill:#f92572,color:#1b1d1e
+    style D fill:#a6e22e,color:#1b1d1e
+    style E fill:#e6db74,color:#1b1d1e
+    style F fill:#fd971e,color:#1b1d1e
+    style H fill:#a6e22e,color:#1b1d1e
+    style L fill:#a6e22e,color:#1b1d1e
+    style M fill:#f92572,color:#1b1d1e
+    style C4 fill:#f92572,color:#1b1d1e

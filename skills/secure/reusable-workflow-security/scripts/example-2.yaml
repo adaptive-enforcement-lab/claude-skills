@@ -1,0 +1,16 @@
+# .github/workflows/reusable-deploy.yml
+# DO NOT USE - COMMAND INJECTION VULNERABILITY
+name: Reusable Deploy
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # DANGER: No input validation, allows command injection
+      - run: ./scripts/deploy.sh ${{ inputs.environment }}

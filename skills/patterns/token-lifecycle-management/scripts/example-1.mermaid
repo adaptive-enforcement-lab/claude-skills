@@ -1,0 +1,20 @@
+gantt
+
+%% Ghostty Hardcore Theme
+    title Installation Token Lifecycle
+    dateFormat X
+    axisFormat %M min
+
+    section Token A
+    Valid (60 min)           :active, t1, 0, 60
+    Expired                  :crit, 60, 120
+
+    section Refresh Window
+    Safe operation           :done, 0, 50
+    Refresh recommended      :active, 50, 55
+    Critical (refresh now)   :crit, 55, 60
+    Token expired            :crit, 60, 120
+
+    section Token B (refreshed)
+    Generation               :milestone, 55, 0
+    Valid (60 min)           :active, t2, 55, 115

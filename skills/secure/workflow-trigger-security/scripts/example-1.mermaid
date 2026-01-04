@@ -1,0 +1,35 @@
+flowchart TD
+    A["Workflow Trigger"] --> B{"Execution<br/>Context?"}
+
+    B -->|Fork Context| C["pull_request"]
+    B -->|Base Context| D["pull_request_target"]
+    B -->|Trusted Only| E["push / workflow_dispatch"]
+
+    C --> C1["Runs: Fork HEAD"]
+    C --> C2["Secrets: None"]
+    C --> C3["GITHUB_TOKEN: Read-only"]
+    C --> C4["Risk: Low"]
+
+    D --> D1["Runs: Base Branch"]
+    D --> D2["Secrets: Full Access"]
+    D --> D3["GITHUB_TOKEN: Write"]
+    D --> D4["Risk: HIGH"]
+
+    E --> E1["Runs: Trusted Code"]
+    E --> E2["Secrets: Full Access"]
+    E --> E3["GITHUB_TOKEN: Configured"]
+    E --> E4["Risk: Medium"]
+
+    C4 --> F["Safe for fork PRs"]
+    D4 --> G["Requires explicit checkout<br/>and approval gates"]
+    E4 --> H["Safe for trusted branches"]
+
+    %% Ghostty Hardcore Theme
+    style A fill:#66d9ef,color:#1b1d1e
+    style B fill:#e6db74,color:#1b1d1e
+    style C fill:#a6e22e,color:#1b1d1e
+    style D fill:#f92572,color:#1b1d1e
+    style E fill:#fd971e,color:#1b1d1e
+    style C4 fill:#a6e22e,color:#1b1d1e
+    style D4 fill:#f92572,color:#1b1d1e
+    style E4 fill:#fd971e,color:#1b1d1e

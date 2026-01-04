@@ -1,0 +1,24 @@
+- name: Operation with permission validation
+  env:
+    GH_TOKEN: ${{ steps.app_token.outputs.token }}
+  run: |
+    endpoint="/repos/adaptive-enforcement-lab/example-repo/collaborators"
+
+    # Attempt operation and capture error
+    if ! response=$(gh api "$endpoint" 2>&1); then
+      if echo "$response" | grep -q "403\|Forbidden"; then
+        echo "::error::Permission denied for: $endpoint"
+        echo "::error::Required permissions:"
+        echo "  - App permission: 'members' (read)"
+        echo "  - Installation scope: 'adaptive-enforcement-lab/example-repo'"
+        echo ""
+        echo "::error::Verify app configuration at:"
+        echo "  https://github.com/organizations/adaptive-enforcement-lab/settings/apps"
+        exit 1
+      else
+        echo "::error::API call failed: $response"
+        exit 1
+      fi
+    fi
+
+    echo "$response"

@@ -1,0 +1,43 @@
+jobs:
+  python-jwt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate JWT with Python
+        id: jwt
+        env:
+          APP_ID: ${{ secrets.CORE_APP_ID }}
+          PRIVATE_KEY: ${{ secrets.CORE_APP_PRIVATE_KEY }}
+        run: |
+          pip install PyJWT cryptography
+
+          python << 'EOF'
+          import jwt
+          import time
+          import os
+
+          app_id = os.environ['APP_ID']
+          private_key = os.environ['PRIVATE_KEY']
+
+          now = int(time.time())
+          payload = {
+              'iat': now - 60,
+              'exp': now + (10 * 60),
+              'iss': app_id
+          }
+
+          token = jwt.encode(payload, private_key, algorithm='RS256')
+
+          # Mask token in logs
+          print(f"::add-mask::{token}")
+
+          # Output token
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write(f"token={token}\n")
+          EOF
+
+      - name: Use JWT
+        env:
+          GITHUB_TOKEN: ${{ steps.jwt.outputs.token }}
+        run: |
+          curl -H "Authorization: Bearer $GITHUB_TOKEN" \
+               https://api.github.com/app/installations

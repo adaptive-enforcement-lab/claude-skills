@@ -1,0 +1,27 @@
+name: Organization-Wide Operation
+
+on:
+  workflow_dispatch:
+
+jobs:
+  org-scope:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate org-scoped token
+        id: app_token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.CORE_APP_ID }}
+          private-key: ${{ secrets.CORE_APP_PRIVATE_KEY }}
+          owner: adaptive-enforcement-lab  # Organization name
+
+      - name: List all org repositories
+        env:
+          GH_TOKEN: ${{ steps.app_token.outputs.token }}
+        run: |
+          echo "## Organization Repositories" >> $GITHUB_STEP_SUMMARY
+          gh repo list adaptive-enforcement-lab \
+            --limit 100 \
+            --json name,description,visibility \
+            --jq '.[] | "- **\(.name)** (\(.visibility)): \(.description)"' \
+            >> $GITHUB_STEP_SUMMARY

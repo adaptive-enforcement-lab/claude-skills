@@ -1,0 +1,4 @@
+- name: Debug matrix
+  run: |
+    echo "Matrix JSON: ${{ needs.detect-changes.outputs.matrix }}"
+    echo "${{ needs.detect-changes.outputs.matrix }}" | jq .
