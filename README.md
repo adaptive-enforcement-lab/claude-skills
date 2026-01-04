@@ -111,6 +111,39 @@ go build -o bin/skillgen ./cmd/skillgen
 go test ./...
 ```
 
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed development guidelines.
+
+## Architecture
+
+This project follows Clean/Hexagonal Architecture:
+
+- **Domain** (`internal/domain`): Core entities and business logic
+- **Ports** (`internal/ports`): Interfaces for external dependencies
+- **Adapters** (`internal/adapters`): Implementations (filesystem, parsers)
+- **Services** (`internal/services`): Application services (extractors, generators)
+- **CMD** (`cmd/skillgen`): Entry point and dependency injection
+
+## Releases
+
+Releases are automated using [release-please](https://github.com/googleapis/release-please):
+
+- Conventional commits trigger version bumps
+- Changelog is auto-generated
+- GitHub releases include pre-built binaries for Linux, macOS, and Windows
+
+## Contributing
+
+Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for:
+
+- Development setup
+- Code standards
+- Commit message format
+- Pull request process
+
+## Security
+
+For security vulnerability reporting, see [SECURITY.md](SECURITY.md).
+
 ## Mission
 
 Turn secure development into an enforced standard, not an afterthought.
@@ -119,6 +152,7 @@ Turn secure development into an enforced standard, not an afterthought.
 
 - [AEL Documentation](https://adaptive-enforcement-lab.com)
 - [GitHub Organization](https://github.com/adaptive-enforcement-lab)
+- [Skills Marketplace](.claude-plugin/marketplace.json)
 
 ## License
 

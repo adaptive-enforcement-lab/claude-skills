@@ -1,0 +1,57 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+    steps:
+      - name: Run release-please
+        id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  build-release:
+    needs: release-please
+    if: needs.release-please.outputs.release_created == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+
+      - name: Build binaries
+        run: |
+          # Build for multiple platforms
+          GOOS=linux GOARCH=amd64 go build -o bin/skillgen-linux-amd64 ./cmd/skillgen
+          GOOS=darwin GOARCH=amd64 go build -o bin/skillgen-darwin-amd64 ./cmd/skillgen
+          GOOS=darwin GOARCH=arm64 go build -o bin/skillgen-darwin-arm64 ./cmd/skillgen
+          GOOS=windows GOARCH=amd64 go build -o bin/skillgen-windows-amd64.exe ./cmd/skillgen
+
+      - name: Upload release artifacts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ needs.release-please.outputs.tag_name }}
+        run: |
+          # Upload binaries to release
+          # TAG_NAME comes from release-please action output (not user input)
+          gh release upload "$TAG_NAME" \
+            bin/skillgen-linux-amd64 \
+            bin/skillgen-darwin-amd64 \
+            bin/skillgen-darwin-arm64 \
+            bin/skillgen-windows-amd64.exe
