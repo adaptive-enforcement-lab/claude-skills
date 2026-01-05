@@ -30,7 +30,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".claude-plugin/marketplace.json",
+          "path": "marketplace.json",
           "jsonpath": "$.metadata.version"
         }
       ]
