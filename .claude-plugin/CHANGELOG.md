@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.0.0](https://github.com/adaptive-enforcement-lab/claude-skills/compare/marketplace-v0.3.0...marketplace-v1.0.0) (2026-01-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* Directory structure changed from skills/{plugin}/ to plugins/{plugin}/skills/
+
+### Bug Fixes
+
+* restructure skills to plugins/*/skills/ hierarchy ([#44](https://github.com/adaptive-enforcement-lab/claude-skills/issues/44)) ([10f98f2](https://github.com/adaptive-enforcement-lab/claude-skills/commit/10f98f2de398e98eb5bf5a8ff936a1f52fce6546))
+
+
+### Maintenance
+
+* **main:** release build 1.0.0 ([#49](https://github.com/adaptive-enforcement-lab/claude-skills/issues/49)) ([456000e](https://github.com/adaptive-enforcement-lab/claude-skills/commit/456000e407a69ad69d7bcffa4912affb7e25dd73))
+* **main:** release enforce 1.0.0 ([#45](https://github.com/adaptive-enforcement-lab/claude-skills/issues/45)) ([3d63fae](https://github.com/adaptive-enforcement-lab/claude-skills/commit/3d63fae87584a6d3bd11fff2615d2b199e32b2f3))
+* **main:** release patterns 1.0.0 ([#50](https://github.com/adaptive-enforcement-lab/claude-skills/issues/50)) ([cb14544](https://github.com/adaptive-enforcement-lab/claude-skills/commit/cb14544d0bcb1454b81cf5b8aacf65bd84076671))
+* **main:** release patterns 1.0.1 ([#54](https://github.com/adaptive-enforcement-lab/claude-skills/issues/54)) ([cdd9096](https://github.com/adaptive-enforcement-lab/claude-skills/commit/cdd909624e42f4018112ffe74e4680799ff7c6ec))
+* **main:** release secure 1.0.0 ([#46](https://github.com/adaptive-enforcement-lab/claude-skills/issues/46)) ([e437ab6](https://github.com/adaptive-enforcement-lab/claude-skills/commit/e437ab661dc8d7e350b31402b748aa404620ab85))
+* **main:** release secure 1.0.1 ([#53](https://github.com/adaptive-enforcement-lab/claude-skills/issues/53)) ([385c344](https://github.com/adaptive-enforcement-lab/claude-skills/commit/385c344fce933e5a3d88fdca9708653f15a97214))
+
 ## [0.3.0](https://github.com/adaptive-enforcement-lab/claude-skills/compare/marketplace-v0.2.5...marketplace-v0.3.0) (2026-01-05)
 
 
