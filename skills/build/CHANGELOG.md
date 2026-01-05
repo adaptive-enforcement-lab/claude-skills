@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.3](https://github.com/adaptive-enforcement-lab/claude-skills/compare/build-v0.1.2...build-v0.1.3) (2026-01-05)
+
+
+### Maintenance
+
+* **main:** release build 0.1.2 ([#25](https://github.com/adaptive-enforcement-lab/claude-skills/issues/25)) ([c97606c](https://github.com/adaptive-enforcement-lab/claude-skills/commit/c97606c00f3fd886e462f3ddfa90bb6246e953e9))
+
 ## [0.1.2](https://github.com/adaptive-enforcement-lab/claude-skills/compare/build-v0.1.1...build-v0.1.2) (2026-01-05)
 
 
