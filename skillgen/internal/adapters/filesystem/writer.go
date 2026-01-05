@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"path/filepath"
+	"sort"
 	"strings"
 
 	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/domain"
@@ -176,8 +177,17 @@ func (w *MarketplaceWriter) GenerateFromConfig(
 		Plugins: []domain.Plugin{},
 	}
 
-	// Build plugin entries
-	for pluginKey, pluginConfig := range metadata.Plugins {
+	// Extract and sort plugin keys for deterministic ordering
+	pluginKeys := make([]string, 0, len(metadata.Plugins))
+	for key := range metadata.Plugins {
+		pluginKeys = append(pluginKeys, key)
+	}
+	sort.Strings(pluginKeys)
+
+	// Build plugin entries in sorted order
+	for _, pluginKey := range pluginKeys {
+		pluginConfig := metadata.Plugins[pluginKey]
+
 		// Extract version from manifest
 		manifestKey := fmt.Sprintf("skills/%s", pluginKey)
 		version := versions[manifestKey]
