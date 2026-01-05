@@ -1,7 +1,7 @@
 {
   "name": "enforce",
   "description": "Security and compliance enforcement automation including pre-commit hooks, policy checks, and validation",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "author": {
     "name": "Adaptive Enforcement Lab",
     "email": "contact@adaptive-enforcement-lab.com"
