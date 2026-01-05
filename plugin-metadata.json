@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "marketplace": {
+    "name": "ael-skills",
+    "owner": {
+      "name": "Adaptive Enforcement Lab",
+      "email": "contact@adaptive-enforcement-lab.com"
+    },
+    "description": "Claude Code skills for secure development patterns, enforcement automation, and build engineering",
+    "pluginRoot": "./skills"
+  },
+  "common": {
+    "author": {
+      "name": "Adaptive Enforcement Lab",
+      "email": "contact@adaptive-enforcement-lab.com"
+    },
+    "homepage": "https://github.com/adaptive-enforcement-lab/claude-skills",
+    "repository": "https://github.com/adaptive-enforcement-lab/claude-skills",
+    "license": "MIT"
+  },
+  "plugins": {
+    "patterns": {
+      "description": "Reusable engineering patterns for error handling, state management, performance optimization, and resilience",
+      "category": "development",
+      "tags": ["patterns", "engineering", "best-practices"],
+      "keywords": ["error-handling", "state-management", "performance", "resilience"]
+    },
+    "enforce": {
+      "marketplaceName": "enforce",
+      "description": "Security and compliance enforcement automation including pre-commit hooks, policy checks, and validation",
+      "category": "security",
+      "tags": ["security", "compliance", "enforcement", "devsecops"],
+      "keywords": ["policy-as-code", "kyverno", "opa"]
+    },
+    "build": {
+      "description": "Build engineering patterns for CI/CD pipelines, release automation, and deployment strategies",
+      "category": "devops",
+      "tags": ["ci-cd", "build", "release", "deployment"],
+      "keywords": ["release-please", "github-actions"]
+    },
+    "secure": {
+      "description": "Security patterns and hardening guides for cloud-native applications, GitHub Actions, and supply chain security",
+      "category": "security",
+      "tags": ["security", "hardening", "devsecops", "supply-chain"],
+      "keywords": ["github-actions", "gke", "oidc"]
+    }
+  }
+}

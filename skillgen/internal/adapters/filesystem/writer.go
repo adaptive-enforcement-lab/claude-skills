@@ -177,6 +177,88 @@ func (w *MarketplaceWriter) PreservePrivateCollection(marketplace *domain.Market
 	return nil
 }
 
+// GenerateFromConfig builds marketplace.json from config + versions.
+func (w *MarketplaceWriter) GenerateFromConfig(
+	metadata *domain.PluginMetadata,
+	versions map[string]string,
+	outputPath string,
+) error {
+	// Build marketplace structure
+	marketplace := &domain.Marketplace{
+		Name:  metadata.Marketplace.Name,
+		Owner: metadata.Marketplace.Owner,
+		Metadata: domain.MarketplaceMetadata{
+			Description: metadata.Marketplace.Description,
+			Version:     extractMarketplaceVersion(versions),
+			PluginRoot:  metadata.Marketplace.PluginRoot,
+		},
+		Plugins: []domain.Plugin{},
+	}
+
+	// Build plugin entries
+	for pluginKey, pluginConfig := range metadata.Plugins {
+		// Extract version from manifest
+		manifestKey := fmt.Sprintf("skills/%s", pluginKey)
+		version := versions[manifestKey]
+		if version == "" {
+			version = "0.0.0"
+		}
+
+		// Determine source path
+		source := fmt.Sprintf("./skills/%s", pluginKey)
+
+		// Build plugin entry
+		plugin := domain.Plugin{
+			Name:        pluginConfig.GetMarketplaceName(pluginKey),
+			Source:      source,
+			Description: pluginConfig.Description,
+			Version:     version,
+			Category:    pluginConfig.Category,
+			Tags:        pluginConfig.Tags,
+		}
+
+		// Add author if provided in common fields
+		if metadata.Common.Author != nil {
+			plugin.Author = metadata.Common.Author
+		}
+
+		marketplace.Plugins = append(marketplace.Plugins, plugin)
+	}
+
+	// Write marketplace.json
+	return w.Write(marketplace, outputPath)
+}
+
+// WritePluginManifest writes an individual plugin.json file.
+func (w *MarketplaceWriter) WritePluginManifest(
+	manifest *domain.PluginManifest,
+	outputPath string,
+) error {
+	// Pretty-print JSON with 2-space indentation
+	content, err := json.MarshalIndent(manifest, "", "  ")
+	if err != nil {
+		return fmt.Errorf("failed to marshal plugin manifest: %w", err)
+	}
+
+	// Add trailing newline
+	content = append(content, '\n')
+
+	if err := w.fs.WriteFile(outputPath, content, 0644); err != nil {
+		return fmt.Errorf("failed to write plugin manifest: %w", err)
+	}
+
+	return nil
+}
+
+// extractMarketplaceVersion extracts the marketplace version.
+// For now, we use a fixed version. In the future, this could be dynamic.
+func extractMarketplaceVersion(versions map[string]string) string {
+	// Use the highest version among plugins, or a default
+	// For simplicity, return a fixed version for now
+	// TODO: Consider making this configurable or derived
+	return "0.2.4"
+}
+
 // DeriveSkillName converts a title to kebab-case.
 func DeriveSkillName(title string) string {
 	// Convert to lowercase

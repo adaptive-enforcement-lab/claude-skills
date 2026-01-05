@@ -9,6 +9,7 @@ import (
 	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/adapters/logger"
 	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/adapters/parser"
 	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/ports"
+	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/services"
 	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/services/extractor"
 	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/services/generator"
 )
@@ -17,18 +18,22 @@ var version = "dev"
 
 func main() {
 	var (
-		sourcePath      string
-		outputPath      string
-		marketplacePath string
-		templatesPath   string
-		verbose         bool
-		showVersion     bool
+		sourcePath          string
+		outputPath          string
+		marketplacePath     string
+		templatesPath       string
+		pluginMetadataPath  string
+		releaseManifestPath string
+		verbose             bool
+		showVersion         bool
 	)
 
 	flag.StringVar(&sourcePath, "source", "", "Path to AEL documentation source (required)")
 	flag.StringVar(&outputPath, "output", "./skills", "Path to output generated skills")
-	flag.StringVar(&marketplacePath, "marketplace", "./.claude-plugin/marketplace.json", "Path to marketplace.json")
+	flag.StringVar(&marketplacePath, "marketplace", "./.claude-plugin/marketplace.json", "Path to marketplace.json (DEPRECATED)")
 	flag.StringVar(&templatesPath, "templates", "./templates", "Path to template directory")
+	flag.StringVar(&pluginMetadataPath, "plugin-metadata", "./plugin-metadata.json", "Path to plugin metadata config")
+	flag.StringVar(&releaseManifestPath, "release-manifest", "./.release-please-manifest.json", "Path to release-please manifest")
 	flag.BoolVar(&verbose, "verbose", false, "Enable verbose logging")
 	flag.BoolVar(&showVersion, "version", false, "Show version and exit")
 	flag.Parse()
@@ -52,7 +57,8 @@ func main() {
 	logger.Info("AEL Claude Skills Generator")
 	logger.Info("source", sourcePath)
 	logger.Info("output", outputPath)
-	logger.Info("marketplace", marketplacePath)
+	logger.Info("plugin-metadata", pluginMetadataPath)
+	logger.Info("release-manifest", releaseManifestPath)
 
 	// Initialize filesystem
 	fs := filesystem.NewFileSystem()
@@ -81,6 +87,7 @@ func main() {
 	// Initialize writers
 	skillWriter := filesystem.NewSkillWriter(fs, templateRenderer)
 	marketplaceWriter := filesystem.NewMarketplaceWriter(fs)
+	configReader := filesystem.NewConfigReader(fs)
 
 	// Find all index.md files
 	logger.Info("discovering index.md files")
@@ -133,15 +140,15 @@ func main() {
 		processed++
 	}
 
-	// Add secure plugin to marketplace
-	logger.Info("updating marketplace.json")
-	added, err := marketplaceWriter.AddSecurePlugin(marketplacePath)
+	// Generate marketplace files
+	logger.Info("generating marketplace files")
+	marketplaceGen := services.NewMarketplaceGenerator(configReader, marketplaceWriter, logger)
+	err = marketplaceGen.Generate(pluginMetadataPath, releaseManifestPath, outputPath)
 	if err != nil {
-		logger.Error("failed to add secure plugin", "error", err)
-	} else if added {
-		logger.Info("added secure plugin to marketplace")
+		logger.Error("failed to generate marketplace files", "error", err)
+		errors++
 	} else {
-		logger.Debug("secure plugin already exists in marketplace")
+		logger.Info("marketplace files generated successfully")
 	}
 
 	// Summary

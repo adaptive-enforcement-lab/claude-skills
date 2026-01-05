@@ -10,9 +10,6 @@
   "repository": "https://github.com/adaptive-enforcement-lab/claude-skills",
   "license": "MIT",
   "keywords": [
-    "patterns",
-    "engineering",
-    "best-practices",
     "error-handling",
     "state-management",
     "performance",
