@@ -33,18 +33,20 @@ jobs:
       contents: write
       pull-requests: write
     outputs:
-      generator_release_created: ${{ steps.release.outputs.generator--release_created }}
-      generator_tag_name: ${{ steps.release.outputs.generator--tag_name }}
-      marketplace_release_created: ${{ steps.release.outputs.marketplace--release_created }}
-      marketplace_tag_name: ${{ steps.release.outputs.marketplace--tag_name }}
-      patterns_release_created: ${{ steps.release.outputs.patterns--release_created }}
-      patterns_tag_name: ${{ steps.release.outputs.patterns--tag_name }}
-      enforcement_release_created: ${{ steps.release.outputs.enforcement--release_created }}
-      enforcement_tag_name: ${{ steps.release.outputs.enforcement--tag_name }}
-      build_release_created: ${{ steps.release.outputs.build--release_created }}
-      build_tag_name: ${{ steps.release.outputs.build--tag_name }}
-      secure_release_created: ${{ steps.release.outputs.secure--release_created }}
-      secure_tag_name: ${{ steps.release.outputs.secure--tag_name }}
+      # Root package (.) outputs have no prefix
+      generator_release_created: ${{ steps.release.outputs.release_created }}
+      generator_tag_name: ${{ steps.release.outputs.tag_name }}
+      # Non-root packages have path prefix with --
+      marketplace_release_created: ${{ steps.release.outputs['.claude-plugin--release_created'] }}
+      marketplace_tag_name: ${{ steps.release.outputs['.claude-plugin--tag_name'] }}
+      patterns_release_created: ${{ steps.release.outputs['skills/patterns--release_created'] }}
+      patterns_tag_name: ${{ steps.release.outputs['skills/patterns--tag_name'] }}
+      enforcement_release_created: ${{ steps.release.outputs['skills/enforce--release_created'] }}
+      enforcement_tag_name: ${{ steps.release.outputs['skills/enforce--tag_name'] }}
+      build_release_created: ${{ steps.release.outputs['skills/build--release_created'] }}
+      build_tag_name: ${{ steps.release.outputs['skills/build--tag_name'] }}
+      secure_release_created: ${{ steps.release.outputs['skills/secure--release_created'] }}
+      secure_tag_name: ${{ steps.release.outputs['skills/secure--tag_name'] }}
       releases_created: ${{ steps.release.outputs.releases_created }}
     steps:
       # CRITICAL: GitHub App token required because GITHUB_TOKEN cannot trigger workflows
