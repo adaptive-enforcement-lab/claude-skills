@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"sort"
 
 	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/domain"
 	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/ports"
@@ -63,9 +64,17 @@ func (g *MarketplaceGenerator) Generate(
 
 	g.logger.Info("marketplace.json generated successfully")
 
-	// 4. Generate each plugin.json
+	// 4. Generate each plugin.json in deterministic order
+	pluginKeys := make([]string, 0, len(metadata.Plugins))
+	for key := range metadata.Plugins {
+		pluginKeys = append(pluginKeys, key)
+	}
+	sort.Strings(pluginKeys)
+
 	pluginCount := 0
-	for pluginKey, pluginConfig := range metadata.Plugins {
+	for _, pluginKey := range pluginKeys {
+		pluginConfig := metadata.Plugins[pluginKey]
+
 		version := extractVersionForPlugin(versions, pluginKey)
 		if version == "" {
 			g.logger.Warn("no version found for plugin, using 0.0.0", "plugin", pluginKey)
