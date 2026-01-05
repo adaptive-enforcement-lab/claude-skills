@@ -361,11 +361,82 @@ Ready to implement SHA pinning? Continue with:
 > Use automation scripts to detect unpinned actions and generate SHA-pinned versions.
 
 
+## When to Apply
+
+### Scenario 1: Compromised Maintainer Account
+
+**Timeline**:
+
+- T+0: Attacker compromises maintainer's GitHub account via credential stuffing
+- T+1h: Attacker updates `v3` tag to point to backdoored commit
+- T+2h: Thousands of workflows worldwide execute malicious code
+- T+6h: Secrets exfiltrated to attacker-controlled servers
+- T+24h: Breach discovered, tag reverted, damage done
+
+**Impact**: Multi-organization breach. Secrets, credentials, and source code compromised across hundreds of repositories.
+
+**Prevention**: SHA pinning. Workflows continue using verified commit. Dependabot flags the tag update for review.
+
+### Scenario 2: Repository Takeover
+
+**Timeline**:
+
+- T+0: Popular action repository uses simple password, no 2FA
+- T+1d: Attacker gains access, adds malicious code to next release
+- T+2d: Users update to new version via tag reference
+- T+3d: Backdoor establishes persistence in CI/CD pipelines
+- T+7d: Attacker pivots to production deployments
+
+**Impact**: Supply chain compromise affecting downstream users. Deployment credentials stolen, production systems compromised.
+
+**Prevention**: SHA pinning with Dependabot review. Team reviews changelog and diff before approving SHA update.
+
+### Scenario 3: Typosquatting with Tag Manipulation
+
+**Timeline**:
+
+- T+0: Attacker creates `actions/check0ut` (zero instead of 'o')
+- T+1h: Developer makes typo in workflow file
+- T+2h: Malicious action executes with repository secrets
+- T+3h: AWS credentials exfiltrated
+- T+4h: Attacker deploys crypto miners to organization's cloud account
+
+**Impact**: Developer typo leads to cloud account compromise. Thousands in cloud costs, potential data breach.
+
+**Prevention**: SHA pinning forces explicit review. Full action path visible in security review. Allowlisting blocks unknown actions.
+
 
 ## Implementation
 
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/).
 
-See the full implementation guide in the source documentation.
+
+## Comparison
+
+### Tag-Based References (Unsafe)
+
+```yaml
+- uses: actions/checkout@v4
+- uses: actions/setup-node@v3
+```
+
+**The Problem**: Tags are mutable. Maintainers can update `v4` to point to any commit. You have no guarantee the code hasn't changed since you tested it.
+
+**Attack Vector**: Compromised maintainer moves tag to malicious commit. Every workflow using that tag now executes attacker code.
+
+### SHA Pinning (Secure)
+
+```yaml
+# actions/checkout v4.1.1
+- uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+
+# actions/setup-node v3.8.1
+- uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d
+```
+
+**The Defense**: SHA-256 commit hashes are immutable. The code at that hash cannot change. You're pinning to exact, verified code.
+
+**Comment Strategy**: Include the semantic version in a comment so humans know what SHA represents.
 
 
 ## Examples
@@ -373,10 +444,9 @@ See the full implementation guide in the source documentation.
 See [examples.md](examples.md) for code examples.
 
 
+## Full Reference
 
-
-
-
+See [reference.md](reference.md) for complete documentation.
 ## References
 
 - [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/)

@@ -15,17 +15,53 @@ Concurrency control prevents these conflicts. Argo Workflows provides several me
 ---
 
 
-
 ## Implementation
 
+1. **Identify shared resources** - What can only be accessed by one workflow at a time?
+2. **Choose the right pattern** - Mutex for exclusive access, semaphore for limited parallelism
+3. **Configure TTL** - Prevent unbounded growth of completed workflows
+4. **Test under load** - Verify behavior when multiple workflows trigger simultaneously
 
-See the full implementation guide in the source documentation.
+---
+
+> **Start with Mutex**
+>
+> When in doubt, start with a mutex. It's simpler to configure and debug. Only switch to semaphores when you need controlled parallelism.
+>
+
+---
 
 
+## Techniques
 
 
+### Patterns
+
+| Pattern | Description |
+| --------- | ------------- |
+| [Mutex Synchronization](mutex.md) | Exclusive access to shared resources |
+| [Semaphores](semaphores.md) | Limited concurrent access |
+| [TTL Strategy](ttl.md) | Automatic cleanup of completed workflows |
+
+---
 
 
+## Anti-Patterns to Avoid
+
+| Pattern | Description |
+| --------- | ------------- |
+| [Mutex Synchronization](mutex.md) | Exclusive access to shared resources |
+| [Semaphores](semaphores.md) | Limited concurrent access |
+| [TTL Strategy](ttl.md) | Automatic cleanup of completed workflows |
+
+---
+
+
+## Related Patterns
+
+- Mutex Synchronization
+- Semaphores
+- TTL Strategy
 
 ## References
 

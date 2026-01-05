@@ -25,11 +25,21 @@ description: >-
 ---
 
 
-
 ## Implementation
 
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/).
 
-See the full implementation guide in the source documentation.
+
+## Comparison
+
+| Scenario | Static Matrix | Dynamic Matrix | Savings |
+| ---------- | --------------- | ---------------- | --------- |
+| 10 services, 1 changed | 10 jobs | 1 job | 90% |
+| 5 charts, 2 changed | 10 jobs (lint+test) | 4 jobs | 60% |
+| 3 platforms, code unchanged (cached) | 3 builds | 0 builds | 100% |
+| Monorepo with 20 microservices | 20 jobs | 3 jobs (avg) | 85% |
+
+---
 
 
 ## Examples
@@ -37,13 +47,16 @@ See the full implementation guide in the source documentation.
 See [examples.md](examples.md) for code examples.
 
 
-
 ## Troubleshooting
 
 See [troubleshooting.md](troubleshooting.md) for common issues and solutions.
 
 
+## Related Patterns
 
+- Work Avoidance
+- Hub and Spoke
+- Idempotency
 
 ## References
 

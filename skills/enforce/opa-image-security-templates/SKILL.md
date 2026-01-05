@@ -15,11 +15,56 @@ Image security policies control which container images can run in your cluster. 
 > Tags like `latest` or `v1.2.3` can be overwritten by attackers who compromise registries. Use digest-based references (`sha256:...`) for immutable deployments.
 
 
+## When to Apply
+
+### Scenario 1: Block Public Registries
+
+Prevent deployment of images from untrusted sources:
+
+```yaml
+# Enforced by: base.yaml
+# Result: Only images from registry.company.com allowed
+# Impact: Eliminates supply chain attacks via public registries
+
+```
+
+### Scenario 2: Prevent Tag Mutation
+
+Require digest-based image references:
+
+```yaml
+# Enforced by: digest.yaml
+# Result: Image references must use @sha256:... format
+# Impact: Guarantees deployed image matches approved version
+
+```
+
+### Scenario 3: Block Vulnerable Images
+
+Reject images with known CVEs:
+
+```yaml
+# Enforced by: security.yaml
+# Result: Images must have scan results with no high/critical vulnerabilities
+# Impact: Prevents deployment of exploitable container images
+
+```
+
+### Scenario 4: Verify Build Provenance
+
+Validate cryptographic signatures on all images:
+
+```yaml
+# Enforced by: verification.yaml
+# Result: Images must be signed by trusted key in KMS
+# Impact: Ensures images originated from approved CI/CD pipelines
+
+```
+
 
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/).
 
 
 ## Examples
@@ -27,9 +72,16 @@ See the full implementation guide in the source documentation.
 See [examples.md](examples.md) for code examples.
 
 
+## Full Reference
+
+See [reference.md](reference.md) for complete documentation.
 
 
+## Related Patterns
 
+- OPA Templates Overview
+- OPA Pod Security
+- Kyverno Image Validation
 
 ## References
 

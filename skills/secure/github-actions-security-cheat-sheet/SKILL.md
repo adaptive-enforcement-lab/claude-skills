@@ -16,11 +16,9 @@ One-page security reference for hardening GitHub Actions workflows. Copy-paste r
 > New to GitHub Actions security? Start with SHA pinning and minimal permissions. Both provide high impact with minimal workflow changes.
 
 
-
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/).
 
 
 ## Examples
@@ -28,10 +26,9 @@ See the full implementation guide in the source documentation.
 See [examples.md](examples.md) for code examples.
 
 
+## Full Reference
 
-
-
-
+See [reference.md](reference.md) for complete documentation.
 ## References
 
 - [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/)

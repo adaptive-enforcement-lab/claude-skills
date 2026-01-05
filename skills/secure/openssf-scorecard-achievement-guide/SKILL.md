@@ -19,17 +19,23 @@ Comprehensive guide for understanding, interpreting, and improving OpenSSF Score
 ---
 
 
-
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
-
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/scorecard/).
 
 
+## Full Reference
+
+See [reference.md](reference.md) for complete documentation.
 
 
+## Related Patterns
 
+- OpenSSF Best Practices Badge in 2 Hours
+- Stuck at 8: The Journey to 10/10
+- SLSA Provenance
+- SBOM Generation
+- GitHub Apps
 
 ## References
 

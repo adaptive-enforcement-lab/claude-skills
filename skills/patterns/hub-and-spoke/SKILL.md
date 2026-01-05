@@ -13,22 +13,19 @@ One hub coordinates. Many spokes execute. The hub doesn't do the work. It distri
 This pattern scales horizontally. Add workers without touching the orchestrator.
 
 
-
 ## Implementation
 
+Hub workflow spawns children:
 
-See the full implementation guide in the source documentation.
+
+*See [examples.md](examples.md) for detailed code examples.*
+
+Hub discovers repositories, spawns a spoke workflow for each, then summarizes results.
 
 
 ## Examples
 
 See [examples.md](examples.md) for code examples.
-
-
-
-
-
-
 ## References
 
 - [Source Documentation](https://adaptive-enforcement-lab.com/patterns/architecture/)

@@ -13,11 +13,24 @@ Event routing controls how events flow from EventSources through Sensors to Trig
 ---
 
 
-
 ## Implementation
 
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/argo-events/).
 
-See the full implementation guide in the source documentation.
+
+## Techniques
+
+
+### Routing Patterns
+
+| Pattern | Use Case | Complexity |
+| --------- | ---------- | ------------ |
+| [Simple Filtering](filtering.md) | Route events based on field values | Low |
+| [Multi-Trigger Actions](multi-trigger.md) | Execute multiple actions from one event | Medium |
+| [Event Transformation](transformation.md) | Modify payloads before triggering | Medium |
+| [Conditional Routing](conditional.md) | Complex decision trees | High |
+
+---
 
 
 ## Examples
@@ -25,9 +38,12 @@ See the full implementation guide in the source documentation.
 See [examples.md](examples.md) for code examples.
 
 
+## Related Patterns
 
-
-
+- Simple Filtering
+- Multi-Trigger Actions
+- Sensor Configuration
+- Official Sensor Docs
 
 ## References
 

@@ -16,11 +16,9 @@ Prevention is good. Detection is essential. Assume secrets will leak. Build syst
 > Secrets leak through commits, workflow logs, artifacts, pull requests, and third-party integrations. Without automated scanning, credentials remain exposed for days or months before detection. By then, your infrastructure is already compromised.
 
 
-
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/).
 
 
 ## Examples
@@ -28,10 +26,9 @@ See the full implementation guide in the source documentation.
 See [examples.md](examples.md) for code examples.
 
 
+## Full Reference
 
-
-
-
+See [reference.md](reference.md) for complete documentation.
 ## References
 
 - [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/)

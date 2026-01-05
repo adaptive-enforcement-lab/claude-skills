@@ -20,18 +20,9 @@ This framework gives you:
 The goal: **Spend your security budget where exposure is highest**.
 
 
-
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
-
-
-
-
-
-
-
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/risk-management/).
 ## References
 
 - [Source Documentation](https://adaptive-enforcement-lab.com/secure/risk-management/)

@@ -19,18 +19,25 @@ Packaging a Go CLI involves creating distributable artifacts that run anywhere. 
 ---
 
 
-
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
-
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/build/go-cli-architecture/).
 
 
+## Key Principles
 
+| Practice | Description |
+| ---------- | ------------- |
+| **Static binaries** | Use `CGO_ENABLED=0` for portable builds |
+| **Non-root user** | Always run as non-root in containers |
+| **Read-only filesystem** | Set `readOnlyRootFilesystem: true` |
+| **Drop capabilities** | Remove all capabilities with `drop: ALL` |
+| **Version in binary** | Inject version at build time |
+| **Multi-arch support** | Build for both amd64 and arm64 |
 
+---
 
-
+*Ship binaries that run anywhere Kubernetes runs.*
 ## References
 
 - [Source Documentation](https://adaptive-enforcement-lab.com/build/go-cli-architecture/)

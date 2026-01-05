@@ -20,18 +20,9 @@ When your workflow fails at step 47 of 50, you have three options:
 > Safe reruns are the only scalable choice. Manual intervention and abandoning runs require human effort, don't scale, and introduce errors.
 
 
-
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
-
-
-
-
-
-
-
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/efficiency/).
 ## References
 
 - [Source Documentation](https://adaptive-enforcement-lab.com/patterns/efficiency/)

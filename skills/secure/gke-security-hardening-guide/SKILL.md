@@ -45,8 +45,31 @@ This guide uses Pulumi for Infrastructure as Code, enabling repeatable, auditabl
 
 ## Implementation
 
+*See [examples.md](examples.md) for detailed code examples.*
 
-See the full implementation guide in the source documentation.
+> **Verification**
+>
+>
+> After deployment, verify the security posture using the verification checklists in each configuration module.
+
+
+## Anti-Patterns to Avoid
+
+| Misconfiguration | Risk | Fix |
+|------------------|------|-----|
+| Public cluster endpoint | Exposed API server | Set `privateClusterConfig.enablePrivateNodes = true` |
+| Metadata server enabled | Pod can access node credentials | Set `workloadMetadataConfig.mode = "GKE_METADATA"` |
+| No network policies | All-to-all traffic | Apply default-deny + explicit policies |
+| Privileged containers | Root container escape | Set `securityContext.privileged = false` |
+| No admission controllers | Insecure pods deployed | Deploy validating/mutating webhooks |
+| No audit logging | Compliance blind spot | Enable GKE Cloud Logging sink |
+| Overpermissioned service accounts | Lateral movement | Use Workload Identity + least-privilege IAM |
+| Public container registry | Image tampering | Use private Artifact Registry + Binary Auth |
+
+> **Attack Surface Reduction**
+>
+>
+> Each misconfiguration listed above represents a verified attack vector. Fix all items before production deployment.
 
 
 ## Examples
@@ -54,9 +77,16 @@ See the full implementation guide in the source documentation.
 See [examples.md](examples.md) for code examples.
 
 
+## Full Reference
+
+See [reference.md](reference.md) for complete documentation.
 
 
+## Related Patterns
 
+- Enforce
+- Secure
+- Patterns
 
 ## References
 

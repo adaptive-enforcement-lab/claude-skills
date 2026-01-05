@@ -13,11 +13,9 @@ When events don't trigger workflows, debugging can be challenging. Events flow t
 ---
 
 
-
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/argo-events/).
 
 
 ## Examples
@@ -25,13 +23,17 @@ See the full implementation guide in the source documentation.
 See [examples.md](examples.md) for code examples.
 
 
-
 ## Troubleshooting
 
 See [troubleshooting.md](troubleshooting.md) for common issues and solutions.
 
 
+## Related Patterns
 
+- EventSource Issues
+- Sensor Issues
+- Common Patterns
+- Official Troubleshooting
 
 ## References
 

@@ -15,17 +15,16 @@ This pattern integrates with [release-please](../release-pipelines/release-pleas
 ---
 
 
-
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
-
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/build/versioned-docs/).
 
 
+## Related Patterns
 
-
-
+- Release-Please Configuration
+- Change Detection
+- Work Avoidance
 
 ## References
 

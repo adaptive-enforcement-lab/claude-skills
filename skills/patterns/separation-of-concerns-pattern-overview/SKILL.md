@@ -338,11 +338,24 @@ func TestDeploy(t *testing.T) {
 *CLI in `cmd/`. Business logic in `pkg/`. Tests run in milliseconds. Changes stay localized. The system is maintainable.*
 
 
-
 ## Implementation
 
+### The Orchestrator Pattern
 
-See the full implementation guide in the source documentation.
+**Separate CLI handling from business logic with an orchestrator:**
+
+
+*See [examples.md](examples.md) for detailed code examples.*
+
+
+*See [examples.md](examples.md) for detailed code examples.*
+
+### Testing Benefits
+
+
+*See [examples.md](examples.md) for detailed code examples.*
+
+---
 
 
 ## Examples
@@ -350,9 +363,19 @@ See the full implementation guide in the source documentation.
 See [examples.md](examples.md) for code examples.
 
 
+## Full Reference
+
+See [reference.md](reference.md) for complete documentation.
 
 
+## Related Patterns
 
+- Usage Guide
+- Implementation Techniques
+- Go CLI Architecture
+- Orchestrator Pattern
+- Fail Fast
+- Prerequisite Checks
 
 ## References
 

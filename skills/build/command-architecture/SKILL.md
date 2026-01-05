@@ -17,22 +17,29 @@ A well-designed CLI has commands that work both independently and as part of lar
 ---
 
 
-
 ## Implementation
 
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/build/go-cli-architecture/).
 
-See the full implementation guide in the source documentation.
+
+## Key Principles
+
+| Practice | Description |
+| ---------- | ------------- |
+| **Flat hierarchy** | Avoid deeply nested subcommands (max 2 levels) |
+| **Verb-noun ordering** | `myctl restart deployment` not `myctl deployment restart` |
+| **Consistent flags** | Use same flag names across commands |
+| **Hidden internal commands** | Mark debugging commands as hidden |
+| **Exit codes** | Use consistent exit codes (0=success, 1=failure, 2=usage error) |
+
+---
+
+*Design commands for both humans and scripts.*
 
 
 ## Examples
 
 See [examples.md](examples.md) for code examples.
-
-
-
-
-
-
 ## References
 
 - [Source Documentation](https://adaptive-enforcement-lab.com/build/go-cli-architecture/)

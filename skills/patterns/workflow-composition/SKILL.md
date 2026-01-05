@@ -13,17 +13,56 @@ As automation pipelines grow, a single monolithic workflow becomes unmaintainabl
 ---
 
 
-
 ## Implementation
 
+1. **Extract reusable logic** into separate WorkflowTemplates
+2. **Create a parent workflow** that spawns children
+3. **Define success/failure conditions** for proper status propagation
+4. **Test each child independently** before composing
 
-See the full implementation guide in the source documentation.
+---
+
+> **Test Children First**
+>
+> Always test child workflows independently before composing them into a parent. Debugging failures in composed workflows is much harder than debugging standalone workflows.
+>
+
+---
 
 
+## Techniques
 
 
+### Patterns
+
+| Pattern | Description |
+| --------- | ------------- |
+| [Spawning Child Workflows](spawning-children.md) | Create and wait for child workflow completion |
+| [Parallel Execution](parallel.md) | Run multiple workflows simultaneously |
+| [DAG Orchestration](dag.md) | Dependency-based execution ordering |
+| [Cross-Workflow Communication](communication.md) | Passing data and triggering decoupled workflows |
+
+---
 
 
+## Anti-Patterns to Avoid
+
+| Pattern | Description |
+| --------- | ------------- |
+| [Spawning Child Workflows](spawning-children.md) | Create and wait for child workflow completion |
+| [Parallel Execution](parallel.md) | Run multiple workflows simultaneously |
+| [DAG Orchestration](dag.md) | Dependency-based execution ordering |
+| [Cross-Workflow Communication](communication.md) | Passing data and triggering decoupled workflows |
+
+---
+
+
+## Related Patterns
+
+- Spawning Child Workflows
+- Parallel Execution
+- DAG Orchestration
+- Cross-Workflow Communication
 
 ## References
 
