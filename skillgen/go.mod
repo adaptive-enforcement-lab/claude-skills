@@ -1,6 +1,6 @@
 module github.com/adaptive-enforcement-lab/claude-skills/skillgen
 
-go 1.23
+go 1.25
 
 require (
 	github.com/yuin/goldmark v1.7.8

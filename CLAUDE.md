@@ -209,10 +209,11 @@ The generator logs errors but exits with code 0 even when errors occur. Many err
 - Edge cases: empty content, missing sections, malformed markdown
 - Table-driven tests for consistent coverage
 - No integration tests yet (future enhancement)
+- **CI/CD**: All workflows run `go test ./...` before building binaries
 
 ## Dependencies
 
-Go 1.23+ with minimal external dependencies:
+Go 1.25+ with minimal external dependencies:
 - `github.com/yuin/goldmark` - Markdown parsing
 - `gopkg.in/yaml.v3` - YAML frontmatter parsing
 
