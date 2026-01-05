@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.5.0](https://github.com/adaptive-enforcement-lab/claude-skills/compare/v0.4.1...v0.5.0) (2026-01-05)
+
+
+### Features
+
+* config-driven marketplace generation ([#35](https://github.com/adaptive-enforcement-lab/claude-skills/issues/35)) ([9396fed](https://github.com/adaptive-enforcement-lab/claude-skills/commit/9396fedea18cf8767b6ced7f2e75a732b56ab421))
+
+
+### Bug Fixes
+
+* make marketplace.json generation deterministic ([#43](https://github.com/adaptive-enforcement-lab/claude-skills/issues/43)) ([7d36c22](https://github.com/adaptive-enforcement-lab/claude-skills/commit/7d36c2203d678617e8417ee290a2ead1100707c4))
+
 ## [0.4.1](https://github.com/adaptive-enforcement-lab/claude-skills/compare/v0.4.0...v0.4.1) (2026-01-05)
 
 
