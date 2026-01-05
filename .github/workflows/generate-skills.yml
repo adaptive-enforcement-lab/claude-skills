@@ -47,7 +47,8 @@ jobs:
             --source ael-docs/docs \
             --output skills \
             --plugin-metadata ./plugin-metadata.json \
-            --release-manifest ./.release-please-manifest.json
+            --release-manifest ./.release-please-manifest.json \
+            --templates skillgen/templates
 
       - name: Create pull request
         env:
