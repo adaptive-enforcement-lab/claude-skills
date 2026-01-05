@@ -163,8 +163,8 @@ func TestMarketplaceGenerator_Generate(t *testing.T) {
 			},
 			manifest: map[string]string{
 				".claude-plugin":  "0.2.4",
-				"skills/patterns": "0.2.1",
-				"skills/enforce":  "0.3.0",
+				"plugins/patterns": "0.2.1",
+				"plugins/enforce":  "0.3.0",
 			},
 			wantErr: false,
 			validate: func(t *testing.T, writer *MockMarketplaceWriter, logger *MockLogger) {
@@ -236,7 +236,7 @@ func TestMarketplaceGenerator_Generate(t *testing.T) {
 			},
 			manifest: map[string]string{
 				".claude-plugin": "1.0.0",
-				// Missing "skills/test-plugin"
+				// Missing "plugins/test-plugin"
 			},
 			wantErr: false,
 			validate: func(t *testing.T, writer *MockMarketplaceWriter, logger *MockLogger) {
@@ -395,8 +395,8 @@ func Test_extractVersionForPlugin(t *testing.T) {
 		{
 			name: "version exists",
 			versions: map[string]string{
-				"skills/patterns": "0.2.1",
-				"skills/enforce":  "0.3.0",
+				"plugins/patterns": "0.2.1",
+				"plugins/enforce":  "0.3.0",
 			},
 			pluginKey: "patterns",
 			want:      "0.2.1",
@@ -404,7 +404,7 @@ func Test_extractVersionForPlugin(t *testing.T) {
 		{
 			name: "version does not exist",
 			versions: map[string]string{
-				"skills/patterns": "0.2.1",
+				"plugins/patterns": "0.2.1",
 			},
 			pluginKey: "enforce",
 			want:      "",
