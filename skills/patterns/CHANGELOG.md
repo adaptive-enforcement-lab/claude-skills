@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/adaptive-enforcement-lab/claude-skills/compare/patterns-v0.2.0...patterns-v0.2.1) (2026-01-05)
+
+
+### Maintenance
+
+* regenerate skills from AEL docs ([#21](https://github.com/adaptive-enforcement-lab/claude-skills/issues/21)) ([c674965](https://github.com/adaptive-enforcement-lab/claude-skills/commit/c6749655b73ca99c8a193dbd3a2728dfdd1f3af4))
+
 ## [0.2.0](https://github.com/adaptive-enforcement-lab/claude-skills/compare/patterns-v0.1.0...patterns-v0.2.0) (2026-01-04)
 
 
