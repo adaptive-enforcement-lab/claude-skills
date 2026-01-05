@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/adaptive-enforcement-lab/claude-skills/compare/secure-v0.2.1...secure-v0.2.2) (2026-01-05)
+
+
+### Bug Fixes
+
+* configure marketplace plugin structure and automation ([#29](https://github.com/adaptive-enforcement-lab/claude-skills/issues/29)) ([c2950b9](https://github.com/adaptive-enforcement-lab/claude-skills/commit/c2950b91d135f971dcfea5c112d18a586a40e005))
+
 ## [0.2.1](https://github.com/adaptive-enforcement-lab/claude-skills/compare/secure-v0.2.0...secure-v0.2.1) (2026-01-05)
 
 
