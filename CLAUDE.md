@@ -17,10 +17,19 @@ This is a Go-based skill generator that automatically transforms AEL (Adaptive E
 cd skillgen && go build -o ../bin/skillgen ./cmd/skillgen && cd ..
 
 # Run the generator (requires AEL docs locally)
-./bin/skillgen --source ../adaptive-enforcement-lab-com/docs --output skills
+./bin/skillgen \
+  --source ../adaptive-enforcement-lab-com/docs \
+  --output skills \
+  --plugin-metadata ./plugin-metadata.json \
+  --release-manifest ./.release-please-manifest.json
 
 # Run with verbose logging
-./bin/skillgen --source ../adaptive-enforcement-lab-com/docs --output skills --verbose
+./bin/skillgen \
+  --source ../adaptive-enforcement-lab-com/docs \
+  --output skills \
+  --plugin-metadata ./plugin-metadata.json \
+  --release-manifest ./.release-please-manifest.json \
+  --verbose
 
 # Run tests (from skillgen directory)
 cd skillgen && go test ./... && cd ..
@@ -33,8 +42,10 @@ gofmt -w skillgen/
 
 - `--source`: Path to AEL documentation source (required)
 - `--output`: Output path for generated skills (default: `./skills`)
-- `--marketplace`: Path to marketplace.json (default: `./.claude-plugin/marketplace.json`)
+- `--plugin-metadata`: Path to plugin metadata config (default: `./plugin-metadata.json`)
+- `--release-manifest`: Path to release-please manifest (default: `./.release-please-manifest.json`)
 - `--templates`: Path to template directory (default: `./templates`)
+- `--marketplace`: Path to marketplace.json (DEPRECATED - now auto-generated)
 - `--verbose`: Enable verbose logging
 - `--version`: Show version and exit
 
@@ -65,7 +76,8 @@ skillgen/
 3. **SkillExtractor** (service) transforms Document → Skill using business rules
 4. **TemplateRenderer** (service) applies Go templates to generate markdown
 5. **SkillWriter** (adapter) writes SKILL.md files to filesystem
-6. **MarketplaceWriter** (adapter) updates marketplace.json
+6. **MarketplaceGenerator** (service) reads plugin-metadata.json and .release-please-manifest.json
+7. **MarketplaceWriter** (adapter) generates marketplace.json and all plugin.json files
 
 ### Domain Models
 
@@ -81,6 +93,11 @@ skillgen/
 **Marketplace** (`internal/domain/marketplace.go`):
 - Represents .claude-plugin/marketplace.json structure
 - Defines available plugin collections (patterns, enforcement, build, secure)
+
+**PluginMetadata** (`internal/domain/plugin_config.go`):
+- Represents plugin-metadata.json configuration
+- Source of truth for plugin descriptions, categories, and tags
+- Combined with .release-please-manifest.json for version data
 
 ## Skill Generation Categories
 
@@ -105,12 +122,33 @@ Templates live in `templates/` and use Go's text/template syntax:
 - `reference.tmpl` - Reference documentation
 - `troubleshooting.tmpl` - Troubleshooting guides
 
+## Configuration Files
+
+### `plugin-metadata.json`
+**Source of truth for plugin metadata** (descriptions, categories, tags):
+- Located at repo root
+- Manually maintained, version-controlled
+- Defines marketplace-level config (name, owner, description)
+- Contains common fields applied to all plugin.json files (author, license, homepage)
+- Per-plugin configuration (descriptions, categories, tags, keywords)
+- Combined with `.release-please-manifest.json` to generate all marketplace files
+
+### `.release-please-manifest.json`
+**Source of truth for versions**:
+- Managed by release-please automatically
+- Maps skill collections to semantic versions
+- Never manually edited
+- Read by skillgen to populate version fields in marketplace.json and plugin.json files
+
 ## CI/CD Workflows
 
 ### `generate-skills.yml`
 - Triggers: manual (`workflow_dispatch`) or repository_dispatch from docs repo
 - Checks out both claude-skills and AEL docs repos
-- Builds generator and runs skill generation
+- Builds generator and runs skill generation with `--plugin-metadata` and `--release-manifest` flags
+- Generates all marketplace files automatically:
+  - `.claude-plugin/marketplace.json`
+  - `skills/*/​.claude-plugin/plugin.json` for each collection
 - Creates idempotent PR with branch `chore/regenerate-skills`
 - PR is reused for subsequent runs (force push updates)
 
@@ -171,17 +209,30 @@ The generator logs errors but exits with code 0 even when errors occur. Many err
 - Edge cases: empty content, missing sections, malformed markdown
 - Table-driven tests for consistent coverage
 - No integration tests yet (future enhancement)
+- **CI/CD**: All workflows run `go test ./...` before building binaries
 
 ## Dependencies
 
-Go 1.23+ with minimal external dependencies:
+Go 1.25+ with minimal external dependencies:
 - `github.com/yuin/goldmark` - Markdown parsing
 - `gopkg.in/yaml.v3` - YAML frontmatter parsing
 
 ## Common Pitfalls
 
 1. **Editing skills/ directly** - These are auto-generated, edits will be overwritten
-2. **Forgetting --source flag** - Generator requires source docs path
-3. **Assuming specific section names** - Source docs vary, extractor uses fuzzy matching
-4. **Breaking template syntax** - Go templates are whitespace-sensitive
-5. **Not testing with actual docs** - Clone AEL docs repo for realistic testing
+2. **Editing .claude-plugin/marketplace.json directly** - Auto-generated from plugin-metadata.json
+3. **Editing skills/*/​.claude-plugin/plugin.json directly** - Auto-generated from plugin-metadata.json
+4. **Forgetting --plugin-metadata and --release-manifest flags** - Required for marketplace generation
+5. **Forgetting --source flag** - Generator requires source docs path
+6. **Assuming specific section names** - Source docs vary, extractor uses fuzzy matching
+7. **Breaking template syntax** - Go templates are whitespace-sensitive
+8. **Not testing with actual docs** - Clone AEL docs repo for realistic testing
+
+## Updating Plugin Metadata
+
+To change plugin descriptions, categories, or tags:
+1. Edit `plugin-metadata.json` in the repo root
+2. Run skillgen to regenerate marketplace files
+3. Commit both plugin-metadata.json and generated files
+
+Versions are automatically synchronized from `.release-please-manifest.json` - never edit them manually.

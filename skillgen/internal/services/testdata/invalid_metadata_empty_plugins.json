@@ -1,0 +1,10 @@
+{
+  "marketplace": {
+    "name": "test",
+    "owner": {
+      "name": "Test",
+      "email": "test@example.com"
+    }
+  },
+  "plugins": {}
+}

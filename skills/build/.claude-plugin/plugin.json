@@ -10,10 +10,6 @@
   "repository": "https://github.com/adaptive-enforcement-lab/claude-skills",
   "license": "MIT",
   "keywords": [
-    "ci-cd",
-    "build",
-    "release",
-    "deployment",
     "release-please",
     "github-actions"
   ]

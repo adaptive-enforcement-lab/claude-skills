@@ -145,25 +145,6 @@ func (w *MarketplaceWriter) Write(marketplace *domain.Marketplace, path string) 
 	return nil
 }
 
-// AddSecurePlugin ensures the secure plugin exists in the marketplace.
-func (w *MarketplaceWriter) AddSecurePlugin(path string) (bool, error) {
-	marketplace, err := w.Read(path)
-	if err != nil {
-		return false, err
-	}
-
-	securePlugin := domain.NewSecurePlugin()
-	added := marketplace.AddPlugin(securePlugin)
-
-	if added {
-		if err := w.Write(marketplace, path); err != nil {
-			return false, err
-		}
-	}
-
-	return added, nil
-}
-
 // PreservePrivateCollection ensures private-collection is not removed.
 func (w *MarketplaceWriter) PreservePrivateCollection(marketplace *domain.Marketplace) error {
 	// Check if private-collection exists
@@ -175,6 +156,89 @@ func (w *MarketplaceWriter) PreservePrivateCollection(marketplace *domain.Market
 	// The plugin exists, so it's already preserved in the marketplace structure
 	// No action needed
 	return nil
+}
+
+// GenerateFromConfig builds marketplace.json from config + versions.
+func (w *MarketplaceWriter) GenerateFromConfig(
+	metadata *domain.PluginMetadata,
+	versions map[string]string,
+	outputPath string,
+) error {
+	// Build marketplace structure
+	marketplace := &domain.Marketplace{
+		Name:  metadata.Marketplace.Name,
+		Owner: metadata.Marketplace.Owner,
+		Metadata: domain.MarketplaceMetadata{
+			Description: metadata.Marketplace.Description,
+			Version:     extractMarketplaceVersion(versions),
+			PluginRoot:  metadata.Marketplace.PluginRoot,
+		},
+		Plugins: []domain.Plugin{},
+	}
+
+	// Build plugin entries
+	for pluginKey, pluginConfig := range metadata.Plugins {
+		// Extract version from manifest
+		manifestKey := fmt.Sprintf("skills/%s", pluginKey)
+		version := versions[manifestKey]
+		if version == "" {
+			version = "0.0.0"
+		}
+
+		// Determine source path
+		source := fmt.Sprintf("./skills/%s", pluginKey)
+
+		// Build plugin entry
+		plugin := domain.Plugin{
+			Name:        pluginConfig.GetMarketplaceName(pluginKey),
+			Source:      source,
+			Description: pluginConfig.Description,
+			Version:     version,
+			Category:    pluginConfig.Category,
+			Tags:        pluginConfig.Tags,
+		}
+
+		// Add author if provided in common fields
+		if metadata.Common.Author != nil {
+			plugin.Author = metadata.Common.Author
+		}
+
+		marketplace.Plugins = append(marketplace.Plugins, plugin)
+	}
+
+	// Write marketplace.json
+	return w.Write(marketplace, outputPath)
+}
+
+// WritePluginManifest writes an individual plugin.json file.
+func (w *MarketplaceWriter) WritePluginManifest(
+	manifest *domain.PluginManifest,
+	outputPath string,
+) error {
+	// Pretty-print JSON with 2-space indentation
+	content, err := json.MarshalIndent(manifest, "", "  ")
+	if err != nil {
+		return fmt.Errorf("failed to marshal plugin manifest: %w", err)
+	}
+
+	// Add trailing newline
+	content = append(content, '\n')
+
+	if err := w.fs.WriteFile(outputPath, content, 0644); err != nil {
+		return fmt.Errorf("failed to write plugin manifest: %w", err)
+	}
+
+	return nil
+}
+
+// extractMarketplaceVersion extracts the marketplace version from the release manifest.
+// Looks for ".claude-plugin" key in the versions map.
+// Returns "0.0.0" if the key is not found (following the same convention as extractVersionForPlugin).
+func extractMarketplaceVersion(versions map[string]string) string {
+	if version, ok := versions[".claude-plugin"]; ok && version != "" {
+		return version
+	}
+	return "0.0.0"
 }
 
 // DeriveSkillName converts a title to kebab-case.

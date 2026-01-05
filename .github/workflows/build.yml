@@ -45,7 +45,8 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.23'
+          go-version: '1.25'
+          cache-dependency-path: skillgen/go.sum
 
       - name: Determine build type
         env:
@@ -64,6 +65,17 @@ jobs:
           TRIGGER="${TRIGGERED_BY:-push}"
           echo "Triggered by: $TRIGGER" >> $GITHUB_STEP_SUMMARY
           echo "Run number: $RUN_NUMBER" >> $GITHUB_STEP_SUMMARY
+
+      - name: Run tests
+        working-directory: skillgen
+        run: |
+          echo "## Test Results" >> $GITHUB_STEP_SUMMARY
+          if go test -v ./...; then
+            echo "✅ All tests passed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Tests failed" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
 
       - name: Build binaries
         working-directory: skillgen

@@ -10,10 +10,6 @@
   "repository": "https://github.com/adaptive-enforcement-lab/claude-skills",
   "license": "MIT",
   "keywords": [
-    "security",
-    "compliance",
-    "enforcement",
-    "devsecops",
     "policy-as-code",
     "kyverno",
     "opa"
