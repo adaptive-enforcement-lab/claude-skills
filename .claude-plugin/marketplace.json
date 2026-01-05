@@ -48,7 +48,7 @@
       "name": "patterns",
       "source": "./plugins/patterns",
       "description": "Reusable engineering patterns for error handling, state management, performance optimization, and resilience",
-      "version": "0.3.0",
+      "version": "1.0.0",
       "category": "development",
       "author": {
         "name": "Adaptive Enforcement Lab",
