@@ -66,16 +66,31 @@ jobs:
           echo "Run number: $RUN_NUMBER" >> $GITHUB_STEP_SUMMARY
 
       - name: Build binaries
+        env:
+          VERSION: ${{ inputs.generator_tag_name }}
         run: |
           # Build for multiple platforms
           mkdir -p bin
-          GOOS=linux GOARCH=amd64 go build -o bin/skillgen-linux-amd64 ./cmd/skillgen
-          GOOS=darwin GOARCH=amd64 go build -o bin/skillgen-darwin-amd64 ./cmd/skillgen
-          GOOS=darwin GOARCH=arm64 go build -o bin/skillgen-darwin-arm64 ./cmd/skillgen
-          GOOS=windows GOARCH=amd64 go build -o bin/skillgen-windows-amd64.exe ./cmd/skillgen
+
+          # Determine version for ldflags
+          if [ "${{ inputs.generator_is_release }}" == "true" ]; then
+            # Extract version from tag (e.g., generator-v0.2.0 -> 0.2.0)
+            VERSION_NUM="${VERSION#generator-v}"
+            LDFLAGS="-s -w -X main.version=${VERSION_NUM}"
+          else
+            LDFLAGS="-s -w"
+          fi
+
+          GOOS=linux GOARCH=amd64 go build -ldflags="${LDFLAGS}" -o bin/skillgen-linux-amd64 ./cmd/skillgen
+          GOOS=darwin GOARCH=amd64 go build -ldflags="${LDFLAGS}" -o bin/skillgen-darwin-amd64 ./cmd/skillgen
+          GOOS=darwin GOARCH=arm64 go build -ldflags="${LDFLAGS}" -o bin/skillgen-darwin-arm64 ./cmd/skillgen
+          GOOS=windows GOARCH=amd64 go build -ldflags="${LDFLAGS}" -o bin/skillgen-windows-amd64.exe ./cmd/skillgen
 
           echo "✅ Built binaries:" >> $GITHUB_STEP_SUMMARY
           ls -lh bin/ >> $GITHUB_STEP_SUMMARY
+          if [ "${{ inputs.generator_is_release }}" == "true" ]; then
+            echo "Version: ${VERSION_NUM}" >> $GITHUB_STEP_SUMMARY
+          fi
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4

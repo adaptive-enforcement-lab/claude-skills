@@ -13,6 +13,8 @@ import (
 	"github.com/adaptive-enforcement-lab/claude-skills/internal/services/generator"
 )
 
+var version = "dev"
+
 func main() {
 	var (
 		sourcePath      string
@@ -20,6 +22,7 @@ func main() {
 		marketplacePath string
 		templatesPath   string
 		verbose         bool
+		showVersion     bool
 	)
 
 	flag.StringVar(&sourcePath, "source", "", "Path to AEL documentation source (required)")
@@ -27,7 +30,13 @@ func main() {
 	flag.StringVar(&marketplacePath, "marketplace", "./.claude-plugin/marketplace.json", "Path to marketplace.json")
 	flag.StringVar(&templatesPath, "templates", "./templates", "Path to template directory")
 	flag.BoolVar(&verbose, "verbose", false, "Enable verbose logging")
+	flag.BoolVar(&showVersion, "version", false, "Show version and exit")
 	flag.Parse()
+
+	if showVersion {
+		fmt.Printf("skillgen version %s\n", version)
+		return
+	}
 
 	if sourcePath == "" {
 		log.Fatal("--source flag is required")
