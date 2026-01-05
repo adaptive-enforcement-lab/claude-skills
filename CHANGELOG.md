@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/adaptive-enforcement-lab/claude-skills/compare/v0.3.0...v0.3.1) (2026-01-05)
+
+
+### Bug Fixes
+
+* correct release-please outputs and build workflow triggers ([98d47a3](https://github.com/adaptive-enforcement-lab/claude-skills/commit/98d47a3bc3e2a4ca775cbacc9dd9ed4e5eab95dc))
+
 ## [0.3.0](https://github.com/adaptive-enforcement-lab/claude-skills/compare/v0.2.0...v0.3.0) (2026-01-05)
 
 
