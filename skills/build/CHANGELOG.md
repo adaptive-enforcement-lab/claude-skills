@@ -5,6 +5,14 @@
 
 ### Maintenance
 
+* **main:** release build 0.1.2 ([#18](https://github.com/adaptive-enforcement-lab/claude-skills/issues/18)) ([4846632](https://github.com/adaptive-enforcement-lab/claude-skills/commit/484663203893159af8125e484cc5ab1188eb40fa))
+* regenerate skills from AEL docs ([#21](https://github.com/adaptive-enforcement-lab/claude-skills/issues/21)) ([c674965](https://github.com/adaptive-enforcement-lab/claude-skills/commit/c6749655b73ca99c8a193dbd3a2728dfdd1f3af4))
+
+## [0.1.2](https://github.com/adaptive-enforcement-lab/claude-skills/compare/build-v0.1.1...build-v0.1.2) (2026-01-05)
+
+
+### Maintenance
+
 * regenerate skills from AEL docs ([#21](https://github.com/adaptive-enforcement-lab/claude-skills/issues/21)) ([c674965](https://github.com/adaptive-enforcement-lab/claude-skills/commit/c6749655b73ca99c8a193dbd3a2728dfdd1f3af4))
 
 ## [0.1.1](https://github.com/adaptive-enforcement-lab/claude-skills/compare/build-v0.1.0...build-v0.1.1) (2026-01-04)

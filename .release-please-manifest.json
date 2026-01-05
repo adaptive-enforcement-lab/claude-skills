@@ -3,6 +3,6 @@
   ".claude-plugin": "0.2.2",
   "skills/patterns": "0.2.1",
   "skills/enforce": "0.2.1",
-  "skills/build": "0.1.1",
+  "skills/build": "0.1.2",
   "skills/secure": "0.2.1"
 }
