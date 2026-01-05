@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/adaptive-enforcement-lab/claude-skills/internal/domain"
-	"github.com/adaptive-enforcement-lab/claude-skills/internal/ports"
+	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/domain"
+	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/ports"
 )
 
 // SkillWriter implements ports.SkillWriter using the filesystem.

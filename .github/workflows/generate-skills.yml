@@ -38,7 +38,8 @@ jobs:
           go-version: '1.23'
 
       - name: Build generator
-        run: go build -o bin/skillgen ./cmd/skillgen
+        working-directory: skillgen
+        run: go build -o ../bin/skillgen ./cmd/skillgen
 
       - name: Generate skills
         run: ./bin/skillgen --source ael-docs/docs --output skills

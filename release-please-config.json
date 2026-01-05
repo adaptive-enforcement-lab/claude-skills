@@ -14,7 +14,7 @@
     { "type": "ci", "section": "CI/CD", "hidden": true }
   ],
   "packages": {
-    ".": {
+    "skillgen": {
       "release-type": "go",
       "component": "generator",
       "package-name": "skillgen",

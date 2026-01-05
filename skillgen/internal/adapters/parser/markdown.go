@@ -8,7 +8,7 @@ import (
 	"github.com/yuin/goldmark/ast"
 	"github.com/yuin/goldmark/text"
 
-	"github.com/adaptive-enforcement-lab/claude-skills/internal/domain"
+	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/domain"
 )
 
 // SectionParser implements ports.SectionParser using goldmark.

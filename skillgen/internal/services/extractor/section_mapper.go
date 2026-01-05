@@ -3,7 +3,7 @@ package extractor
 import (
 	"strings"
 
-	"github.com/adaptive-enforcement-lab/claude-skills/internal/domain"
+	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/domain"
 )
 
 // SectionMapper implements ports.SectionMapper with fuzzy matching.

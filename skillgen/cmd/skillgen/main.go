@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/adaptive-enforcement-lab/claude-skills/internal/adapters/filesystem"
-	"github.com/adaptive-enforcement-lab/claude-skills/internal/adapters/logger"
-	"github.com/adaptive-enforcement-lab/claude-skills/internal/adapters/parser"
-	"github.com/adaptive-enforcement-lab/claude-skills/internal/ports"
-	"github.com/adaptive-enforcement-lab/claude-skills/internal/services/extractor"
-	"github.com/adaptive-enforcement-lab/claude-skills/internal/services/generator"
+	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/adapters/filesystem"
+	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/adapters/logger"
+	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/adapters/parser"
+	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/ports"
+	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/services/extractor"
+	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/services/generator"
 )
 
 var version = "dev"

@@ -17,10 +17,10 @@ git clone https://github.com/adaptive-enforcement-lab/claude-skills.git
 cd claude-skills
 
 # Build generator
-go build -o bin/skillgen ./cmd/skillgen
+cd skillgen && go build -o ../bin/skillgen ./cmd/skillgen && cd ..
 
 # Run tests
-go test ./...
+cd skillgen && go test ./... && cd ..
 
 # Generate skills from AEL docs
 ./bin/skillgen \
@@ -33,11 +33,11 @@ go test ./...
 
 This project follows Clean/Hexagonal Architecture:
 
-- **Domain** (`internal/domain`): Core entities and business logic
-- **Ports** (`internal/ports`): Interfaces for external dependencies
-- **Adapters** (`internal/adapters`): Implementations of ports (filesystem, parsers)
-- **Services** (`internal/services`): Application services (extractors, generators)
-- **CMD** (`cmd/skillgen`): Entry point and dependency injection
+- **Domain** (`skillgen/internal/domain`): Core entities and business logic
+- **Ports** (`skillgen/internal/ports`): Interfaces for external dependencies
+- **Adapters** (`skillgen/internal/adapters`): Implementations of ports (filesystem, parsers)
+- **Services** (`skillgen/internal/services`): Application services (extractors, generators)
+- **CMD** (`skillgen/cmd/skillgen`): Entry point and dependency injection
 
 ## Code Standards
 
@@ -72,7 +72,7 @@ chore: update dependencies to latest versions
 2. **Clear title**: Use conventional commit format
 3. **Description**: Explain what and why (not how)
 4. **Tests**: Add tests for new functionality
-5. **Build**: Ensure `go build` and `go test ./...` succeed
+5. **Build**: Ensure `cd skillgen && go build ./cmd/skillgen && go test ./...` succeed
 6. **Generated content**: Do not manually edit files in `skills/` - these are auto-generated
 
 ## Testing Guidelines

@@ -1,6 +1,6 @@
 package ports
 
-import "github.com/adaptive-enforcement-lab/claude-skills/internal/domain"
+import "github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/domain"
 
 // SectionMapper maps document sections to skill components using fuzzy matching.
 // For example, "Why It Matters" maps to the "WhenToUse" field in the skill.

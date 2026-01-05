@@ -5,7 +5,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/adaptive-enforcement-lab/claude-skills/internal/ports"
+	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/ports"
 )
 
 // Logger implements ports.Logger using standard library log package.

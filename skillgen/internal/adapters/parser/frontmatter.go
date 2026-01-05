@@ -8,7 +8,7 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"github.com/adaptive-enforcement-lab/claude-skills/internal/domain"
+	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/domain"
 )
 
 // FrontmatterParser implements ports.FrontmatterParser using gopkg.in/yaml.v3.
