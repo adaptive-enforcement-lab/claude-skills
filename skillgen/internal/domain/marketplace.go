@@ -73,22 +73,6 @@ func (m *Marketplace) UpdatePlugin(plugin Plugin) {
 	m.Plugins = append(m.Plugins, plugin)
 }
 
-// NewSecurePlugin creates the secure plugin configuration.
-// The secure plugin is auto-generated and must be added to the marketplace.
-func NewSecurePlugin() Plugin {
-	return Plugin{
-		Name:        "secure",
-		Source:      "./skills/secure",
-		Description: "Security patterns and hardening guides for cloud-native applications, GitHub Actions, and supply chain security",
-		Version:     "0.1.0",
-		Category:    "security",
-		Author: &PluginAuthor{
-			Name: "Adaptive Enforcement Lab",
-		},
-		Tags: []string{"security", "hardening", "devsecops", "supply-chain"},
-	}
-}
-
 // CategoryToPluginName maps a document category to its plugin name.
 // Some mappings are non-obvious: "enforce" -> "enforcement"
 func CategoryToPluginName(category string) string {

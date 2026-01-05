@@ -1,0 +1,16 @@
+{
+  "marketplace": {
+    "owner": {
+      "name": "Test",
+      "email": "test@example.com"
+    }
+  },
+  "plugins": {
+    "test": {
+      "description": "Test",
+      "category": "test",
+      "tags": [],
+      "keywords": []
+    }
+  }
+}

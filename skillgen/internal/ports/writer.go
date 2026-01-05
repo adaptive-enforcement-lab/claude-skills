@@ -17,11 +17,6 @@ type MarketplaceWriter interface {
 	// Write writes the marketplace.json file atomically.
 	Write(marketplace *domain.Marketplace, path string) error
 
-	// AddSecurePlugin ensures the secure plugin exists in the marketplace.
-	// Returns true if the plugin was added, false if it already existed.
-	// DEPRECATED: Use GenerateFromConfig instead.
-	AddSecurePlugin(path string) (bool, error)
-
 	// PreservePrivateCollection ensures private-collection is not removed.
 	// This plugin is manually maintained and should never be auto-generated.
 	PreservePrivateCollection(marketplace *domain.Marketplace) error

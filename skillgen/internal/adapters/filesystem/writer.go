@@ -145,25 +145,6 @@ func (w *MarketplaceWriter) Write(marketplace *domain.Marketplace, path string) 
 	return nil
 }
 
-// AddSecurePlugin ensures the secure plugin exists in the marketplace.
-func (w *MarketplaceWriter) AddSecurePlugin(path string) (bool, error) {
-	marketplace, err := w.Read(path)
-	if err != nil {
-		return false, err
-	}
-
-	securePlugin := domain.NewSecurePlugin()
-	added := marketplace.AddPlugin(securePlugin)
-
-	if added {
-		if err := w.Write(marketplace, path); err != nil {
-			return false, err
-		}
-	}
-
-	return added, nil
-}
-
 // PreservePrivateCollection ensures private-collection is not removed.
 func (w *MarketplaceWriter) PreservePrivateCollection(marketplace *domain.Marketplace) error {
 	// Check if private-collection exists
@@ -250,13 +231,14 @@ func (w *MarketplaceWriter) WritePluginManifest(
 	return nil
 }
 
-// extractMarketplaceVersion extracts the marketplace version.
-// For now, we use a fixed version. In the future, this could be dynamic.
+// extractMarketplaceVersion extracts the marketplace version from the release manifest.
+// Looks for ".claude-plugin" key in the versions map.
+// Returns "0.0.0" if the key is not found (following the same convention as extractVersionForPlugin).
 func extractMarketplaceVersion(versions map[string]string) string {
-	// Use the highest version among plugins, or a default
-	// For simplicity, return a fixed version for now
-	// TODO: Consider making this configurable or derived
-	return "0.2.4"
+	if version, ok := versions[".claude-plugin"]; ok && version != "" {
+		return version
+	}
+	return "0.0.0"
 }
 
 // DeriveSkillName converts a title to kebab-case.

@@ -2,6 +2,7 @@ package services
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 
 	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/domain"
@@ -77,6 +78,10 @@ func (g *MarketplaceGenerator) Generate(
 		// Ensure directory exists
 		pluginDir := filepath.Dir(pluginPath)
 		g.logger.Debug("creating plugin directory", "path", pluginDir)
+
+		if err := os.MkdirAll(pluginDir, 0755); err != nil {
+			return fmt.Errorf("failed to create plugin directory %s: %w", pluginDir, err)
+		}
 
 		if err := g.writer.WritePluginManifest(manifest, pluginPath); err != nil {
 			return fmt.Errorf("failed to write plugin manifest for %s: %w", pluginKey, err)
