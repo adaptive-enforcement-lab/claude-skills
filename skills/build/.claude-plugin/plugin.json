@@ -1,7 +1,7 @@
 {
   "name": "build",
   "description": "Build engineering patterns for CI/CD pipelines, release automation, and deployment strategies",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "author": {
     "name": "Adaptive Enforcement Lab",
     "email": "contact@adaptive-enforcement-lab.com"

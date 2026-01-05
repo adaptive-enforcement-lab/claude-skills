@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.4](https://github.com/adaptive-enforcement-lab/claude-skills/compare/build-v0.1.3...build-v0.1.4) (2026-01-05)
+
+
+### Bug Fixes
+
+* configure marketplace plugin structure and automation ([#29](https://github.com/adaptive-enforcement-lab/claude-skills/issues/29)) ([c2950b9](https://github.com/adaptive-enforcement-lab/claude-skills/commit/c2950b91d135f971dcfea5c112d18a586a40e005))
+
 ## [0.1.3](https://github.com/adaptive-enforcement-lab/claude-skills/compare/build-v0.1.2...build-v0.1.3) (2026-01-05)
 
 
