@@ -45,7 +45,7 @@
       "name": "build",
       "source": "./skills/build",
       "description": "Build engineering patterns for CI/CD pipelines, release automation, and deployment strategies",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "category": "devops",
       "author": {
         "name": "Adaptive Enforcement Lab"
