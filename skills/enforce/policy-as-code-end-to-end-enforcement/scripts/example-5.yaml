@@ -1,0 +1,6 @@
+steps:
+  - name: Validate Security Policy
+    image: policy-platform:latest
+    script:
+      - kyverno apply security-policy.yaml --resource app.yaml
+      - kyverno apply devops-policy.yaml --resource app.yaml

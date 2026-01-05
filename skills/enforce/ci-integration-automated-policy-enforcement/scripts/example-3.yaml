@@ -1,0 +1,17 @@
+- step:
+    name: Lint Values Against Schema
+    image: policy-platform:latest
+    script:
+      - source environment.sh
+      - |
+        # Merge base values + environment values
+        yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' \
+          /repos/backend-applications/charts/backend-app/values.yaml \
+          ./cd/values.${ENVIRONMENT}.yaml \
+        > combined_values.yaml
+
+      - |
+        # Validate merged values against schema
+        spectral lint \
+          -r /repos/backend-applications/.spectral.yaml \
+          combined_values.yaml

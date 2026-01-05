@@ -1,0 +1,28 @@
+- step:
+    name: Detect Environment
+    script:
+      - |
+        if [ -n "$BITBUCKET_PR_ID" ]; then
+          # Pull Request - check destination branch
+          case $BITBUCKET_PR_DESTINATION_BRANCH in
+            "development") ENVIRONMENT="dev" ;;
+            "qac")         ENVIRONMENT="qac" ;;
+            "staging")     ENVIRONMENT="stg" ;;
+            "production")  ENVIRONMENT="prd" ;;
+            *)
+              echo "Unknown destination branch"
+              exit 0
+              ;;
+          esac
+        else
+          # Direct push - check current branch
+          case $BITBUCKET_BRANCH in
+            "development") ENVIRONMENT="dev" ;;
+            "qac")         ENVIRONMENT="qac" ;;
+            "staging")     ENVIRONMENT="stg" ;;
+            "production")  ENVIRONMENT="prd" ;;
+          esac
+        fi
+        echo "export ENVIRONMENT=${ENVIRONMENT}" > environment.sh
+    artifacts:
+      - environment.sh

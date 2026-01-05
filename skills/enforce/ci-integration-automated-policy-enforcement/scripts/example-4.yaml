@@ -1,0 +1,38 @@
+- step:
+    name: Build Environment Manifests
+    image: policy-platform:latest
+    script:
+      - source environment.sh
+      - |
+        # Define chart paths
+        sec_pol_chart=/repos/security-policy/charts/security-policy
+        dev_pol_chart=/repos/devops-policy/charts/devops-policy
+        be_apps_chart=/repos/backend-applications/charts/backend-applications
+
+      - |
+        # Render DevOps policies
+        helm template devops-policy ${dev_pol_chart} \
+          -f ${dev_pol_chart}/values.yaml \
+          -f /repos/devops-policy/cd/values.yaml \
+          -f /repos/devops-policy/cd/${ENVIRONMENT}/values.yaml \
+        > devops-policy.yaml
+
+      - |
+        # Render Security policies
+        helm template security-policy ${sec_pol_chart} \
+          -f ${sec_pol_chart}/values.yaml \
+          -f /repos/security-policy/cd/values.yaml \
+          -f /repos/security-policy/cd/${ENVIRONMENT}/values.yaml \
+        > security-policy.yaml
+
+      - |
+        # Render application manifests
+        helm template backend-app ${be_apps_chart} \
+          -f ${be_apps_chart}/values.yaml \
+          -f ./cd/values.${ENVIRONMENT}.yaml \
+        > backend-app.yaml
+
+    artifacts:
+      - devops-policy.yaml
+      - security-policy.yaml
+      - backend-app.yaml
