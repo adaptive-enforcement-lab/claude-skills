@@ -11,23 +11,6 @@
   },
   "plugins": [
     {
-      "name": "enforce",
-      "source": "./skills/enforce",
-      "description": "Security and compliance enforcement automation including pre-commit hooks, policy checks, and validation",
-      "version": "0.3.0",
-      "category": "security",
-      "author": {
-        "name": "Adaptive Enforcement Lab",
-        "email": "contact@adaptive-enforcement-lab.com"
-      },
-      "tags": [
-        "security",
-        "compliance",
-        "enforcement",
-        "devsecops"
-      ]
-    },
-    {
       "name": "build",
       "source": "./skills/build",
       "description": "Build engineering patterns for CI/CD pipelines, release automation, and deployment strategies",
@@ -45,10 +28,10 @@
       ]
     },
     {
-      "name": "secure",
-      "source": "./skills/secure",
-      "description": "Security patterns and hardening guides for cloud-native applications, GitHub Actions, and supply chain security",
-      "version": "0.2.2",
+      "name": "enforce",
+      "source": "./skills/enforce",
+      "description": "Security and compliance enforcement automation including pre-commit hooks, policy checks, and validation",
+      "version": "0.3.0",
       "category": "security",
       "author": {
         "name": "Adaptive Enforcement Lab",
@@ -56,9 +39,9 @@
       },
       "tags": [
         "security",
-        "hardening",
-        "devsecops",
-        "supply-chain"
+        "compliance",
+        "enforcement",
+        "devsecops"
       ]
     },
     {
@@ -75,6 +58,23 @@
         "patterns",
         "engineering",
         "best-practices"
+      ]
+    },
+    {
+      "name": "secure",
+      "source": "./skills/secure",
+      "description": "Security patterns and hardening guides for cloud-native applications, GitHub Actions, and supply chain security",
+      "version": "0.2.2",
+      "category": "security",
+      "author": {
+        "name": "Adaptive Enforcement Lab",
+        "email": "contact@adaptive-enforcement-lab.com"
+      },
+      "tags": [
+        "security",
+        "hardening",
+        "devsecops",
+        "supply-chain"
       ]
     }
   ]
