@@ -1,0 +1,21 @@
+{
+  "name": "patterns",
+  "description": "Reusable engineering patterns for error handling, state management, performance optimization, and resilience",
+  "version": "0.2.1",
+  "author": {
+    "name": "Adaptive Enforcement Lab",
+    "email": "contact@adaptive-enforcement-lab.com"
+  },
+  "homepage": "https://github.com/adaptive-enforcement-lab/claude-skills",
+  "repository": "https://github.com/adaptive-enforcement-lab/claude-skills",
+  "license": "MIT",
+  "keywords": [
+    "patterns",
+    "engineering",
+    "best-practices",
+    "error-handling",
+    "state-management",
+    "performance",
+    "resilience"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "enforce",
+  "description": "Security and compliance enforcement automation including pre-commit hooks, policy checks, and validation",
+  "version": "0.2.1",
+  "author": {
+    "name": "Adaptive Enforcement Lab",
+    "email": "contact@adaptive-enforcement-lab.com"
+  },
+  "homepage": "https://github.com/adaptive-enforcement-lab/claude-skills",
+  "repository": "https://github.com/adaptive-enforcement-lab/claude-skills",
+  "license": "MIT",
+  "keywords": [
+    "security",
+    "compliance",
+    "enforcement",
+    "devsecops",
+    "policy-as-code",
+    "kyverno",
+    "opa"
+  ]
+}

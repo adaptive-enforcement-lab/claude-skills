@@ -1,0 +1,20 @@
+{
+  "name": "build",
+  "description": "Build engineering patterns for CI/CD pipelines, release automation, and deployment strategies",
+  "version": "0.1.3",
+  "author": {
+    "name": "Adaptive Enforcement Lab",
+    "email": "contact@adaptive-enforcement-lab.com"
+  },
+  "homepage": "https://github.com/adaptive-enforcement-lab/claude-skills",
+  "repository": "https://github.com/adaptive-enforcement-lab/claude-skills",
+  "license": "MIT",
+  "keywords": [
+    "ci-cd",
+    "build",
+    "release",
+    "deployment",
+    "release-please",
+    "github-actions"
+  ]
+}
