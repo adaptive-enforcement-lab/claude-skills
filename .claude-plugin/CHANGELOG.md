@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/adaptive-enforcement-lab/claude-skills/compare/marketplace-v0.2.1...marketplace-v0.2.2) (2026-01-05)
+
+
+### Maintenance
+
+* **main:** release secure 0.2.1 ([#17](https://github.com/adaptive-enforcement-lab/claude-skills/issues/17)) ([f081187](https://github.com/adaptive-enforcement-lab/claude-skills/commit/f0811872645c43bd1e5394267843d0d53f70d887))
+
 ## [0.2.1](https://github.com/adaptive-enforcement-lab/claude-skills/compare/marketplace-v0.2.0...marketplace-v0.2.1) (2026-01-05)
 
 
