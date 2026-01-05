@@ -89,48 +89,14 @@ jobs:
       - name: Dispatch build workflow
         env:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          GENERATOR_TAG: ${{ needs.release-please.outputs.generator_tag_name }}
         run: |
           gh workflow run build.yml \
             --ref main \
             -f generator_is_release="${{ needs.release-please.outputs.generator_release_created == 'true' }}" \
+            -f generator_tag_name="${GENERATOR_TAG}" \
             -f skip_build_version_tags="true" \
             -f triggered_by="release-workflow"
-
-  build-generator:
-    name: Build Generator Release Artifacts
-    needs: release-please
-    if: needs.release-please.outputs.generator_release_created == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.23'
-
-      - name: Build binaries
-        run: |
-          # Build for multiple platforms
-          mkdir -p bin
-          GOOS=linux GOARCH=amd64 go build -o bin/skillgen-linux-amd64 ./cmd/skillgen
-          GOOS=darwin GOARCH=amd64 go build -o bin/skillgen-darwin-amd64 ./cmd/skillgen
-          GOOS=darwin GOARCH=arm64 go build -o bin/skillgen-darwin-arm64 ./cmd/skillgen
-          GOOS=windows GOARCH=amd64 go build -o bin/skillgen-windows-amd64.exe ./cmd/skillgen
-
-      - name: Upload generator release artifacts
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG_NAME: ${{ needs.release-please.outputs.generator_tag_name }}
-        run: |
-          # Upload binaries to generator release
-          # TAG_NAME comes from release-please action output (not user input)
-          gh release upload "$TAG_NAME" \
-            bin/skillgen-linux-amd64 \
-            bin/skillgen-darwin-amd64 \
-            bin/skillgen-darwin-arm64 \
-            bin/skillgen-windows-amd64.exe
 
   announce-skills:
     name: Announce Skill Releases

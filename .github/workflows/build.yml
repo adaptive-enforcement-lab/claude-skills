@@ -13,6 +13,10 @@ on:
         description: "Is this a generator release build?"
         type: string
         default: "false"
+      generator_tag_name:
+        description: "Generator release tag name (required if generator_is_release=true)"
+        type: string
+        default: ""
       skip_build_version_tags:
         description: "Skip build version tags (for release-dispatched builds)"
         type: string
@@ -28,7 +32,7 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build-generator:
@@ -79,6 +83,20 @@ jobs:
           name: generator-binaries-${{ github.run_number }}
           path: bin/*
           retention-days: 30
+
+      - name: Upload to release
+        if: inputs.generator_is_release == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ inputs.generator_tag_name }}
+        run: |
+          # Upload binaries to generator release
+          # TAG_NAME comes from workflow input (validated by release-please)
+          gh release upload "$TAG_NAME" \
+            bin/skillgen-linux-amd64 \
+            bin/skillgen-darwin-amd64 \
+            bin/skillgen-darwin-arm64 \
+            bin/skillgen-windows-amd64.exe
 
   summary:
     name: Build Summary
