@@ -146,10 +146,11 @@ func main() {
 
 	// Summary
 	fmt.Println("\n=== Generation Summary ===")
-	fmt.Printf("Processed: %d\n", processed)
-	fmt.Printf("Skipped:   %d (blog posts)\n", skipped)
-	fmt.Printf("Errors:    %d\n", errors)
-	fmt.Printf("Output:    %s\n", outputPath)
+	fmt.Printf("Categories: %d\n", len(categories))
+	fmt.Printf("Processed:  %d\n", processed)
+	fmt.Printf("Skipped:    %d (blog posts)\n", skipped)
+	fmt.Printf("Errors:     %d\n", errors)
+	fmt.Printf("Output:     %s\n", outputPath)
 
 	if errors > 0 {
 		logger.Info("completed with errors", "count", errors)
