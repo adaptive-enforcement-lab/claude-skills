@@ -79,20 +79,32 @@ To auto-register this marketplace for your team, add to `.claude/settings.json` 
 .claude-plugin/
 └── marketplace.json              # Marketplace catalog
 
-skills/                           # Generated skills (DO NOT EDIT)
-├── .generated                    # Marker file
-├── patterns/                     # Pattern-based skills
-├── enforcement/                  # Enforcement automation skills
-└── build/                        # Build engineering skills
+plugins/                          # Generated plugins (DO NOT EDIT)
+├── patterns/
+│   ├── .claude-plugin/
+│   │   └── plugin.json          # Plugin metadata
+│   └── skills/                   # Pattern skills
+├── enforce/
+│   ├── .claude-plugin/
+│   │   └── plugin.json          # Plugin metadata
+│   └── skills/                   # Enforcement skills
+├── build/
+│   ├── .claude-plugin/
+│   │   └── plugin.json          # Plugin metadata
+│   └── skills/                   # Build skills
+└── secure/
+    ├── .claude-plugin/
+    │   └── plugin.json          # Plugin metadata
+    └── skills/                   # Security skills
 
-cmd/skillgen/                     # Main application
-internal/                         # Internal packages
-├── parser/                       # Content parsers
-├── extractor/                    # Component extractors
-├── generator/                    # Skill generators
-└── validator/                    # Validation logic
-
-templates/                        # Go templates
+skillgen/                         # Generator source
+├── cmd/skillgen/                 # Main application
+├── internal/
+│   ├── domain/                   # Core entities
+│   ├── ports/                    # Interfaces
+│   ├── adapters/                 # Implementations
+│   └── services/                 # Business logic
+└── templates/                    # Go templates
 
 .github/workflows/
 └── generate-skills.yml           # CI automation
@@ -102,13 +114,17 @@ templates/                        # Go templates
 
 ```bash
 # Build the generator
-go build -o bin/skillgen ./cmd/skillgen
+cd skillgen && go build -o ../bin/skillgen ./cmd/skillgen
 
-# Run generator
-./bin/skillgen --source ../adaptive-enforcement-lab-com/docs
+# Run generator (from repo root)
+./bin/skillgen \
+  --source ../adaptive-enforcement-lab-com/docs \
+  --output plugins \
+  --plugin-metadata ./plugin-metadata.json \
+  --release-manifest ./.release-please-manifest.json
 
 # Run tests
-go test ./...
+cd skillgen && go test ./...
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed development guidelines.

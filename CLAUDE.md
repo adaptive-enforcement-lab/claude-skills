@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a Go-based skill generator that automatically transforms AEL (Adaptive Enforcement Lab) documentation into Claude Code skills. The project follows Clean/Hexagonal Architecture and uses release-please for automated releases.
 
-**CRITICAL**: The `skills/` directory contains auto-generated files. Never manually edit files in `skills/` - they are regenerated from source documentation at [adaptive-enforcement-lab.com](https://github.com/adaptive-enforcement-lab/adaptive-enforcement-lab-com).
+**CRITICAL**: The `plugins/` directory contains auto-generated files. Never manually edit files in `plugins/` - they are regenerated from source documentation at [adaptive-enforcement-lab.com](https://github.com/adaptive-enforcement-lab/adaptive-enforcement-lab-com).
 
 ## Build and Development Commands
 
@@ -19,14 +19,14 @@ cd skillgen && go build -o ../bin/skillgen ./cmd/skillgen && cd ..
 # Run the generator (requires AEL docs locally)
 ./bin/skillgen \
   --source ../adaptive-enforcement-lab-com/docs \
-  --output skills \
+  --output plugins \
   --plugin-metadata ./plugin-metadata.json \
   --release-manifest ./.release-please-manifest.json
 
 # Run with verbose logging
 ./bin/skillgen \
   --source ../adaptive-enforcement-lab-com/docs \
-  --output skills \
+  --output plugins \
   --plugin-metadata ./plugin-metadata.json \
   --release-manifest ./.release-please-manifest.json \
   --verbose
@@ -41,7 +41,7 @@ gofmt -w skillgen/
 ### Generator Options
 
 - `--source`: Path to AEL documentation source (required)
-- `--output`: Output path for generated skills (default: `./skills`)
+- `--output`: Output path for generated plugins (default: `./plugins`)
 - `--plugin-metadata`: Path to plugin metadata config (default: `./plugin-metadata.json`)
 - `--release-manifest`: Path to release-please manifest (default: `./.release-please-manifest.json`)
 - `--templates`: Path to template directory (default: `./templates`)
@@ -148,7 +148,7 @@ Templates live in `templates/` and use Go's text/template syntax:
 - Builds generator and runs skill generation with `--plugin-metadata` and `--release-manifest` flags
 - Generates all marketplace files automatically:
   - `.claude-plugin/marketplace.json`
-  - `skills/*/​.claude-plugin/plugin.json` for each collection
+  - `plugins/*/​.claude-plugin/plugin.json` for each collection
 - Creates idempotent PR with branch `chore/regenerate-skills`
 - PR is reused for subsequent runs (force push updates)
 
@@ -163,10 +163,10 @@ Templates live in `templates/` and use Go's text/template syntax:
 Release-please manages 6 independent components:
 - `skillgen` (Go binary) - main version
 - `marketplace` (.claude-plugin/) - marketplace metadata
-- `patterns` (skills/patterns/) - pattern skills collection
-- `enforcement` (skills/enforce/) - enforcement skills collection
-- `build` (skills/build/) - build skills collection
-- `secure` (skills/secure/) - secure skills collection
+- `patterns` (plugins/patterns/) - pattern skills collection
+- `enforce` (plugins/enforce/) - enforcement skills collection
+- `build` (plugins/build/) - build skills collection
+- `secure` (plugins/secure/) - secure skills collection
 
 Each uses separate-pull-requests for independent versioning.
 
@@ -219,9 +219,9 @@ Go 1.25+ with minimal external dependencies:
 
 ## Common Pitfalls
 
-1. **Editing skills/ directly** - These are auto-generated, edits will be overwritten
+1. **Editing plugins/ directly** - These are auto-generated, edits will be overwritten
 2. **Editing .claude-plugin/marketplace.json directly** - Auto-generated from plugin-metadata.json
-3. **Editing skills/*/​.claude-plugin/plugin.json directly** - Auto-generated from plugin-metadata.json
+3. **Editing plugins/*/​.claude-plugin/plugin.json directly** - Auto-generated from plugin-metadata.json
 4. **Forgetting --plugin-metadata and --release-manifest flags** - Required for marketplace generation
 5. **Forgetting --source flag** - Generator requires source docs path
 6. **Assuming specific section names** - Source docs vary, extractor uses fuzzy matching
