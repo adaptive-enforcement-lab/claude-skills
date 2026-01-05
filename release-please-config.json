@@ -40,28 +40,56 @@
       "component": "patterns",
       "package-name": "patterns",
       "include-component-in-tag": true,
-      "include-v-in-tag": true
+      "include-v-in-tag": true,
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
     },
     "skills/enforce": {
       "release-type": "simple",
-      "component": "enforcement",
-      "package-name": "enforcement",
+      "component": "enforce",
+      "package-name": "enforce",
       "include-component-in-tag": true,
-      "include-v-in-tag": true
+      "include-v-in-tag": true,
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
     },
     "skills/build": {
       "release-type": "simple",
       "component": "build",
       "package-name": "build",
       "include-component-in-tag": true,
-      "include-v-in-tag": true
+      "include-v-in-tag": true,
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
     },
     "skills/secure": {
       "release-type": "simple",
       "component": "secure",
       "package-name": "secure",
       "include-component-in-tag": true,
-      "include-v-in-tag": true
+      "include-v-in-tag": true,
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
     }
   },
   "separate-pull-requests": true
