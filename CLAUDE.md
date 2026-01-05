@@ -13,8 +13,8 @@ This is a Go-based skill generator that automatically transforms AEL (Adaptive E
 ### Core Commands
 
 ```bash
-# Build the generator
-go build -o bin/skillgen ./cmd/skillgen
+# Build the generator (from skillgen directory)
+cd skillgen && go build -o ../bin/skillgen ./cmd/skillgen && cd ..
 
 # Run the generator (requires AEL docs locally)
 ./bin/skillgen --source ../adaptive-enforcement-lab-com/docs --output skills
@@ -22,11 +22,11 @@ go build -o bin/skillgen ./cmd/skillgen
 # Run with verbose logging
 ./bin/skillgen --source ../adaptive-enforcement-lab-com/docs --output skills --verbose
 
-# Run tests
-go test ./...
+# Run tests (from skillgen directory)
+cd skillgen && go test ./... && cd ..
 
 # Format code
-gofmt -w .
+gofmt -w skillgen/
 ```
 
 ### Generator Options
@@ -43,12 +43,13 @@ gofmt -w .
 ### Clean/Hexagonal Architecture
 
 ```
-cmd/skillgen/          → Entry point and dependency injection
-internal/
-  domain/              → Core entities (Skill, Document, Marketplace)
-  ports/               → Interfaces for external dependencies
-  adapters/            → Implementations (filesystem, parser, logger)
-  services/            → Application services (extractor, generator)
+skillgen/
+  cmd/skillgen/        → Entry point and dependency injection
+  internal/
+    domain/            → Core entities (Skill, Document, Marketplace)
+    ports/             → Interfaces for external dependencies
+    adapters/          → Implementations (filesystem, parser, logger)
+    services/          → Application services (extractor, generator)
 ```
 
 **Key Principles:**

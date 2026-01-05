@@ -1,6 +1,6 @@
 package ports
 
-import "github.com/adaptive-enforcement-lab/claude-skills/internal/domain"
+import "github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/domain"
 
 // SkillWriter writes skill files to the filesystem.
 type SkillWriter interface {

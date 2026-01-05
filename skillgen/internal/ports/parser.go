@@ -1,6 +1,6 @@
 package ports
 
-import "github.com/adaptive-enforcement-lab/claude-skills/internal/domain"
+import "github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/domain"
 
 // FrontmatterParser extracts YAML frontmatter from markdown content.
 type FrontmatterParser interface {

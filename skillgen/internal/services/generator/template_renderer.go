@@ -6,7 +6,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/adaptive-enforcement-lab/claude-skills/internal/domain"
+	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/domain"
 )
 
 // TemplateRenderer implements ports.TemplateRenderer using Go templates.

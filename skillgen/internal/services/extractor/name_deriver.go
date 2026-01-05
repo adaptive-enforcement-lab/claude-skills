@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/adaptive-enforcement-lab/claude-skills/internal/domain"
+	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/domain"
 )
 
 // NameDeriver implements ports.NameDeriver.

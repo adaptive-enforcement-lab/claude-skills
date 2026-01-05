@@ -1,6 +1,6 @@
 package ports
 
-import "github.com/adaptive-enforcement-lab/claude-skills/internal/domain"
+import "github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/domain"
 
 // SkillValidator validates generated skills against requirements.
 type SkillValidator interface {

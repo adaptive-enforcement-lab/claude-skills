@@ -1,4 +1,4 @@
-module github.com/adaptive-enforcement-lab/claude-skills
+module github.com/adaptive-enforcement-lab/claude-skills/skillgen
 
 go 1.23
 

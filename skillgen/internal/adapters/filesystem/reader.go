@@ -3,8 +3,8 @@ package filesystem
 import (
 	"fmt"
 
-	"github.com/adaptive-enforcement-lab/claude-skills/internal/domain"
-	"github.com/adaptive-enforcement-lab/claude-skills/internal/ports"
+	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/domain"
+	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/ports"
 )
 
 // DocumentReader implements ports.DocumentReader using the filesystem.
