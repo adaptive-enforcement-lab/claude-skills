@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.2.5](https://github.com/adaptive-enforcement-lab/claude-skills/compare/marketplace-v0.2.4...marketplace-v0.2.5) (2026-01-05)
+
+
+### Bug Fixes
+
+* configure marketplace plugin structure and automation ([#29](https://github.com/adaptive-enforcement-lab/claude-skills/issues/29)) ([c2950b9](https://github.com/adaptive-enforcement-lab/claude-skills/commit/c2950b91d135f971dcfea5c112d18a586a40e005))
+
+
+### Maintenance
+
+* **main:** release build 0.1.4 ([#30](https://github.com/adaptive-enforcement-lab/claude-skills/issues/30)) ([859bb7e](https://github.com/adaptive-enforcement-lab/claude-skills/commit/859bb7e9a9cdeef5f506bb0750ef459c2957c7f6))
+* **main:** release enforce 0.3.0 ([#32](https://github.com/adaptive-enforcement-lab/claude-skills/issues/32)) ([6a3addd](https://github.com/adaptive-enforcement-lab/claude-skills/commit/6a3addde0314100b4473f097333bea2264494ec9))
+* **main:** release patterns 0.2.2 ([#31](https://github.com/adaptive-enforcement-lab/claude-skills/issues/31)) ([0461408](https://github.com/adaptive-enforcement-lab/claude-skills/commit/0461408c5bba13a3ac2d9ebf6ea8e681f144f583))
+* **main:** release secure 0.2.2 ([#33](https://github.com/adaptive-enforcement-lab/claude-skills/issues/33)) ([de4c677](https://github.com/adaptive-enforcement-lab/claude-skills/commit/de4c677bb411a4e6cb4324c436dd53aa86fcf4a0))
+
 ## [0.2.4](https://github.com/adaptive-enforcement-lab/claude-skills/compare/marketplace-v0.2.3...marketplace-v0.2.4) (2026-01-05)
 
 
