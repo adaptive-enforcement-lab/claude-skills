@@ -380,6 +380,85 @@ func TestMarketplaceWriter_GenerateFromConfig(t *testing.T) {
 				}
 			},
 		},
+		{
+			name: "plugins are ordered alphabetically for deterministic output",
+			metadata: &domain.PluginMetadata{
+				Marketplace: domain.MarketplaceConfig{
+					Name: "test",
+					Owner: domain.MarketplaceOwner{
+						Name:  "Test",
+						Email: "test@example.com",
+					},
+				},
+				Plugins: map[string]domain.PluginConfig{
+					"zebra": {
+						Description: "Zebra plugin",
+						Category:    "animals",
+					},
+					"alpha": {
+						Description: "Alpha plugin",
+						Category:    "letters",
+					},
+					"middle": {
+						Description: "Middle plugin",
+						Category:    "position",
+					},
+					"beta": {
+						Description: "Beta plugin",
+						Category:    "letters",
+					},
+				},
+			},
+			versions: map[string]string{
+				"skills/zebra":  "1.0.0",
+				"skills/alpha":  "2.0.0",
+				"skills/middle": "3.0.0",
+				"skills/beta":   "4.0.0",
+			},
+			outputPath: "marketplace.json",
+			wantErr:    false,
+			validate: func(t *testing.T, mockFS *MockFileSystem) {
+				content := mockFS.GetFile("marketplace.json")
+				if content == nil {
+					t.Error("expected marketplace.json to be written")
+					return
+				}
+
+				var marketplace domain.Marketplace
+				if err := json.Unmarshal(content, &marketplace); err != nil {
+					t.Errorf("failed to parse written marketplace.json: %v", err)
+					return
+				}
+
+				// Verify plugins are in alphabetical order
+				if len(marketplace.Plugins) != 4 {
+					t.Errorf("expected 4 plugins, got %d", len(marketplace.Plugins))
+					return
+				}
+
+				expectedOrder := []string{"alpha", "beta", "middle", "zebra"}
+				for i, expectedName := range expectedOrder {
+					if marketplace.Plugins[i].Name != expectedName {
+						t.Errorf("plugin at index %d: expected name %q, got %q", i, expectedName, marketplace.Plugins[i].Name)
+					}
+				}
+
+				// Verify correct versions are assigned
+				expectedVersions := map[string]string{
+					"alpha":  "2.0.0",
+					"beta":   "4.0.0",
+					"middle": "3.0.0",
+					"zebra":  "1.0.0",
+				}
+				for _, plugin := range marketplace.Plugins {
+					if expectedVersion, ok := expectedVersions[plugin.Name]; ok {
+						if plugin.Version != expectedVersion {
+							t.Errorf("plugin %q: expected version %q, got %q", plugin.Name, expectedVersion, plugin.Version)
+						}
+					}
+				}
+			},
+		},
 	}
 
 	for _, tt := range tests {
