@@ -151,6 +151,12 @@ func main() {
 	fmt.Printf("Errors:    %d\n", errors)
 	fmt.Printf("Output:    %s\n", outputPath)
 
+	if errors > 0 {
+		logger.Info("completed with errors", "count", errors)
+	} else {
+		logger.Info("completed successfully")
+	}
+
 	// Exit 0 even with errors - most errors are expected (missing titles, etc.)
 	// Errors are logged for visibility but don't fail the build
 }
