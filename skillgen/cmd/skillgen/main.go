@@ -29,7 +29,7 @@ func main() {
 	)
 
 	flag.StringVar(&sourcePath, "source", "", "Path to AEL documentation source (required)")
-	flag.StringVar(&outputPath, "output", "./skills", "Path to output generated skills")
+	flag.StringVar(&outputPath, "output", "./plugins", "Path to output generated plugins")
 	flag.StringVar(&marketplacePath, "marketplace", "./.claude-plugin/marketplace.json", "Path to marketplace.json (DEPRECATED)")
 	flag.StringVar(&templatesPath, "templates", "./templates", "Path to template directory")
 	flag.StringVar(&pluginMetadataPath, "plugin-metadata", "./plugin-metadata.json", "Path to plugin metadata config")

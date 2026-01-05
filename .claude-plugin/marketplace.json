@@ -7,12 +7,12 @@
   "metadata": {
     "description": "Claude Code skills for secure development patterns, enforcement automation, and build engineering",
     "version": "0.3.0",
-    "pluginRoot": "./skills"
+    "pluginRoot": "./plugins"
   },
   "plugins": [
     {
       "name": "build",
-      "source": "./skills/build",
+      "source": "./plugins/build",
       "description": "Build engineering patterns for CI/CD pipelines, release automation, and deployment strategies",
       "version": "0.2.0",
       "category": "devops",
@@ -29,7 +29,7 @@
     },
     {
       "name": "enforce",
-      "source": "./skills/enforce",
+      "source": "./plugins/enforce",
       "description": "Security and compliance enforcement automation including pre-commit hooks, policy checks, and validation",
       "version": "0.4.0",
       "category": "security",
@@ -46,7 +46,7 @@
     },
     {
       "name": "patterns",
-      "source": "./skills/patterns",
+      "source": "./plugins/patterns",
       "description": "Reusable engineering patterns for error handling, state management, performance optimization, and resilience",
       "version": "0.3.0",
       "category": "development",
@@ -62,7 +62,7 @@
     },
     {
       "name": "secure",
-      "source": "./skills/secure",
+      "source": "./plugins/secure",
       "description": "Security patterns and hardening guides for cloud-native applications, GitHub Actions, and supply chain security",
       "version": "0.3.0",
       "category": "security",

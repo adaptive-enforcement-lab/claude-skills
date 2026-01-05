@@ -54,7 +54,7 @@ jobs:
         run: |
           ./bin/skillgen \
             --source ael-docs/docs \
-            --output skills \
+            --output plugins \
             --plugin-metadata ./plugin-metadata.json \
             --release-manifest ./.release-please-manifest.json \
             --templates skillgen/templates
@@ -68,13 +68,13 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           # Stage changes to check what would be committed
-          git add -A skills/ .claude-plugin/marketplace.json
+          git add -A plugins/ .claude-plugin/marketplace.json
 
           # Check if there are staged changes using git status --porcelain on specific paths
           # This detects modified files (M), new files (A), and deleted files (D)
           # but only in the paths we care about (not untracked ael-docs/)
-          if [ -z "$(git status --porcelain skills/ .claude-plugin/marketplace.json)" ]; then
-            echo "No changes detected in skills/ or marketplace.json, skipping commit"
+          if [ -z "$(git status --porcelain plugins/ .claude-plugin/marketplace.json)" ]; then
+            echo "No changes detected in plugins/ or marketplace.json, skipping commit"
             exit 0
           fi
 
@@ -84,7 +84,7 @@ jobs:
             BRANCH="${{ github.head_ref }}"
             echo "Committing to existing release-please PR branch: $BRANCH"
 
-            SKILL_COUNT=$(find skills/ -name "SKILL.md" | wc -l | xargs)
+            SKILL_COUNT=$(find plugins/ -name "SKILL.md" | wc -l | xargs)
             git commit -m "chore: sync marketplace.json with release versions
 
           Auto-generated marketplace update from release-please version bumps.
@@ -105,14 +105,14 @@ jobs:
               git fetch origin "$BRANCH"
               git checkout -B "$BRANCH" "origin/$BRANCH"
               # Re-stage changes after checkout
-              git add -A skills/ .claude-plugin/marketplace.json
+              git add -A plugins/ .claude-plugin/marketplace.json
             else
               echo "Creating new branch $BRANCH"
               git checkout -b "$BRANCH"
             fi
 
             # Commit changes
-            SKILL_COUNT=$(find skills/ -name "SKILL.md" | wc -l | xargs)
+            SKILL_COUNT=$(find plugins/ -name "SKILL.md" | wc -l | xargs)
             git commit -m "chore: regenerate skills from AEL docs
 
           Auto-generated from adaptive-enforcement-lab-com documentation.
@@ -157,7 +157,7 @@ jobs:
           - [ ] Verify all plugin.json files generated correctly
           - [ ] Confirm versions match .release-please-manifest.json
           - [ ] Spot-check 3-5 generated SKILL.md files
-          - [ ] Check no manual edits needed in skills/ directory
+          - [ ] Check no manual edits needed in plugins/ directory
 
           ---
 

@@ -1,7 +1,7 @@
 {
-  "name": "secure",
-  "description": "Security patterns and hardening guides for cloud-native applications, GitHub Actions, and supply chain security",
-  "version": "0.3.0",
+  "name": "enforce",
+  "description": "Security and compliance enforcement automation including pre-commit hooks, policy checks, and validation",
+  "version": "0.0.0",
   "author": {
     "name": "Adaptive Enforcement Lab",
     "email": "contact@adaptive-enforcement-lab.com"
@@ -10,8 +10,8 @@
   "repository": "https://github.com/adaptive-enforcement-lab/claude-skills",
   "license": "MIT",
   "keywords": [
-    "github-actions",
-    "gke",
-    "oidc"
+    "policy-as-code",
+    "kyverno",
+    "opa"
   ]
 }

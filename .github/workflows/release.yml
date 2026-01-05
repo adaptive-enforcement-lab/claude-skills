@@ -39,14 +39,14 @@ jobs:
       # Non-root packages have path prefix with --
       marketplace_release_created: ${{ steps.release.outputs['.claude-plugin--release_created'] }}
       marketplace_tag_name: ${{ steps.release.outputs['.claude-plugin--tag_name'] }}
-      patterns_release_created: ${{ steps.release.outputs['skills/patterns--release_created'] }}
-      patterns_tag_name: ${{ steps.release.outputs['skills/patterns--tag_name'] }}
-      enforcement_release_created: ${{ steps.release.outputs['skills/enforce--release_created'] }}
-      enforcement_tag_name: ${{ steps.release.outputs['skills/enforce--tag_name'] }}
-      build_release_created: ${{ steps.release.outputs['skills/build--release_created'] }}
-      build_tag_name: ${{ steps.release.outputs['skills/build--tag_name'] }}
-      secure_release_created: ${{ steps.release.outputs['skills/secure--release_created'] }}
-      secure_tag_name: ${{ steps.release.outputs['skills/secure--tag_name'] }}
+      patterns_release_created: ${{ steps.release.outputs['plugins/patterns--release_created'] }}
+      patterns_tag_name: ${{ steps.release.outputs['plugins/patterns--tag_name'] }}
+      enforcement_release_created: ${{ steps.release.outputs['plugins/enforce--release_created'] }}
+      enforcement_tag_name: ${{ steps.release.outputs['plugins/enforce--tag_name'] }}
+      build_release_created: ${{ steps.release.outputs['plugins/build--release_created'] }}
+      build_tag_name: ${{ steps.release.outputs['plugins/build--tag_name'] }}
+      secure_release_created: ${{ steps.release.outputs['plugins/secure--release_created'] }}
+      secure_tag_name: ${{ steps.release.outputs['plugins/secure--tag_name'] }}
       releases_created: ${{ steps.release.outputs.releases_created }}
     steps:
       # CRITICAL: GitHub App token required because GITHUB_TOKEN cannot trigger workflows

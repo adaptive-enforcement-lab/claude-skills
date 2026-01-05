@@ -35,7 +35,7 @@
         }
       ]
     },
-    "skills/patterns": {
+    "plugins/patterns": {
       "release-type": "simple",
       "component": "patterns",
       "package-name": "patterns",
@@ -49,7 +49,7 @@
         }
       ]
     },
-    "skills/enforce": {
+    "plugins/enforce": {
       "release-type": "simple",
       "component": "enforce",
       "package-name": "enforce",
@@ -63,7 +63,7 @@
         }
       ]
     },
-    "skills/build": {
+    "plugins/build": {
       "release-type": "simple",
       "component": "build",
       "package-name": "build",
@@ -77,7 +77,7 @@
         }
       ]
     },
-    "skills/secure": {
+    "plugins/secure": {
       "release-type": "simple",
       "component": "secure",
       "package-name": "secure",

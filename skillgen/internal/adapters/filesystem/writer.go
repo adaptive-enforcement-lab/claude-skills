@@ -27,8 +27,8 @@ func NewSkillWriter(fs ports.FileSystem, renderer ports.TemplateRenderer) *Skill
 
 // WriteSkill writes all components of a skill to the output directory.
 func (w *SkillWriter) WriteSkill(skill *domain.Skill, outputDir string) error {
-	// Determine output path: outputDir/category/skill-name/
-	skillDir := filepath.Join(outputDir, skill.Metadata.Category, skill.Metadata.Name)
+	// Determine output path: outputDir/category/skills/skill-name/
+	skillDir := filepath.Join(outputDir, skill.Metadata.Category, "skills", skill.Metadata.Name)
 
 	// Create skill directory
 	if err := w.fs.MkdirAll(skillDir, 0755); err != nil {
@@ -189,14 +189,14 @@ func (w *MarketplaceWriter) GenerateFromConfig(
 		pluginConfig := metadata.Plugins[pluginKey]
 
 		// Extract version from manifest
-		manifestKey := fmt.Sprintf("skills/%s", pluginKey)
+		manifestKey := fmt.Sprintf("plugins/%s", pluginKey)
 		version := versions[manifestKey]
 		if version == "" {
 			version = "0.0.0"
 		}
 
 		// Determine source path
-		source := fmt.Sprintf("./skills/%s", pluginKey)
+		source := fmt.Sprintf("./plugins/%s", pluginKey)
 
 		// Build plugin entry
 		plugin := domain.Plugin{

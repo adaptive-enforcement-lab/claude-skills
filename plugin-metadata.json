@@ -7,7 +7,7 @@
       "email": "contact@adaptive-enforcement-lab.com"
     },
     "description": "Claude Code skills for secure development patterns, enforcement automation, and build engineering",
-    "pluginRoot": "./skills"
+    "pluginRoot": "./plugins"
   },
   "common": {
     "author": {
