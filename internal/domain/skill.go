@@ -7,21 +7,28 @@ type Skill struct {
 	MainContent     string           // SKILL.md content (required)
 	Examples        *ExamplesDoc     // nil if <2 code blocks
 	Troubleshooting *TroubleshootingDoc // nil if no troubleshooting section
-	Reference       *ReferenceDoc    // nil if total content <500 lines
+	Reference       *ReferenceDoc    // nil if total content <200 lines
 	Scripts         []Script
 }
 
 // SkillMetadata contains the frontmatter and derived metadata for a skill.
 type SkillMetadata struct {
-	Name          string   // Kebab-case name derived from title
-	Title         string   // Display title from frontmatter
-	Description   string   // From frontmatter
-	Category      string   // patterns, enforcement, build, secure
-	Tags          []string
-	WhenToUse     string   // Extracted from "Why It Matters" or similar sections
-	Prerequisites string   // Extracted from "Prerequisites" section
-	SourcePath    string   // Original document path
-	SourceURL     string   // URL to source documentation
+	Name               string      // Kebab-case name derived from title
+	Title              string      // Display title from frontmatter
+	Description        string      // From frontmatter
+	Category           string      // patterns, enforcement, build, secure
+	Tags               []string
+	WhenToUse          string      // Extracted from "Why It Matters" or similar sections
+	Prerequisites      string      // Extracted from "Prerequisites" section
+	ImplementationSteps string     // Extracted from "Implementation" sections
+	KeyPrinciples      string      // Extracted from "Key Principles" sections
+	WhenToApply        string      // Extracted from "When to Apply" sections (decision matrices)
+	Techniques         []Technique // Extracted technique subsections
+	Comparison         string      // Extracted comparison/contrast sections
+	AntiPatterns       string      // Extracted anti-pattern sections
+	RelatedPatterns    []string    // Extracted related pattern links
+	SourcePath         string      // Original document path
+	SourceURL          string      // URL to source documentation
 }
 
 // ExamplesDoc represents the examples.md file for a skill.
@@ -48,7 +55,7 @@ func (t *TroubleshootingDoc) ShouldGenerate() bool {
 }
 
 // ReferenceDoc represents the reference.md file for a skill.
-// Only generated if the source document exceeds 500 lines.
+// Only generated if the source document exceeds 200 lines.
 type ReferenceDoc struct {
 	Content string
 	Tables  []Table
@@ -66,6 +73,14 @@ type Script struct {
 	Language string // File extension hint
 	Content  string
 	Path     string // Relative path within skill directory
+}
+
+// Technique represents a subsection technique or method.
+type Technique struct {
+	Name        string      // Technique name/title
+	Description string      // Brief description
+	Content     string      // Full technique content
+	CodeBlocks  []CodeBlock // Code examples specific to this technique
 }
 
 // Note: CodeBlock, Table, and MermaidDiagram are defined in document.go

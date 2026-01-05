@@ -9,35 +9,86 @@ description: >-
 ## When to Use This Skill
 
 {{.Metadata.WhenToUse}}
-
 {{if .Metadata.Prerequisites}}
+
 ## Prerequisites
 
 {{.Metadata.Prerequisites}}
-{{end}}
+{{end -}}
+{{if .Metadata.WhenToApply}}
+
+## When to Apply
+
+{{.Metadata.WhenToApply}}
+{{end -}}
+{{if .Metadata.ImplementationSteps}}
 
 ## Implementation
 
-{{/* This will be filled from implementation steps section */}}
-See the full implementation guide in the source documentation.
+{{.Metadata.ImplementationSteps}}
+{{else}}
 
+## Implementation
+
+See the full implementation guide in the [source documentation]({{.Metadata.SourceURL}}).
+{{end -}}
+{{if .Metadata.KeyPrinciples}}
+
+## Key Principles
+
+{{.Metadata.KeyPrinciples}}
+{{end -}}
+{{if .Metadata.Techniques}}
+
+## Techniques
+{{range .Metadata.Techniques}}
+
+### {{.Name}}
+
+{{.Content}}
+{{end -}}
+{{if .Reference}}
+*See [reference.md](reference.md) for additional techniques and detailed examples.*
+{{end -}}
+{{end -}}
+{{if .Metadata.Comparison}}
+
+## Comparison
+
+{{.Metadata.Comparison}}
+{{end -}}
+{{if .Metadata.AntiPatterns}}
+
+## Anti-Patterns to Avoid
+
+{{.Metadata.AntiPatterns}}
+{{end -}}
 {{if .Examples}}
+
 ## Examples
 
 See [examples.md](examples.md) for code examples.
-{{end}}
-
+{{end -}}
 {{if .Troubleshooting}}
+
 ## Troubleshooting
 
 See [troubleshooting.md](troubleshooting.md) for common issues and solutions.
-{{end}}
-
+{{end -}}
 {{if .Reference}}
+
 ## Full Reference
 
 See [reference.md](reference.md) for complete documentation.
+{{end -}}
+{{if .Metadata.RelatedPatterns}}
+
+## Related Patterns
+
+{{range .Metadata.RelatedPatterns -}}
+- {{.}}
 {{end}}
+{{end -}}
 
 ## References
 

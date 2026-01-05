@@ -82,9 +82,9 @@ func (e *SkillExtractor) Extract(doc *domain.Document) (*domain.Skill, error) {
 		}
 	}
 
-	// Check if we should generate reference.md (>500 lines)
+	// Check if we should generate reference.md (>200 lines)
 	lineCount := strings.Count(doc.RawContent, "\n")
-	if lineCount > 500 {
+	if lineCount > 200 {
 		skill.Reference = &domain.ReferenceDoc{
 			Content:  e.admonitionConverter.Convert(doc.RawContent),
 			Tables:   doc.Tables,
@@ -113,6 +113,45 @@ func (e *SkillExtractor) extractMappedSections(doc *domain.Document, metadata *d
 	// Extract Prerequisites
 	if section := e.sectionMapper.FindSection(doc.Sections, mapper.GetKeywordsForComponent("Prerequisites")); section != nil {
 		metadata.Prerequisites = e.admonitionConverter.Convert(section.Content)
+	}
+
+	// Extract ImplementationSteps (with code block filtering)
+	if section := e.sectionMapper.FindSection(doc.Sections, mapper.GetKeywordsForComponent("ImplementationSteps")); section != nil {
+		metadata.ImplementationSteps = e.extractContentWithShortCodeBlocks(section)
+	}
+
+	// Extract KeyPrinciples
+	if section := e.sectionMapper.FindSection(doc.Sections, mapper.GetKeywordsForComponent("KeyPrinciples")); section != nil {
+		metadata.KeyPrinciples = e.admonitionConverter.Convert(section.Content)
+	}
+
+	// Extract WhenToApply (with code block filtering)
+	if section := e.sectionMapper.FindSection(doc.Sections, mapper.GetKeywordsForComponent("WhenToApply")); section != nil {
+		metadata.WhenToApply = e.extractContentWithShortCodeBlocks(section)
+	}
+
+	// Extract Techniques (look for parent Techniques section and extract subsections)
+	// But skip if the section is actually "Related Patterns"
+	if section := e.sectionMapper.FindSection(doc.Sections, mapper.GetKeywordsForComponent("Techniques")); section != nil {
+		// Don't extract if this is actually a "Related Patterns" section
+		if !strings.Contains(strings.ToLower(section.Title), "related") {
+			metadata.Techniques = e.extractTechniques(section, doc.CodeBlocks)
+		}
+	}
+
+	// Extract Comparison (with code block filtering)
+	if section := e.sectionMapper.FindSection(doc.Sections, mapper.GetKeywordsForComponent("Comparison")); section != nil {
+		metadata.Comparison = e.extractContentWithShortCodeBlocks(section)
+	}
+
+	// Extract AntiPatterns (with code block filtering)
+	if section := e.sectionMapper.FindSection(doc.Sections, mapper.GetKeywordsForComponent("AntiPatterns")); section != nil {
+		metadata.AntiPatterns = e.extractContentWithShortCodeBlocks(section)
+	}
+
+	// Extract RelatedPatterns
+	if section := e.sectionMapper.FindSection(doc.Sections, mapper.GetKeywordsForComponent("RelatedPatterns")); section != nil {
+		metadata.RelatedPatterns = e.extractRelatedPatterns(section)
 	}
 }
 
@@ -170,4 +209,174 @@ func (e *SkillExtractor) generateScripts(codeBlocks []domain.CodeBlock, skillNam
 	}
 
 	return scripts
+}
+
+// extractFullSectionContent extracts section content including all subsections.
+func (e *SkillExtractor) extractFullSectionContent(section *domain.Section) string {
+	var content strings.Builder
+
+	// Add main section content
+	if section.Content != "" {
+		content.WriteString(e.admonitionConverter.Convert(section.Content))
+		content.WriteString("\n\n")
+	}
+
+	// Add subsections
+	for _, subsection := range section.SubSections {
+		content.WriteString("### ")
+		content.WriteString(subsection.Title)
+		content.WriteString("\n\n")
+		content.WriteString(e.admonitionConverter.Convert(subsection.Content))
+		content.WriteString("\n\n")
+	}
+
+	return strings.TrimSpace(content.String())
+}
+
+// extractTechniques extracts technique subsections from a parent section.
+func (e *SkillExtractor) extractTechniques(section *domain.Section, codeBlocks []domain.CodeBlock) []domain.Technique {
+	var techniques []domain.Technique
+
+	// If section has subsections, each subsection is a technique
+	// But only include first 5 techniques to keep SKILL.md manageable
+	maxTechniques := 5
+	for i, subsection := range section.SubSections {
+		if i >= maxTechniques {
+			break
+		}
+		technique := domain.Technique{
+			Name:        subsection.Title,
+			Description: extractFirstParagraph(subsection.Content),
+			Content:     e.admonitionConverter.Convert(subsection.Content),
+			CodeBlocks:  []domain.CodeBlock{}, // Could be enhanced to match code blocks by proximity
+		}
+		techniques = append(techniques, technique)
+	}
+
+	// If no subsections but content exists, treat whole section as one technique
+	if len(techniques) == 0 && section.Content != "" {
+		technique := domain.Technique{
+			Name:        section.Title,
+			Description: extractFirstParagraph(section.Content),
+			Content:     e.admonitionConverter.Convert(section.Content),
+			CodeBlocks:  []domain.CodeBlock{},
+		}
+		techniques = append(techniques, technique)
+	}
+
+	return techniques
+}
+
+// extractRelatedPatterns extracts related pattern references from a section.
+func (e *SkillExtractor) extractRelatedPatterns(section *domain.Section) []string {
+	var patterns []string
+
+	// Look for markdown links in the content
+	content := section.Content
+
+	// Simple pattern extraction: look for [Pattern Name](url) format
+	// This is a basic implementation - could be enhanced with more sophisticated parsing
+	matches := strings.Split(content, "\n")
+
+	for _, line := range matches {
+		// Look for lines that look like pattern references
+		if strings.Contains(line, "[") && strings.Contains(line, "]") {
+			// Extract text between brackets as pattern name
+			start := strings.Index(line, "[")
+			end := strings.Index(line, "]")
+			if start != -1 && end != -1 && end > start {
+				patternName := line[start+1 : end]
+				if patternName != "" && !strings.Contains(patternName, "!") {
+					patterns = append(patterns, patternName)
+				}
+			}
+		}
+	}
+
+	return patterns
+}
+
+// extractFirstParagraph extracts the first paragraph from content.
+func extractFirstParagraph(content string) string {
+	lines := strings.Split(content, "\n")
+	var paragraph strings.Builder
+
+	for _, line := range lines {
+		trimmed := strings.TrimSpace(line)
+		if trimmed == "" {
+			// Empty line marks end of paragraph
+			if paragraph.Len() > 0 {
+				break
+			}
+			continue
+		}
+
+		// Skip markdown headers
+		if strings.HasPrefix(trimmed, "#") {
+			continue
+		}
+
+		if paragraph.Len() > 0 {
+			paragraph.WriteString(" ")
+		}
+		paragraph.WriteString(trimmed)
+	}
+
+	result := paragraph.String()
+	// Limit to reasonable description length
+	if len(result) > 200 {
+		result = result[:197] + "..."
+	}
+
+	return result
+}
+
+// extractContentWithShortCodeBlocks extracts section content but replaces long code blocks (>10 lines) with references to examples.md
+func (e *SkillExtractor) extractContentWithShortCodeBlocks(section *domain.Section) string {
+	content := e.extractFullSectionContent(section)
+
+	// Find code blocks in content
+	lines := strings.Split(content, "\n")
+	var result strings.Builder
+	inCodeBlock := false
+	codeBlockLines := 0
+	codeBlockStart := 0
+
+	for i, line := range lines {
+		// Check if starting or ending code block
+		if strings.HasPrefix(strings.TrimSpace(line), "```") {
+			if !inCodeBlock {
+				// Starting code block
+				inCodeBlock = true
+				codeBlockStart = i
+				codeBlockLines = 0
+			} else {
+				// Ending code block
+				inCodeBlock = false
+
+				// If code block is longer than 10 lines, replace with reference
+				if codeBlockLines > 10 {
+					// Write placeholder instead of the long code block
+					result.WriteString("\n*See [examples.md](examples.md) for detailed code examples.*\n")
+				} else {
+					// Include short code blocks - write buffered lines
+					for j := codeBlockStart; j <= i; j++ {
+						result.WriteString(lines[j])
+						result.WriteString("\n")
+					}
+				}
+				continue
+			}
+		}
+
+		if inCodeBlock {
+			codeBlockLines++
+			// Don't write yet - wait to see if block is too long
+		} else {
+			result.WriteString(line)
+			result.WriteString("\n")
+		}
+	}
+
+	return strings.TrimSpace(result.String())
 }
