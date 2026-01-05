@@ -1,0 +1,320 @@
+---
+name: hardened-deployment-workflow - Reference
+description: Complete reference for Hardened Deployment Workflow
+---
+
+# Hardened Deployment Workflow - Reference
+
+This is the complete reference documentation extracted from the source.
+
+
+# Hardened Deployment Workflow
+
+Copy-paste ready deployment workflow templates with comprehensive security hardening. Each example demonstrates OIDC authentication, environment protection, approval gates, zero-downtime deployments, and automated rollback patterns.
+
+> **Complete Security Patterns**
+>
+>
+> These workflows integrate all security patterns from the hub: OIDC federation (no stored secrets), environment protection with approval gates, SHA-pinned actions, minimal GITHUB_TOKEN permissions, deployment verification, and automated rollback. Use as production templates for secure deployments.
+>
+
+## Deployment Security Principles
+
+Every deployment workflow in this guide implements these controls:
+
+1. **OIDC Authentication**: Secretless cloud authentication with short-lived tokens
+2. **Environment Protection**: Required reviewers and wait timers for production
+3. **Minimal Permissions**: `id-token: write` for OIDC, `contents: read` by default
+4. **Approval Gates**: Human review before production deployment
+5. **Deployment Verification**: Health checks after deployment
+6. **Rollback Automation**: Automatic rollback on failure
+7. **Audit Trail**: Deployment tracking and change logs
+
+## GCP Cloud Run Deployment
+
+Secure workflow for deploying containerized applications to GCP Cloud Run with OIDC authentication.
+
+### Production Deployment with Approval Gate
+
+Complete production deployment with environment protection and verification.
+
+```yaml
+name: Deploy to GCP Cloud Run
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    # SECURITY: Manual deployments require explicit trigger
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        type: choice
+        options:
+          - staging
+          - production
+
+# SECURITY: Minimal permissions by default
+permissions:
+  contents: read
+
+jobs:
+  # Job 1: Build and push container image
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read      # Read repository code
+      id-token: write     # Generate OIDC tokens for GCP auth
+      attestations: write # Create artifact attestations
+    outputs:
+      image-digest: ${{ steps.push.outputs.digest }}
+      image-url: ${{ steps.push.outputs.image-url }}
+    steps:
+      # SECURITY: All actions pinned to full SHA-256 commit hashes
+      - name: Checkout code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+        with:
+          persist-credentials: false
+
+      # SECURITY: Authenticate to GCP using OIDC (no stored secrets)
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@55bd3a7c6e2ae7cf1877fd1ccb9d54c0503c457c  # v2.1.2
+        with:
+          # SECURITY: Workload Identity Federation replaces service account keys
+          # Trust policy restricts access to specific repository and branch
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+          # Token lifetime: 1 hour (default), just long enough for deployment
+          token_format: 'access_token'
+          access_token_lifetime: '3600s'
+
+      # SECURITY: Set up Cloud SDK with authenticated gcloud
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@98ddc00a17442e89a24bbf282954a3b65ce6d200  # v2.1.0
+
+      # SECURITY: Authenticate Podman to Artifact Registry using OIDC token
+      - name: Configure container registry auth
+        run: |
+          gcloud auth configure-docker ${{ vars.GCP_REGION }}-docker.pkg.dev
+
+      # SECURITY: Build container with security scanning
+      - name: Build container image
+        run: |
+          podman build \
+            --tag ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.ARTIFACT_REGISTRY_REPO }}/${{ vars.SERVICE_NAME }}:${{ github.sha }} \
+            --tag ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.ARTIFACT_REGISTRY_REPO }}/${{ vars.SERVICE_NAME }}:latest \
+            --label "git-commit=${{ github.sha }}" \
+            --label "git-ref=${{ github.ref }}" \
+            --label "build-date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
+            .
+
+      # SECURITY: Scan image for vulnerabilities before pushing
+      - name: Scan container for vulnerabilities
+        uses: aquasecurity/trivy-action@d43c1f16c00cfd3978dde6c07f4bbcf9eb6993ca  # 0.16.1
+        with:
+          image-ref: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.ARTIFACT_REGISTRY_REPO }}/${{ vars.SERVICE_NAME }}:${{ github.sha }}
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+          exit-code: '1'  # Fail on critical/high vulnerabilities
+
+      # SECURITY: Push signed image with provenance
+      - name: Push container image
+        id: push
+        run: |
+          IMAGE_URL="${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.ARTIFACT_REGISTRY_REPO }}/${{ vars.SERVICE_NAME }}"
+          podman push "${IMAGE_URL}:${{ github.sha }}"
+          podman push "${IMAGE_URL}:latest"
+
+          # Get image digest for attestation
+          DIGEST=$(podman inspect "${IMAGE_URL}:${{ github.sha }}" --format='{{.Digest}}')
+          echo "digest=${DIGEST}" >> $GITHUB_OUTPUT
+          echo "image-url=${IMAGE_URL}@${DIGEST}" >> $GITHUB_OUTPUT
+
+      # SECURITY: Sign container image with keyless signing
+      - name: Sign container image
+        run: |
+          # Install cosign
+          curl -sLO https://github.com/sigstore/cosign/releases/download/v2.2.2/cosign-linux-amd64
+          chmod +x cosign-linux-amd64
+
+          # SECURITY: Keyless signing using OIDC identity
+          # Signature stored in container registry, tied to workflow identity
+          ./cosign-linux-amd64 sign --yes \
+            ${{ steps.push.outputs.image-url }}
+
+      # SECURITY: Attest container provenance
+      - name: Attest container provenance
+        uses: actions/attest-build-provenance@1c608d11d69870c2092266b3f9a6f3abbf17002c  # v1.4.3
+        with:
+          subject-name: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.ARTIFACT_REGISTRY_REPO }}/${{ vars.SERVICE_NAME }}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
+
+  # Job 2: Deploy to staging (automatic)
+  deploy-staging:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      url: https://staging-${{ vars.SERVICE_NAME }}-${{ vars.GCP_PROJECT_ID }}.a.run.app
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+        with:
+          persist-credentials: false
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@55bd3a7c6e2ae7cf1877fd1ccb9d54c0503c457c  # v2.1.2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_STAGING }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@98ddc00a17442e89a24bbf282954a3b65ce6d200  # v2.1.0
+
+      # SECURITY: Deploy to Cloud Run with security controls
+      - name: Deploy to Cloud Run (Staging)
+        id: deploy
+        run: |
+          gcloud run deploy ${{ vars.SERVICE_NAME }}-staging \
+            --image ${{ needs.build.outputs.image-url }} \
+            --region ${{ vars.GCP_REGION }} \
+            --platform managed \
+            --allow-unauthenticated \
+            --min-instances 0 \
+            --max-instances 10 \
+            --cpu 1 \
+            --memory 512Mi \
+            --timeout 60s \
+            --concurrency 80 \
+            --set-env-vars "ENVIRONMENT=staging,GIT_COMMIT=${{ github.sha }}" \
+            --labels "environment=staging,git-commit=${{ github.sha }},deployed-by=github-actions" \
+            --no-traffic  # SECURITY: Deploy without traffic for verification
+
+      # SECURITY: Verify deployment health before routing traffic
+      - name: Verify deployment health
+        run: |
+          SERVICE_URL=$(gcloud run services describe ${{ vars.SERVICE_NAME }}-staging \
+            --region ${{ vars.GCP_REGION }} \
+            --format 'value(status.url)')
+
+          # Health check with retries
+          for i in {1..5}; do
+            if curl -f -s -o /dev/null "${SERVICE_URL}/health"; then
+              echo "Health check passed"
+              exit 0
+            fi
+            echo "Health check attempt $i failed, retrying..."
+            sleep 10
+          done
+
+          echo "::error::Health check failed after 5 attempts"
+          exit 1
+
+      # SECURITY: Route traffic to new revision after verification
+      - name: Route traffic to new revision
+        run: |
+          LATEST_REVISION=$(gcloud run revisions list \
+            --service ${{ vars.SERVICE_NAME }}-staging \
+            --region ${{ vars.GCP_REGION }} \
+            --format 'value(name)' \
+            --limit 1)
+
+          gcloud run services update-traffic ${{ vars.SERVICE_NAME }}-staging \
+            --region ${{ vars.GCP_REGION }} \
+            --to-revisions "${LATEST_REVISION}=100"
+
+  # Job 3: Deploy to production (approval gate)
+  deploy-production:
+    needs: [build, deploy-staging]
+    runs-on: ubuntu-latest
+    # SECURITY: Environment protection with required reviewers and wait timer
+    # Settings → Environments → production → Protection rules:
+    # - Required reviewers: security-team, platform-leads
+    # - Wait timer: 5 minutes (allows security team to abort malicious deployments)
+    # - Deployment branches: main only
+    environment:
+      name: production
+      url: https://${{ vars.SERVICE_NAME }}-${{ vars.GCP_PROJECT_ID }}.a.run.app
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+        with:
+          persist-credentials: false
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@55bd3a7c6e2ae7cf1877fd1ccb9d54c0503c457c  # v2.1.2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_PRODUCTION }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@98ddc00a17442e89a24bbf282954a3b65ce6d200  # v2.1.0
+
+      # SECURITY: Record pre-deployment state for rollback
+      - name: Record current production revision
+        id: current
+        run: |
+          CURRENT_REVISION=$(gcloud run services describe ${{ vars.SERVICE_NAME }} \
+            --region ${{ vars.GCP_REGION }} \
+            --format 'value(status.traffic[0].revisionName)' || echo "none")
+          echo "revision=${CURRENT_REVISION}" >> $GITHUB_OUTPUT
+          echo "Current production revision: ${CURRENT_REVISION}"
+
+      # SECURITY: Blue-green deployment with traffic splitting
+      - name: Deploy to Cloud Run (Production)
+        id: deploy
+        run: |
+          gcloud run deploy ${{ vars.SERVICE_NAME }} \
+            --image ${{ needs.build.outputs.image-url }} \
+            --region ${{ vars.GCP_REGION }} \
+            --platform managed \
+            --allow-unauthenticated \
+            --min-instances 1 \
+            --max-instances 100 \
+            --cpu 2 \
+            --memory 1Gi \
+            --timeout 300s \
+            --concurrency 80 \
+            --set-env-vars "ENVIRONMENT=production,GIT_COMMIT=${{ github.sha }}" \
+            --labels "environment=production,git-commit=${{ github.sha }},deployed-by=github-actions" \
+            --no-traffic  # SECURITY: Deploy without traffic for verification
+
+      # SECURITY: Verify new revision health before routing traffic
+      - name: Verify new revision health
+        id: verify
+        run: |
+          # Get latest revision URL
+          LATEST_REVISION=$(gcloud run revisions list \
+            --service ${{ vars.SERVICE_NAME }} \
+            --region ${{ vars.GCP_REGION }} \
+            --format 'value(name)' \
+            --limit 1)
+
+          REVISION_URL=$(gcloud run services describe ${{ vars.SERVICE_NAME }} \
+            --region ${{ vars.GCP_REGION }} \
+            --format 'value(status.url)')
+
+          echo "latest-revision=${LATEST_REVISION}" >> $GITHUB_OUTPUT
+
+          # Health check with retries
+          for i in {1..10}; do
+            if curl -f -s -H "X-Serverless-Authorization: Bearer $(gcloud auth print-identity-token)" \
+              -o /dev/null "${REVISION_URL}/health"; then
+              echo "Health check passed for revision ${LATEST_REVISION}"
+              exit 0
+            fi
+            echo "Health check attempt $i failed, retrying..."
+            sleep 15
+          done
+
+          echo "::error::Health check failed after 10 attempts"
+          exit 1
+

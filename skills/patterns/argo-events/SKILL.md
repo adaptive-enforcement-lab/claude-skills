@@ -13,17 +13,16 @@ Argo Events is an event-driven workflow automation framework for Kubernetes. It 
 ---
 
 
-
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
-
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/argo-events/).
 
 
+## Related Patterns
 
-
-
+- Argo Workflows Patterns
+- Event-Driven Deployments
+- ConfigMap as Cache Pattern
 
 ## References
 

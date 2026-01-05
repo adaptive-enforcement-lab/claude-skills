@@ -19,22 +19,43 @@ description: >-
 ---
 
 
-
 ## Implementation
 
+### Dynamic Matrix
 
-See the full implementation guide in the source documentation.
+Generate the target list in a discovery stage:
+
+
+*See [examples.md](examples.md) for detailed code examples.*
+
+### Failure Isolation
+
+Prevent one failure from canceling other jobs:
+
+```yaml
+strategy:
+  matrix:
+    target: ${{ fromJson(needs.discover.outputs.targets) }}
+  fail-fast: false  # Critical: continue processing other targets
+```
+
+### Rate Limiting
+
+Control concurrency to avoid API rate limits:
+
+```yaml
+strategy:
+  matrix:
+    target: ${{ fromJson(needs.discover.outputs.targets) }}
+  max-parallel: 10  # Limit concurrent jobs
+```
+
+---
 
 
 ## Examples
 
 See [examples.md](examples.md) for code examples.
-
-
-
-
-
-
 ## References
 
 - [Source Documentation](https://adaptive-enforcement-lab.com/patterns/architecture/)

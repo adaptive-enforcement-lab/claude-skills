@@ -29,22 +29,36 @@ description: >-
 ---
 
 
-
 ## Implementation
 
+**Install Kyverno CLI for testing:**
 
-See the full implementation guide in the source documentation.
+```bash
+# Install kyverno CLI
+brew install kyverno/kyverno/kyverno
+
+# Test JMESPath expression
+kyverno jp query -i manifest.yaml 'spec.template.spec.containers[*].name'
+```
+
+**Simple validation example:**
+
+
+*See [examples.md](examples.md) for detailed code examples.*
+
+**What this does:**
+
+- Filters containers without memory limits: `containers[?!resources.limits.memory]`
+- Extracts their names: `.name`
+- Counts them: `| length(@)`
+- Denies if count > 0
+
+---
 
 
 ## Examples
 
 See [examples.md](examples.md) for code examples.
-
-
-
-
-
-
 ## References
 
 - [Source Documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/)

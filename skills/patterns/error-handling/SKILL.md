@@ -25,11 +25,9 @@ Error handling for GitHub App tokens addresses:
 > 4. **Escalate** - Provide actionable messages for permanent failures
 
 
-
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/).
 
 
 ## Examples
@@ -37,10 +35,9 @@ See the full implementation guide in the source documentation.
 See [examples.md](examples.md) for code examples.
 
 
+## Full Reference
 
-
-
-
+See [reference.md](reference.md) for complete documentation.
 ## References
 
 - [Source Documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/)

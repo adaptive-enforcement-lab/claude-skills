@@ -57,8 +57,12 @@ Before implementing release pipelines, set up a GitHub App for your organization
 
 ## Implementation
 
+1. [Set up GitHub App](../../secure/github-apps/index.md) for your organization
+2. [Configure release-please](release-please/index.md) with App token
+3. [Set up change detection](change-detection.md) for your components
+4. [Handle protected branches](protected-branches.md) if applicable
 
-See the full implementation guide in the source documentation.
+---
 
 
 ## Examples
@@ -66,9 +70,11 @@ See the full implementation guide in the source documentation.
 See [examples.md](examples.md) for code examples.
 
 
+## Related Patterns
 
-
-
+- GitHub App Setup
+- Idempotency Patterns
+- Three-Stage Design
 
 ## References
 

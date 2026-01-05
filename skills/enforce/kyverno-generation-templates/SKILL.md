@@ -25,11 +25,9 @@ description: >-
 ---
 
 
-
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/).
 
 
 ## Examples
@@ -37,9 +35,10 @@ See the full implementation guide in the source documentation.
 See [examples.md](examples.md) for code examples.
 
 
+## Related Patterns
 
-
-
+- Kyverno Templates Overview
+- Template Library Overview
 
 ## References
 

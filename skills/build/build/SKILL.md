@@ -11,17 +11,16 @@ description: >-
 This section covers the development practices, tooling choices, and automation patterns that turn code into deployable, documented, versioned artifacts.
 
 
-
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
-
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/build/index.md/).
 
 
+## Related Patterns
 
-
-
+- Secure
+- Enforce
+- Patterns
 
 ## References
 

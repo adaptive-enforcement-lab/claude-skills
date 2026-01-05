@@ -22,22 +22,14 @@ The policy-platform container is a multi-stage Docker build that:
 ---
 
 
-
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/).
 
 
 ## Examples
 
 See [examples.md](examples.md) for code examples.
-
-
-
-
-
-
 ## References
 
 - [Source Documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/)

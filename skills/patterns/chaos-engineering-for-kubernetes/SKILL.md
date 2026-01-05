@@ -15,18 +15,13 @@ The discipline requires three things: intent, control, and measurement. You run 
 This guide provides production-proven experiment patterns using Chaos Mesh and LitmusChaos, complete with YAML configurations, success criteria, and rollback procedures.
 
 
-
 ## Implementation
 
+*See [examples.md](examples.md) for detailed code examples.*
 
-See the full implementation guide in the source documentation.
-
-
-
-
-
-
-
+> **Start Small, Scale Systematically**
+>
+> Begin with single-pod experiments in staging. Progress to production only after validating success criteria, rollback procedures, and observability coverage.
 ## References
 
 - [Source Documentation](https://adaptive-enforcement-lab.com/patterns/reliability/)

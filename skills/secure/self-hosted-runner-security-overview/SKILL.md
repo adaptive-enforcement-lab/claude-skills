@@ -359,17 +359,135 @@ Use this checklist when deploying or auditing self-hosted runners.
 - [Workflow Triggers](../workflows/triggers/index.md): Understanding which events trigger runner execution
 
 
+## When to Apply
+
+### Scenario 1: Persistent Backdoor via Cron Job
+
+**Timeline**:
+
+- T+0: Malicious pull request workflow executes on persistent runner
+- T+5m: Workflow installs reverse shell as cron job in runner's crontab
+- T+1h: Workflow completes, PR closed as spam, no evidence in logs
+- T+2h: Cron job executes, attacker gains interactive shell on runner
+- T+4h: Attacker pivots to adjacent systems using runner's network access
+- T+12h: Attacker exfiltrates database credentials from internal service
+- T+24h: Production database breach detected, runner backdoor discovered
+
+**Impact**: Full production compromise. Database exfiltration. Lateral movement across internal network.
+
+**Prevention**: Ephemeral runners. Each job runs in fresh VM or container. No persistence between jobs.
+
+### Scenario 2: Cloud Metadata Credential Theft
+
+**Timeline**:
+
+- T+0: Pull request workflow from external contributor executes on self-hosted runner
+- T+1m: Workflow queries cloud metadata endpoint for IAM credentials
+- T+2m: Workflow exfiltrates AWS/GCP credentials to attacker-controlled server
+- T+10m: Workflow completes normally, no suspicious behavior in logs
+- T+1h: Attacker uses stolen credentials to create admin user in cloud account
+- T+6h: Attacker deploys cryptominer across cloud infrastructure
+- T+24h: Unusual cloud billing triggers investigation, breach discovered
+
+**Impact**: Cloud account compromise. Unauthorized resource consumption. Potential data access.
+
+**Prevention**: Network policies blocking metadata endpoints. Instance Metadata Service v2 (IMDSv2) requiring token headers. Ephemeral runners with minimal IAM permissions.
+
+### Scenario 3: Internal Network Reconnaissance
+
+**Timeline**:
+
+- T+0: External pull request workflow executes on runner with internal network access
+- T+5m: Workflow performs port scan of internal network ranges
+- T+15m: Workflow identifies database server on internal network
+- T+20m: Workflow attempts default credentials against database
+- T+25m: Workflow exfiltrates list of internal hostnames and open ports
+- T+30m: Workflow completes, PR closed, reconnaissance data sent to attacker
+- T+48h: Targeted phishing campaign against internal teams using reconnaissance data
+
+**Impact**: Network topology disclosure. Internal service discovery. Reconnaissance for future attacks.
+
+**Prevention**: Network segmentation. Runner networks isolated from production systems. Egress filtering. Deny-by-default firewall rules.
+
 
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
-
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/).
 
 
+## Key Principles
+
+### Principle 1: Ephemeral Execution
+
+**Never reuse runner state between jobs.**
+
+Every job executes in a fresh environment (VM or container). Filesystem, network identity, and credentials start clean. Malicious job cannot plant persistence for future exploitation.
+
+**Implementation**: Actions Runner Controller (ARC) with ephemeral mode, VM autoscaling groups with per-job lifecycle, container-based runners with destroy-on-completion.
+
+### Principle 2: Network Isolation
+
+**Runners should not have default access to production systems.**
+
+Deploy runners in isolated network segments with explicit allow-lists for required internal services. Deny-by-default firewall rules. Egress filtering to prevent exfiltration.
+
+**Implementation**: VPC/VNet segmentation, subnet-level network policies, deny-all egress with explicit allow rules for GitHub API and package registries.
+
+### Principle 3: Minimal Credential Scope
+
+**Runners receive only credentials required for specific jobs.**
+
+No ambient credentials. No long-lived tokens. Use OIDC federation to mint short-lived credentials per job. Cloud IAM policies scoped to minimal required permissions.
+
+**Implementation**: OIDC trust policies with subject claim validation, per-job temporary credentials, metadata endpoint blocking, runner-specific IAM roles.
+
+### Principle 4: Audit Logging and Monitoring
+
+**Every runner action is logged and monitored.**
+
+Capture job execution logs, network connections, credential access, and system calls. Alert on anomalous behavior (unusual network destinations, metadata queries, privileged operations).
+
+**Implementation**: Centralized log aggregation, CloudWatch/Stackdriver for cloud events, auditd for system calls, network flow logs, anomaly detection.
+
+### Principle 5: Least Privilege Runner Groups
+
+**Organize runners by trust level and scope.**
+
+Separate runner groups for public repositories (untrusted) vs internal repositories (trusted). Different groups for production vs non-production workloads. Repository access restrictions per group.
+
+**Implementation**: GitHub runner groups with repository allow-lists, workflow restrictions, required labels for sensitive runners.
 
 
+## Comparison
 
+Understanding the security trade-offs between GitHub-hosted and self-hosted runners.
+
+| Aspect | GitHub-Hosted | Self-Hosted |
+| ------ | ------------- | ----------- |
+| **Isolation Model** | Ephemeral VM per job | Persistent runner (unless hardened) |
+| **Network Scope** | Internet-only | Access to internal networks |
+| **Credential Exposure** | GITHUB_TOKEN only | Cloud metadata, local creds, adjacent services |
+| **State Persistence** | None (clean VM each job) | Filesystem persists between jobs |
+| **Security Responsibility** | GitHub manages hardening | You manage OS, network, isolation |
+| **Update Management** | GitHub maintains runner software | You maintain OS and runner software |
+| **Compliance Boundary** | GitHub's infrastructure | Your infrastructure and policies |
+| **Cost Model** | Free for public repos, usage-based for private | Infrastructure + management overhead |
+| **Attack Surface** | Minimal (isolated, ephemeral) | High (persistent, networked, adjacent systems) |
+
+**Key Takeaway**: GitHub-hosted runners are secure by default. Self-hosted runners require deliberate hardening.
+
+
+## Full Reference
+
+See [reference.md](reference.md) for complete documentation.
+
+
+## Related Patterns
+
+- Secret Management Overview
+- OIDC Federation
+- Third-Party Action Risk Assessment
+- Workflow Triggers
 
 ## References
 

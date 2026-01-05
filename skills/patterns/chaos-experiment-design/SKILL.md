@@ -15,17 +15,16 @@ Chaos without validation is just breaking things. Proper experiment design trans
 > Every chaos experiment must have a hypothesis, measurable success criteria, controlled blast radius, and automated validation. If you can't measure it, you can't learn from it.
 
 
-
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
-
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/reliability/).
 
 
+## Related Patterns
 
-
-
+- Chaos Engineering Overview
+- Observability
+- Experiments
 
 ## References
 

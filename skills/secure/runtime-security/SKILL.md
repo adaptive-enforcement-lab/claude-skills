@@ -24,14 +24,47 @@ This section covers runtime security for GKE clusters:
 
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
-
-
-
+- **[Cluster Configuration](../cluster-configuration/index.md)** - Private GKE, Workload Identity
+- **[Network Security](../network-security/index.md)** - VPC networking, Network Policies
+- **[IAM Configuration](../iam-configuration/index.md)** - Least-privilege IAM
 
 
+## Key Principles
 
+### Defense in Depth
+
+Multiple layers of runtime security controls:
+
+- Pod Security Standards enforce secure defaults
+- Admission controllers block invalid configurations
+- Runtime monitoring detects anomalous behavior
+- Audit logging captures all activity
+
+### Secure by Default
+
+Production workloads must meet strict security requirements:
+
+- Run as non-root user
+- Read-only root filesystem
+- Drop all Linux capabilities
+- No privilege escalation
+- Resource limits defined
+
+### Continuous Monitoring
+
+Runtime monitoring provides visibility into pod behavior:
+
+- Process execution tracking
+- File access monitoring
+- Network connection detection
+- System call auditing
+
+
+## Related Patterns
+
+- Cluster Configuration
+- Network Security
+- IAM Configuration
 
 ## References
 

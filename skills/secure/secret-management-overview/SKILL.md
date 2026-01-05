@@ -297,11 +297,9 @@ jobs:
 **Prevention**: Use `pull_request` (not `pull_request_target`) for untrusted code. Isolate secret access.
 
 
-
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/).
 
 
 ## Examples
@@ -309,10 +307,9 @@ See the full implementation guide in the source documentation.
 See [examples.md](examples.md) for code examples.
 
 
+## Full Reference
 
-
-
-
+See [reference.md](reference.md) for complete documentation.
 ## References
 
 - [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/)

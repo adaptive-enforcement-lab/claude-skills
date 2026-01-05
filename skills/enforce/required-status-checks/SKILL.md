@@ -15,11 +15,9 @@ This turns "you should test" into "untested code cannot merge."
 ---
 
 
-
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/enforce/status-checks/).
 
 
 ## Examples
@@ -27,10 +25,9 @@ See the full implementation guide in the source documentation.
 See [examples.md](examples.md) for code examples.
 
 
+## Full Reference
 
-
-
-
+See [reference.md](reference.md) for complete documentation.
 ## References
 
 - [Source Documentation](https://adaptive-enforcement-lab.com/enforce/status-checks/)

@@ -16,11 +16,9 @@ Copy-paste ready CI workflow templates with comprehensive security hardening. Ea
 > These workflows integrate all security patterns from the hub: SHA-pinned actions, job-level permissions, secret scanning prevention, fork PR safety, and security tooling. Use as production templates.
 
 
-
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/).
 
 
 ## Examples
@@ -28,10 +26,9 @@ See the full implementation guide in the source documentation.
 See [examples.md](examples.md) for code examples.
 
 
+## Full Reference
 
-
-
-
+See [reference.md](reference.md) for complete documentation.
 ## References
 
 - [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/)

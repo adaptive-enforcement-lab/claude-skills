@@ -372,11 +372,69 @@ Ready to implement minimal permissions? Continue with:
 > Begin with `permissions: { contents: read }` for every workflow. Add permissions only when you encounter "Resource not accessible" errors. Document why each permission is required.
 
 
-
 ## Implementation
 
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/).
 
-See the full implementation guide in the source documentation.
+
+## Key Principles
+
+**Always use explicit permissions**: Never rely on repository defaults.
+
+```yaml
+permissions:
+  contents: read
+```
+
+**Scope to job when possible**: Escalate only where needed.
+
+```yaml
+permissions:
+  contents: read
+
+jobs:
+  release:
+    permissions:
+      contents: write
+```
+
+**Document permissions**: Add comments explaining why each permission is required.
+
+**Avoid `contents: write`**: Enables workflow self-modification. Use pull requests for changes when possible.
+
+**Use OIDC instead of secrets**: Prefer `id-token: write` for cloud authentication over long-lived credentials.
+
+**Review permission escalations**: Require security review for `.github/workflows/` changes that add permissions.
+
+
+## Techniques
+
+
+### Common Permission Patterns
+
+| Pattern | Permissions | Use Case |
+| ------- | ----------- | -------- |
+| **Read-Only CI** | `contents: read` | Test, lint, build |
+| **PR Comment** | `contents: read`, `pull-requests: write` | Post coverage, scan results |
+| **Security Scan** | `contents: read`, `security-events: write` | Upload SARIF to Security tab |
+| **Release** | `contents: write` | Create releases, push tags |
+| **OIDC Federation** | `id-token: write`, `contents: read` | Cloud auth without secrets |
+| **Package Publish** | `contents: read`, `packages: write` | Publish to GitHub Packages |
+
+*See [reference.md](reference.md) for additional techniques and detailed examples.*
+
+
+## Comparison
+
+| Aspect | Default Permissions | Explicit Permissions |
+| ------ | ------------------- | -------------------- |
+| **Configuration** | Inherited from repo/org settings | Declared in workflow file |
+| **Portability** | Breaks when repo settings change | Works consistently across repos |
+| **Visibility** | Hidden - must check repo settings | Visible in workflow file |
+| **Security Posture** | Varies by configuration | Consistently minimal |
+| **Attack Surface** | Often excessive | Minimized to requirements |
+| **Maintenance** | Relies on external policy | Self-documenting in code |
+| **Best Practice** | Avoid | Always use |
 
 
 ## Examples
@@ -384,14 +442,14 @@ See the full implementation guide in the source documentation.
 See [examples.md](examples.md) for code examples.
 
 
-
 ## Troubleshooting
 
 See [troubleshooting.md](troubleshooting.md) for common issues and solutions.
 
 
+## Full Reference
 
-
+See [reference.md](reference.md) for complete documentation.
 ## References
 
 - [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/)

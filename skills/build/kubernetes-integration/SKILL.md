@@ -17,22 +17,32 @@ A well-designed Kubernetes CLI works seamlessly both on developer laptops and in
 ---
 
 
-
 ## Implementation
 
+*See [examples.md](examples.md) for detailed code examples.*
 
-See the full implementation guide in the source documentation.
+---
+
+
+## Key Principles
+
+| Practice | Description |
+| ---------- | ------------- |
+| **Use contexts everywhere** | Pass `context.Context` to all Kubernetes operations |
+| **Handle cancellation** | Respect context cancellation for clean shutdowns |
+| **Wrap errors with context** | Include resource type and name in error messages |
+| **Default to current namespace** | Match kubectl behavior for namespace resolution |
+| **Support both configs** | Always handle in-cluster and out-of-cluster scenarios |
+| **Minimal RBAC** | Request only the permissions your CLI needs |
+
+---
+
+*Build clients that work everywhere: laptop, CI runner, or pod.*
 
 
 ## Examples
 
 See [examples.md](examples.md) for code examples.
-
-
-
-
-
-
 ## References
 
 - [Source Documentation](https://adaptive-enforcement-lab.com/build/go-cli-architecture/)

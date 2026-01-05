@@ -21,11 +21,42 @@ description: >-
 ---
 
 
-
 ## Implementation
 
+> **Deploy in Audit Mode First**
+>
+> Always start with `audit` (Kyverno) or `dryrun` (OPA) mode. Monitor violations for 48 hours before switching to enforcement. Existing workloads may violate policies.
+>
 
-See the full implementation guide in the source documentation.
+### Kyverno Quick Start (5 minutes)
+
+
+*See [examples.md](examples.md) for detailed code examples.*
+
+### OPA/Gatekeeper Quick Start (10 minutes)
+
+
+*See [examples.md](examples.md) for detailed code examples.*
+
+---
+
+
+## Comparison
+
+Choose the right policy engine for your team:
+
+| Feature | Kyverno | OPA/Gatekeeper |
+|---------|---------|----------------|
+| **Policies** | 28 (validation, mutation, generation) | 20 (validation only) |
+| **Language** | YAML + JMESPath | Rego (Go-like DSL) |
+| **Learning Curve** | < 1 hour | 4-8 hours |
+| **Best For** | Kubernetes-native teams, fast adoption | Multi-platform policies, complex logic |
+| **Mutation** | ✅ Native support | ❌ Validation only |
+| **Generation** | ✅ Auto-create resources | ❌ Validation only |
+
+**See [Decision Guide →](decision-guide.md)** for detailed comparison and recommended starter paths.
+
+---
 
 
 ## Examples
@@ -33,9 +64,18 @@ See the full implementation guide in the source documentation.
 See [examples.md](examples.md) for code examples.
 
 
+## Full Reference
+
+See [reference.md](reference.md) for complete documentation.
 
 
+## Related Patterns
 
+- Kyverno Official Documentation
+- OPA/Gatekeeper Documentation
+- Kubernetes Pod Security Standards
+- NIST SP 800-190
+- CIS Kubernetes Benchmark
 
 ## References
 

@@ -19,22 +19,14 @@ Comprehensive guide to securely storing GitHub App credentials across different 
 > - **Local Development** - Environment variables or encrypted vaults (never in code)
 
 
-
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-apps/).
 
 
 ## Examples
 
 See [examples.md](examples.md) for code examples.
-
-
-
-
-
-
 ## References
 
 - [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-apps/)

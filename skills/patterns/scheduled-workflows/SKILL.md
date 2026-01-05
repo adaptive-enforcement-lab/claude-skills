@@ -13,17 +13,49 @@ CronWorkflows run automation on a schedule: hourly builds, nightly backups, week
 ---
 
 
-
 ## Implementation
 
+1. **Define the schedule** using cron syntax
+2. **Set concurrency policy** to handle overlaps appropriately
+3. **Configure history limits** to prevent resource accumulation
+4. **Add monitoring** for schedule misses and failures
 
-See the full implementation guide in the source documentation.
+---
 
 
+## Techniques
 
 
+### Patterns
+
+| Pattern | Description |
+| --------- | ------------- |
+| [Basic CronWorkflow](basic.md) | Simple scheduled execution |
+| [Concurrency Policies](concurrency-policy.md) | Handling overlapping runs |
+| [Orchestration](orchestration.md) | Scheduled pipelines that spawn child workflows |
+| [GitHub Integration](github-integration.md) | Triggering GitHub Actions from schedules |
+
+---
 
 
+## Anti-Patterns to Avoid
+
+| Pattern | Description |
+| --------- | ------------- |
+| [Basic CronWorkflow](basic.md) | Simple scheduled execution |
+| [Concurrency Policies](concurrency-policy.md) | Handling overlapping runs |
+| [Orchestration](orchestration.md) | Scheduled pipelines that spawn child workflows |
+| [GitHub Integration](github-integration.md) | Triggering GitHub Actions from schedules |
+
+---
+
+
+## Related Patterns
+
+- Basic CronWorkflow
+- Concurrency Policies
+- Orchestration
+- GitHub Integration
 
 ## References
 

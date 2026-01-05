@@ -18,17 +18,20 @@ Production-ready Kyverno policies for Kubernetes admission control. **28 policie
 ---
 
 
-
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
-
+All templates follow the same deployment pattern:
 
 
+*See [examples.md](examples.md) for detailed code examples.*
 
 
+## Related Patterns
 
+- JMESPath Patterns →
+- OPA Templates →
+- Decision Guide →
+- Template Library Overview →
 
 ## References
 

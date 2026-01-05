@@ -18,18 +18,26 @@ This section covers:
 ---
 
 
+## When to Apply
+
+| Criteria | Cobra | urfave/cli | Kong |
+| ---------- | ------- | ------------ | ------ |
+| Ecosystem maturity | High | Medium | Growing |
+| Learning curve | Medium | Low | Low |
+| Type safety | Low | Low | High |
+| Kubernetes alignment | High | Medium | Medium |
+| Configuration integration | Excellent (Viper) | Good | Good |
+| Shell completion | Built-in | Plugin | Built-in |
+| Nested subcommands | Excellent | Good | Good |
+
+---
+
+*Choose tools that match kubectl conventions. Your users already know them.*
+
 
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
-
-
-
-
-
-
-
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/build/go-cli-architecture/).
 ## References
 
 - [Source Documentation](https://adaptive-enforcement-lab.com/build/go-cli-architecture/)

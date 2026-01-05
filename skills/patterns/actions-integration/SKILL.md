@@ -27,15 +27,30 @@ Before integrating, ensure you have:
 
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
-
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/).
 
 
+## Techniques
 
 
+### Authentication Methods
 
+GitHub Apps support three authentication methods, each serving different use cases:
 
+| Method | Scope | Expiration | Primary Use Case |
+|--------|-------|------------|------------------|
+| **[JWT](jwt-authentication/index.md)** | App-level | 10 minutes | Installation discovery, app metadata, bootstrapping |
+| **[Installation Tokens](token-generation/index.md)** | Repository/Org | 1 hour | Repository operations, API access, automation |
+| **[OAuth](oauth-authentication/index.md)** | User context | Configurable | User-specific operations, web flows |
+
+> **Which authentication method should I use?**
+>
+>
+> - **Most workflows** → Installation Tokens (via `actions/create-github-app-token`)
+> - **App management** → JWT (list installations, app configuration)
+> - **User operations** → OAuth (actions on behalf of a user)
+>
+> See the [Authentication Decision Guide](../../../secure/github-apps/authentication-decision-guide.md) for detailed selection criteria.
 ## References
 
 - [Source Documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/)

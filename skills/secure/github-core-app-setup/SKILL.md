@@ -39,15 +39,19 @@ This guide describes the concept, setup, and configuration of a GitHub Core App 
 
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
-
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-apps/).
 
 
+## Comparison
 
-
-
-
+| Aspect | Core App | Standard App |
+| -------- | ---------- | -------------- |
+| **Scope** | Organization-wide | Single repository or selected repos |
+| **Purpose** | Infrastructure automation | Feature-specific functionality |
+| **Permissions** | Broad, covers common operations | Narrow, task-specific |
+| **Installation** | All repositories | Selective repositories |
+| **Ownership** | Organization-level admin | Project or team |
+| **Lifespan** | Permanent infrastructure | Project lifecycle |
 ## References
 
 - [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-apps/)

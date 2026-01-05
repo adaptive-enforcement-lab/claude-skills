@@ -15,18 +15,9 @@ Security-focused tooling built into the Go ecosystem. No exotic tools needed. Ev
 > Go's "boring" standard tools catch real vulnerabilities because they're frictionless to run. Exotic tools gather dust. Standard tools run on every commit.
 
 
-
 ## Implementation
 
-
-See the full implementation guide in the source documentation.
-
-
-
-
-
-
-
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/go-security/).
 ## References
 
 - [Source Documentation](https://adaptive-enforcement-lab.com/secure/go-security/)
