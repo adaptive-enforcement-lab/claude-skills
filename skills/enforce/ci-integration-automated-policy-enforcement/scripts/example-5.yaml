@@ -1,0 +1,68 @@
+- parallel:
+    steps:
+      - step:
+          name: Validate DevOps Policy
+          image: policy-platform:latest
+          script:
+            - |
+              # Generate policy report
+              kyverno apply devops-policy.yaml \
+                --resource backend-app.yaml \
+                --output mutated-resources \
+                --policy-report \
+                --audit-warn \
+              > tmp-policy-report.yaml
+
+            - |
+              # Extract YAML report for download
+              sed -n '/^POLICY REPORT:/,$p' tmp-policy-report.yaml \
+                | tail -n +3 \
+                | { echo '---'; cat; } \
+              > policy-report.yaml
+
+            - |
+              # Display summary
+              kyverno apply devops-policy.yaml \
+                --resource backend-app.yaml \
+                --output mutated-resources \
+                --remove-color
+
+            - |
+              # Display detailed results table
+              kyverno apply devops-policy.yaml \
+                --resource backend-app.yaml \
+                --output mutated-resources \
+                -t --detailed-results \
+                --remove-color
+          artifacts:
+            - policy-report.yaml
+
+      - step:
+          name: Validate Security Policy
+          image: policy-platform:latest
+          script:
+            - |
+              kyverno apply security-policy.yaml \
+                --resource backend-app.yaml \
+                --output mutated-resources \
+                --policy-report \
+                --audit-warn \
+              > tmp-policy-report.yaml
+
+            - sed -n '/^POLICY REPORT:/,$p' tmp-policy-report.yaml \
+                | tail -n +3 \
+                | { echo '---'; cat; } \
+              > policy-report.yaml
+
+            - kyverno apply security-policy.yaml \
+                --resource backend-app.yaml \
+                --output mutated-resources \
+                --remove-color
+
+            - kyverno apply security-policy.yaml \
+                --resource backend-app.yaml \
+                --output mutated-resources \
+                -t --detailed-results \
+                --remove-color
+          artifacts:
+            - policy-report.yaml

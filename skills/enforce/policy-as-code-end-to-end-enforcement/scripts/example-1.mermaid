@@ -1,0 +1,12 @@
+graph LR
+    A[Local Development] -->|Push Code| B[CI Pipeline]
+    B -->|Deploy| C[Runtime Admission]
+
+    A -->|policy-platform container| A1[Kyverno CLI]
+    B -->|policy-platform container| B1[Kyverno CLI]
+    C -->|Kyverno controller| C1[Admission Webhook]
+
+    %% Ghostty Hardcore Theme
+    style A fill:#a7e22e,color:#1b1d1e
+    style B fill:#a7e22e,color:#1b1d1e
+    style C fill:#65d9ef,color:#1b1d1e

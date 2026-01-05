@@ -1,0 +1,11 @@
+graph TD
+    K[kubectl apply] --> API[Kubernetes API Server]
+    API --> ADM[Admission Controller]
+    ADM --> KYV[Kyverno Webhook]
+    KYV --> POL{Policy Check}
+    POL -->|Pass| ETCD[(etcd)]
+    POL -->|Fail| REJECT[Reject Request]
+
+    %% Ghostty Hardcore Theme
+    style ETCD fill:#a7e22e,color:#1b1d1e
+    style REJECT fill:#f92572,color:#1b1d1e

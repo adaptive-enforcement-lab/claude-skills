@@ -1,0 +1,98 @@
+image:
+  name: policy-platform:main
+  username: _json_key
+  password: "$GCLOUD_API_KEYFILE"
+
+pipelines:
+  pull-requests:
+    '**':
+      # Stage 1: Detect environment from PR destination
+      - step:
+          name: Detect Environment
+          script:
+            - |
+              case $BITBUCKET_PR_DESTINATION_BRANCH in
+                "development") ENVIRONMENT="dev" ;;
+                "qac")         ENVIRONMENT="qac" ;;
+                "staging")     ENVIRONMENT="stg" ;;
+                "production")  ENVIRONMENT="prd" ;;
+                *)
+                  echo "Unknown branch. Skipping."
+                  exit 0
+                  ;;
+              esac
+              echo "export ENVIRONMENT=${ENVIRONMENT}" > environment.sh
+          artifacts:
+            - environment.sh
+
+      # Stage 2: Validate Helm values schema
+      - step:
+          name: Lint Values Schema
+          script:
+            - source environment.sh
+            - yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' \
+                /repos/backend-applications/charts/backend-app/values.yaml \
+                ./cd/values.${ENVIRONMENT}.yaml \
+              > combined_values.yaml
+            - spectral lint -r /repos/backend-applications/.spectral.yaml \
+                combined_values.yaml
+
+      # Stage 3: Render manifests
+      - step:
+          name: Build Manifests
+          script:
+            - source environment.sh
+            - helm template devops-policy \
+                /repos/devops-policy/charts/devops-policy \
+                -f /repos/devops-policy/charts/devops-policy/values.yaml \
+                -f /repos/devops-policy/cd/${ENVIRONMENT}/values.yaml \
+              > devops-policy.yaml
+            - helm template security-policy \
+                /repos/security-policy/charts/security-policy \
+                -f /repos/security-policy/charts/security-policy/values.yaml \
+                -f /repos/security-policy/cd/${ENVIRONMENT}/values.yaml \
+              > security-policy.yaml
+            - helm template backend-app \
+                /repos/backend-applications/charts/backend-app \
+                -f /repos/backend-applications/charts/backend-app/values.yaml \
+                -f ./cd/values.${ENVIRONMENT}.yaml \
+              > backend-app.yaml
+          artifacts:
+            - devops-policy.yaml
+            - security-policy.yaml
+            - backend-app.yaml
+
+      # Stage 4: Validate policies (parallel)
+      - parallel:
+          steps:
+            - step:
+                name: DevOps Policy
+                script:
+                  - kyverno apply devops-policy.yaml \
+                      --resource backend-app.yaml \
+                      --policy-report --audit-warn \
+                    > tmp-report.yaml
+                  - kyverno apply devops-policy.yaml \
+                      --resource backend-app.yaml \
+                      --remove-color
+                  - kyverno apply devops-policy.yaml \
+                      --resource backend-app.yaml \
+                      -t --detailed-results --remove-color
+                artifacts:
+                  - tmp-report.yaml
+
+            - step:
+                name: Security Policy
+                script:
+                  - kyverno apply security-policy.yaml \
+                      --resource backend-app.yaml \
+                      --policy-report --audit-warn \
+                    > tmp-report.yaml
+                  - kyverno apply security-policy.yaml \
+                      --resource backend-app.yaml \
+                      --remove-color
+                  - kyverno apply security-policy.yaml \
+                      --resource backend-app.yaml \
+                      -t --detailed-results --remove-color
+                artifacts:
+                  - tmp-report.yaml

@@ -1,0 +1,57 @@
+features:
+  logging:
+    logLevel: -2  # Info level
+
+  backgroundScan:
+    backgroundScanInterval: 6h
+
+# Clean up old reports
+policyReportsCleanup:
+  enabled: true
+
+cleanupJobs:
+  admissionReports:
+    enabled: true
+    schedule: "0 0 * * *"  # Daily
+
+  clusterAdmissionReports:
+    enabled: true
+    schedule: "0 0 * * SUN"  # Weekly
+
+  policyReports:
+    enabled: true
+    schedule: "0 0 * * *"  # Daily
+
+  clusterPolicyReports:
+    enabled: true
+    schedule: "0 0 1 * *"  # Monthly
+
+  resources:
+    limits:
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+
+# Exclude system namespaces
+resourceFilters:
+  resourceFiltersExcludeNamespaces:
+    - kube-system
+    - gmp-system
+    - cnrm-system
+
+# Logging configuration
+admissionController:
+  container:
+    extraArgs:
+      "loggingFormat": "json"
+      "v": "1"
+
+backgroundController:
+  enabled: true
+  rbac:
+    clusterRole:
+      extraResources:
+        - apiGroups: ["apps"]
+          resources: ["deployments", "statefulsets", "daemonsets"]
+          verbs: ["get", "list", "watch"]

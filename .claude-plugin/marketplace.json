@@ -11,22 +11,6 @@
   },
   "plugins": [
     {
-      "name": "patterns",
-      "source": "./skills/patterns",
-      "description": "Reusable engineering patterns for error handling, state management, performance optimization, and resilience",
-      "version": "0.2.2",
-      "category": "development",
-      "author": {
-        "name": "Adaptive Enforcement Lab",
-        "email": "contact@adaptive-enforcement-lab.com"
-      },
-      "tags": [
-        "patterns",
-        "engineering",
-        "best-practices"
-      ]
-    },
-    {
       "name": "enforce",
       "source": "./skills/enforce",
       "description": "Security and compliance enforcement automation including pre-commit hooks, policy checks, and validation",
@@ -75,6 +59,22 @@
         "hardening",
         "devsecops",
         "supply-chain"
+      ]
+    },
+    {
+      "name": "patterns",
+      "source": "./skills/patterns",
+      "description": "Reusable engineering patterns for error handling, state management, performance optimization, and resilience",
+      "version": "0.2.2",
+      "category": "development",
+      "author": {
+        "name": "Adaptive Enforcement Lab",
+        "email": "contact@adaptive-enforcement-lab.com"
+      },
+      "tags": [
+        "patterns",
+        "engineering",
+        "best-practices"
       ]
     }
   ]

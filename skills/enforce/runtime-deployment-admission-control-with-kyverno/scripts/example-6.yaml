@@ -1,0 +1,19 @@
+metrics:
+  enabled: true
+
+logging:
+  encoding: json
+  logLevel: -2
+  development: false
+
+api:
+  logging: false
+
+ui:
+  enabled: true
+  displayMode: dark
+
+kyvernoPlugin:
+  enabled: true
+  metrics:
+    enabled: true
