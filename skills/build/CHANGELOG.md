@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/adaptive-enforcement-lab/claude-skills/compare/build-v0.1.4...build-v0.2.0) (2026-01-05)
+
+
+### Features
+
+* config-driven marketplace generation ([#35](https://github.com/adaptive-enforcement-lab/claude-skills/issues/35)) ([9396fed](https://github.com/adaptive-enforcement-lab/claude-skills/commit/9396fedea18cf8767b6ced7f2e75a732b56ab421))
+
 ## [0.1.4](https://github.com/adaptive-enforcement-lab/claude-skills/compare/build-v0.1.3...build-v0.1.4) (2026-01-05)
 
 
