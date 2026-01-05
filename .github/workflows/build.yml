@@ -74,8 +74,8 @@ jobs:
 
           # Determine version for ldflags
           if [ "${{ inputs.generator_is_release }}" == "true" ]; then
-            # Extract version from tag (e.g., generator-v0.2.0 -> 0.2.0)
-            VERSION_NUM="${VERSION#generator-v}"
+            # Extract version from tag (e.g., v0.2.0 -> 0.2.0)
+            VERSION_NUM="${VERSION#v}"
             LDFLAGS="-s -w -X main.version=${VERSION_NUM}"
           else
             LDFLAGS="-s -w"

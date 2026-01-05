@@ -18,7 +18,7 @@
       "release-type": "go",
       "component": "generator",
       "package-name": "skillgen",
-      "include-component-in-tag": true,
+      "include-component-in-tag": false,
       "include-v-in-tag": true
     },
     ".claude-plugin": {
