@@ -4,5 +4,5 @@
   "plugins/patterns": "1.0.0",
   "plugins/enforce": "1.0.0",
   "plugins/build": "1.0.0",
-  "plugins/secure": "1.0.0"
+  "plugins/secure": "1.0.1"
 }
