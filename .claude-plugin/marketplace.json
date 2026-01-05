@@ -61,7 +61,7 @@
       "name": "secure",
       "source": "./skills/secure",
       "description": "Security patterns and hardening guides for cloud-native applications, GitHub Actions, and supply chain security",
-      "version": "0.2.1",
+      "version": "0.2.2",
       "category": "security",
       "author": {
         "name": "Adaptive Enforcement Lab"
