@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.4.0](https://github.com/adaptive-enforcement-lab/claude-skills/compare/v0.3.1...v0.4.0) (2026-01-05)
+
+
+### Features
+
+* display category count in generation summary ([8755a8e](https://github.com/adaptive-enforcement-lab/claude-skills/commit/8755a8e4746f17bf2311bc8a89162ff796f3951d))
+
+
+### Bug Fixes
+
+* correct marketplace extra-files path for release-please ([2179259](https://github.com/adaptive-enforcement-lab/claude-skills/commit/21792591e656ce4b477e9a7109558c811bbfa176))
+
+
+### Maintenance
+
+* **main:** release marketplace 0.2.1 ([#12](https://github.com/adaptive-enforcement-lab/claude-skills/issues/12)) ([c8e8c29](https://github.com/adaptive-enforcement-lab/claude-skills/commit/c8e8c298560450cd47cec1aca3ddaeeb44242fe7))
+
 ## [0.3.1](https://github.com/adaptive-enforcement-lab/claude-skills/compare/v0.3.0...v0.3.1) (2026-01-05)
 
 
