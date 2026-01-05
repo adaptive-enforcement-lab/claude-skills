@@ -33,9 +33,9 @@ jobs:
       contents: write
       pull-requests: write
     outputs:
-      # Root package (.) outputs have no prefix
-      generator_release_created: ${{ steps.release.outputs.release_created }}
-      generator_tag_name: ${{ steps.release.outputs.tag_name }}
+      # skillgen package outputs have skillgen-- prefix
+      generator_release_created: ${{ steps.release.outputs['skillgen--release_created'] }}
+      generator_tag_name: ${{ steps.release.outputs['skillgen--tag_name'] }}
       # Non-root packages have path prefix with --
       marketplace_release_created: ${{ steps.release.outputs['.claude-plugin--release_created'] }}
       marketplace_tag_name: ${{ steps.release.outputs['.claude-plugin--tag_name'] }}
