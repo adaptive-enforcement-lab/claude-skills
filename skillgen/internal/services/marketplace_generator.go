@@ -109,9 +109,9 @@ func (g *MarketplaceGenerator) Generate(
 }
 
 // extractVersionForPlugin extracts the version for a specific plugin from the manifest.
-// Looks for "skills/{pluginKey}" in the manifest map.
+// Looks for "plugins/{pluginKey}" in the manifest map.
 func extractVersionForPlugin(versions map[string]string, pluginKey string) string {
-	manifestKey := fmt.Sprintf("skills/%s", pluginKey)
+	manifestKey := fmt.Sprintf("plugins/%s", pluginKey)
 	return versions[manifestKey]
 }
 

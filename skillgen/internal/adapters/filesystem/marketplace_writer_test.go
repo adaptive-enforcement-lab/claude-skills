@@ -34,7 +34,7 @@ func TestMarketplaceWriter_Read(t *testing.T) {
   "plugins": [
     {
       "name": "patterns",
-      "source": "./skills/patterns",
+      "source": "./plugins/patterns",
       "description": "Pattern skills",
       "version": "0.2.1",
       "category": "development",
@@ -130,7 +130,7 @@ func TestMarketplaceWriter_Write(t *testing.T) {
 				Plugins: []domain.Plugin{
 					{
 						Name:        "patterns",
-						Source:      "./skills/patterns",
+						Source:      "./plugins/patterns",
 						Description: "Pattern skills",
 						Version:     "0.2.1",
 						Category:    "development",
@@ -206,8 +206,8 @@ func TestMarketplaceWriter_PreservePrivateCollection(t *testing.T) {
 			marketplace: &domain.Marketplace{
 				Name: "test",
 				Plugins: []domain.Plugin{
-					{Name: "patterns", Source: "./skills/patterns"},
-					{Name: "private-collection", Source: "./skills/private"},
+					{Name: "patterns", Source: "./plugins/patterns"},
+					{Name: "private-collection", Source: "./plugins/private"},
 				},
 			},
 			wantErr: false,
@@ -217,7 +217,7 @@ func TestMarketplaceWriter_PreservePrivateCollection(t *testing.T) {
 			marketplace: &domain.Marketplace{
 				Name: "test",
 				Plugins: []domain.Plugin{
-					{Name: "patterns", Source: "./skills/patterns"},
+					{Name: "patterns", Source: "./plugins/patterns"},
 				},
 			},
 			wantErr: false,
