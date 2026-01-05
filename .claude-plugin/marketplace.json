@@ -31,7 +31,7 @@
       "name": "enforce",
       "source": "./skills/enforce",
       "description": "Security and compliance enforcement automation including pre-commit hooks, policy checks, and validation",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "category": "security",
       "author": {
         "name": "Adaptive Enforcement Lab",

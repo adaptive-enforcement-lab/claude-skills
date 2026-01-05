@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.4.0](https://github.com/adaptive-enforcement-lab/claude-skills/compare/enforce-v0.3.0...enforce-v0.4.0) (2026-01-05)
+
+
+### Features
+
+* config-driven marketplace generation ([#35](https://github.com/adaptive-enforcement-lab/claude-skills/issues/35)) ([9396fed](https://github.com/adaptive-enforcement-lab/claude-skills/commit/9396fedea18cf8767b6ced7f2e75a732b56ab421))
+
+
+### Maintenance
+
+* regenerate skills from AEL docs ([#42](https://github.com/adaptive-enforcement-lab/claude-skills/issues/42)) ([5a26849](https://github.com/adaptive-enforcement-lab/claude-skills/commit/5a2684903df55ff07800e05aa105365695e46512))
+
 ## [0.3.0](https://github.com/adaptive-enforcement-lab/claude-skills/compare/enforce-v0.2.1...enforce-v0.3.0) (2026-01-05)
 
 
