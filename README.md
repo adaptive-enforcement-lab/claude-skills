@@ -1,4 +1,6 @@
 # Adaptive Enforcement Lab - Claude Code Skills
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fadaptive-enforcement-lab%2Fclaude-skills.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fadaptive-enforcement-lab%2Fclaude-skills?ref=badge_shield)
+
 
 Claude Code skills marketplace for secure development patterns, enforcement automation, and build engineering.
 
@@ -173,3 +175,6 @@ Turn secure development into an enforced standard, not an afterthought.
 ## License
 
 MIT
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fadaptive-enforcement-lab%2Fclaude-skills.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fadaptive-enforcement-lab%2Fclaude-skills?ref=badge_large)
