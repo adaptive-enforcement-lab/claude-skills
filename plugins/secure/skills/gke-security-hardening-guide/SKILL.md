@@ -90,5 +90,5 @@ See [reference.md](reference.md) for complete documentation.
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/secure/cloud-native/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/secure/cloud-native/gke-hardening/)
 - [AEL Secure](https://adaptive-enforcement-lab.com/secure/)

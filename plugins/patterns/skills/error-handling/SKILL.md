@@ -27,7 +27,7 @@ Error handling for GitHub App tokens addresses:
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/actions-integration/error-handling/).
 
 
 ## Examples
@@ -40,5 +40,5 @@ See [examples.md](examples.md) for code examples.
 See [reference.md](reference.md) for complete documentation.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/actions-integration/error-handling/)
 - [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/)

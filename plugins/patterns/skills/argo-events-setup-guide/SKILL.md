@@ -139,5 +139,5 @@ See [troubleshooting.md](troubleshooting.md) for common issues and solutions.
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/argo-events/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/argo-events/setup/)
 - [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/)

@@ -27,7 +27,7 @@ Before integrating, ensure you have:
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/actions-integration/).
 
 
 ## Techniques
@@ -53,5 +53,5 @@ GitHub Apps support three authentication methods, each serving different use cas
 > See the [Authentication Decision Guide](../../../secure/github-apps/authentication-decision-guide.md) for detailed selection criteria.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/actions-integration/)
 - [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/)

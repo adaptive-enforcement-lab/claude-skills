@@ -321,7 +321,7 @@ Before implementing SLSA:
 ### Provenance Generation
 
 - **[slsa-github-generator](https://github.com/slsa-framework/slsa-github-generator)** - GitHub Actions reusable workflows
-- **[slsa-framework/provenance-action](https://github.com/slsa-framework/provenance-action)** - Alternative GitHub Action
+- **[slsa-framework/provenance-action](https://github.com/slsa-framework/slsa-github-generator)** - Alternative GitHub Action
 
 ### Verification
 
@@ -600,7 +600,7 @@ Before implementing SLSA:
 ### Provenance Generation
 
 - **[slsa-github-generator](https://github.com/slsa-framework/slsa-github-generator)** - GitHub Actions reusable workflows
-- **[slsa-framework/provenance-action](https://github.com/slsa-framework/provenance-action)** - Alternative GitHub Action
+- **[slsa-framework/provenance-action](https://github.com/slsa-framework/slsa-github-generator)** - Alternative GitHub Action
 
 ### Verification
 

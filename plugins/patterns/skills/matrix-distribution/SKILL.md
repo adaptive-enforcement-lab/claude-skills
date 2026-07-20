@@ -58,5 +58,5 @@ strategy:
 See [examples.md](examples.md) for code examples.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/architecture/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/architecture/matrix-distribution/)
 - [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/)

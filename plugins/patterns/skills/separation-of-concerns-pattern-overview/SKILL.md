@@ -379,5 +379,5 @@ See [reference.md](reference.md) for complete documentation.
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/architecture/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/architecture/separation-of-concerns/)
 - [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/)

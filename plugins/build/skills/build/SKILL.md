@@ -13,7 +13,7 @@ This section covers the development practices, tooling choices, and automation p
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/build/index.md/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/build/).
 
 
 ## Related Patterns
@@ -24,5 +24,5 @@ See the full implementation guide in the [source documentation](https://adaptive
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/build/index.md/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/build/)
 - [AEL Build](https://adaptive-enforcement-lab.com/build/)

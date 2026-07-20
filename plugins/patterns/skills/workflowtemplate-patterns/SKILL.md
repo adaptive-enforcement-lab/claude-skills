@@ -106,5 +106,5 @@ WorkflowTemplates solve this by extracting the workflow logic into a standalone 
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/argo-workflows/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/argo-workflows/templates/)
 - [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/)

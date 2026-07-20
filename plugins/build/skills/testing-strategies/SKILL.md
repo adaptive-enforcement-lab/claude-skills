@@ -19,7 +19,7 @@ A well-tested CLI uses different testing strategies at different levels. This se
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/build/go-cli-architecture/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/build/go-cli-architecture/testing/).
 
 
 ## Key Principles
@@ -134,5 +134,5 @@ test-e2e:
 See [examples.md](examples.md) for code examples.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/build/go-cli-architecture/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/build/go-cli-architecture/testing/)
 - [AEL Build](https://adaptive-enforcement-lab.com/build/)

@@ -45,5 +45,5 @@ A well-designed Kubernetes CLI works seamlessly both on developer laptops and in
 See [examples.md](examples.md) for code examples.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/build/go-cli-architecture/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/build/go-cli-architecture/kubernetes-integration/)
 - [AEL Build](https://adaptive-enforcement-lab.com/build/)

@@ -184,5 +184,5 @@ See [examples.md](examples.md) for code examples.
 See [reference.md](reference.md) for complete documentation.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/actions-integration/jwt-authentication/)
 - [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/)

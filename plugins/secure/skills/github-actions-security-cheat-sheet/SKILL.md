@@ -18,7 +18,7 @@ One-page security reference for hardening GitHub Actions workflows. Copy-paste r
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/cheat-sheet/).
 
 
 ## Examples
@@ -31,5 +31,5 @@ See [examples.md](examples.md) for code examples.
 See [reference.md](reference.md) for complete documentation.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/cheat-sheet/)
 - [AEL Secure](https://adaptive-enforcement-lab.com/secure/)

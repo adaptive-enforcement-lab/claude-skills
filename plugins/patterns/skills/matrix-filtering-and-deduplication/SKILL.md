@@ -27,7 +27,7 @@ description: >-
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/use-cases/work-avoidance/matrix-patterns/).
 
 
 ## Comparison
@@ -60,5 +60,5 @@ See [troubleshooting.md](troubleshooting.md) for common issues and solutions.
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/use-cases/work-avoidance/matrix-patterns/)
 - [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/)

@@ -94,5 +94,5 @@ See [examples.md](examples.md) for code examples.
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/architecture/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/architecture/strangler-fig/)
 - [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/)

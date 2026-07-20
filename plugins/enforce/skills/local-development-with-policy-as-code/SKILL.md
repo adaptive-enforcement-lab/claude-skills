@@ -26,7 +26,7 @@ The policy-platform container includes all tools needed for local policy validat
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/local-development/).
 
 
 ## Examples
@@ -34,5 +34,5 @@ See the full implementation guide in the [source documentation](https://adaptive
 See [examples.md](examples.md) for code examples.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/local-development/)
 - [AEL Enforce](https://adaptive-enforcement-lab.com/enforce/)

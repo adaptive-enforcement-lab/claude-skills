@@ -66,5 +66,5 @@ As automation pipelines grow, a single monolithic workflow becomes unmaintainabl
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/argo-workflows/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/argo-workflows/composition/)
 - [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/)

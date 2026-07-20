@@ -18,7 +18,7 @@ Eliminate stored credentials entirely. OIDC federation replaces long-lived secre
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/secrets/oidc/).
 
 
 ## Techniques
@@ -210,5 +210,5 @@ jobs:
 See [examples.md](examples.md) for code examples.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/secrets/oidc/)
 - [AEL Secure](https://adaptive-enforcement-lab.com/secure/)

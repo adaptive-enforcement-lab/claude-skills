@@ -75,5 +75,5 @@ See [reference.md](reference.md) for complete documentation.
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/template-library/opa/)
 - [AEL Enforce](https://adaptive-enforcement-lab.com/enforce/)

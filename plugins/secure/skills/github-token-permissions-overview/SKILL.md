@@ -374,7 +374,7 @@ Ready to implement minimal permissions? Continue with:
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/token-permissions/).
 
 
 ## Key Principles
@@ -452,5 +452,5 @@ See [troubleshooting.md](troubleshooting.md) for common issues and solutions.
 See [reference.md](reference.md) for complete documentation.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/token-permissions/)
 - [AEL Secure](https://adaptive-enforcement-lab.com/secure/)

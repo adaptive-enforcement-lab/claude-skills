@@ -303,5 +303,5 @@ flowchart TD
 See [examples.md](examples.md) for code examples.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/efficiency/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/efficiency/idempotency/patterns/)
 - [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/)

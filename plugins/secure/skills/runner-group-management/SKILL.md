@@ -18,7 +18,7 @@ Runner groups are security boundaries. Organize by trust level. Restrict by defa
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/runners/groups/).
 
 
 ## Techniques
@@ -123,5 +123,5 @@ See [examples.md](examples.md) for code examples.
 See [reference.md](reference.md) for complete documentation.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/runners/groups/)
 - [AEL Secure](https://adaptive-enforcement-lab.com/secure/)

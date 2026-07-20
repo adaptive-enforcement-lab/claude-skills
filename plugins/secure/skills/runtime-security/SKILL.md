@@ -68,5 +68,5 @@ Runtime monitoring provides visibility into pod behavior:
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/secure/cloud-native/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/secure/cloud-native/gke-hardening/runtime-security/)
 - [AEL Secure](https://adaptive-enforcement-lab.com/secure/)

@@ -254,5 +254,5 @@ These examples reference patterns from:
 For additional guidance, see the [Quick Reference Cheat Sheet](../cheat-sheet/index.md).
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/examples/)
 - [AEL Secure](https://adaptive-enforcement-lab.com/secure/)

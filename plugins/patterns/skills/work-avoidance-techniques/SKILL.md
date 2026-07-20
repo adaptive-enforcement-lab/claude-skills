@@ -23,7 +23,7 @@ Each technique answers a specific question:
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/efficiency/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/efficiency/work-avoidance/techniques/).
 
 
 ## Techniques
@@ -210,5 +210,5 @@ Techniques can be layered for maximum efficiency:
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/efficiency/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/efficiency/work-avoidance/techniques/)
 - [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/)

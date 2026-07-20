@@ -13,7 +13,7 @@ Building security into architecture from the ground up, not bolting it on afterw
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/security/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/security/secure-by-design/).
 
 
 ## Techniques
@@ -41,5 +41,5 @@ Verification checklist before deployment:
 - [ ] Fail Secure: Admission webhooks with failurePolicy: Fail
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/security/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/security/secure-by-design/)
 - [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/)

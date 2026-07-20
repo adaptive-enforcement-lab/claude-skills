@@ -18,7 +18,7 @@ Copy-paste ready deployment workflow templates with comprehensive security harde
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/examples/deployment-workflow/).
 
 
 ## Key Principles
@@ -39,5 +39,5 @@ Every deployment workflow in this guide implements these controls:
 See [reference.md](reference.md) for complete documentation.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/examples/deployment-workflow/)
 - [AEL Secure](https://adaptive-enforcement-lab.com/secure/)

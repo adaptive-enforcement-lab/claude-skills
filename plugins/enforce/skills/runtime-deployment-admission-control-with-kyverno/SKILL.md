@@ -94,5 +94,5 @@ See [examples.md](examples.md) for code examples.
 See [reference.md](reference.md) for complete documentation.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/runtime-deployment/)
 - [AEL Enforce](https://adaptive-enforcement-lab.com/enforce/)

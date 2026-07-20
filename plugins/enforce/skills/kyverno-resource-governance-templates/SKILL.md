@@ -50,7 +50,7 @@ Restrict PVC size to prevent excessive allocations:
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/template-library/kyverno/resource/).
 
 
 ## Techniques
@@ -110,5 +110,5 @@ See [reference.md](reference.md) for complete documentation.
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/template-library/kyverno/resource/)
 - [AEL Enforce](https://adaptive-enforcement-lab.com/enforce/)

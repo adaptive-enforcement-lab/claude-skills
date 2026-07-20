@@ -53,7 +53,7 @@ Mandate seccomp profiles for syscall filtering:
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/template-library/kyverno/pod-security/).
 
 
 ## Examples
@@ -74,5 +74,5 @@ See [reference.md](reference.md) for complete documentation.
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/template-library/kyverno/pod-security/)
 - [AEL Enforce](https://adaptive-enforcement-lab.com/enforce/)

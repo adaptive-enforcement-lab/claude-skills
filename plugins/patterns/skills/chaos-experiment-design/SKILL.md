@@ -17,7 +17,7 @@ Chaos without validation is just breaking things. Proper experiment design trans
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/reliability/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/reliability/chaos-engineering/experiment-design/).
 
 
 ## Related Patterns
@@ -28,5 +28,5 @@ See the full implementation guide in the [source documentation](https://adaptive
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/reliability/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/reliability/chaos-engineering/experiment-design/)
 - [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/)

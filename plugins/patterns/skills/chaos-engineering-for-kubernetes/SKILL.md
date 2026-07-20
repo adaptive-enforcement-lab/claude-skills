@@ -24,5 +24,5 @@ This guide provides production-proven experiment patterns using Chaos Mesh and L
 > Begin with single-pod experiments in staging. Progress to production only after validating success criteria, rollback procedures, and observability coverage.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/reliability/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/reliability/chaos-engineering/)
 - [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/)

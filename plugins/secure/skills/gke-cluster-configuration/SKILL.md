@@ -178,5 +178,5 @@ All configurations use Terraform for Infrastructure as Code, enabling:
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/secure/cloud-native/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/secure/cloud-native/gke-hardening/cluster-configuration/)
 - [AEL Secure](https://adaptive-enforcement-lab.com/secure/)
