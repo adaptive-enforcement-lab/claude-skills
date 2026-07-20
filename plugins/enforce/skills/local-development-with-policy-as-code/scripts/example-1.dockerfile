@@ -3,7 +3,7 @@ FROM security-policy-repo:main AS security_policy_repo
 FROM devops-policy-repo:main AS devops_policy_repo
 
 # Alpine base with all tools
-FROM alpine:3.22
+FROM alpine:3.24
 RUN apk add curl bash ca-certificates git helm yq
 
 # Install Kyverno CLI
