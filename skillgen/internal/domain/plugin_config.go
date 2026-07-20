@@ -3,8 +3,8 @@ package domain
 // PluginMetadata represents the plugin-metadata.json configuration file.
 // This is the source of truth for plugin descriptions, categories, and tags.
 type PluginMetadata struct {
-	Marketplace MarketplaceConfig      `json:"marketplace"`
-	Common      CommonPluginFields     `json:"common"`
+	Marketplace MarketplaceConfig       `json:"marketplace"`
+	Common      CommonPluginFields      `json:"common"`
 	Plugins     map[string]PluginConfig `json:"plugins"`
 }
 

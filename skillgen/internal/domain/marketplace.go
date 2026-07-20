@@ -3,10 +3,10 @@ package domain
 // Marketplace represents the .claude-plugin/marketplace.json catalog structure.
 // This file indexes all skill collections (plugins) in the repository.
 type Marketplace struct {
-	Name     string            `json:"name"`
-	Owner    MarketplaceOwner  `json:"owner"`
+	Name     string              `json:"name"`
+	Owner    MarketplaceOwner    `json:"owner"`
 	Metadata MarketplaceMetadata `json:"metadata"`
-	Plugins  []Plugin          `json:"plugins"`
+	Plugins  []Plugin            `json:"plugins"`
 }
 
 // MarketplaceOwner contains contact information for the marketplace maintainer.
@@ -71,17 +71,4 @@ func (m *Marketplace) UpdatePlugin(plugin Plugin) {
 		}
 	}
 	m.Plugins = append(m.Plugins, plugin)
-}
-
-// CategoryToPluginName maps a document category to its plugin name.
-// Some mappings are non-obvious: "enforce" -> "enforcement"
-func CategoryToPluginName(category string) string {
-	switch category {
-	case "enforce":
-		return "enforcement"
-	case "patterns", "build", "secure":
-		return category
-	default:
-		return category
-	}
 }
