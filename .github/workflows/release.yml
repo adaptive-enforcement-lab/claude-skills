@@ -76,7 +76,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # CRITICAL: GitHub App token required because GITHUB_TOKEN cannot trigger workflows
       # This ensures the Build Workflow is triggered when Release Workflow completes
