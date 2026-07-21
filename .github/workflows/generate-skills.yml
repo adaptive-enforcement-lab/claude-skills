@@ -28,13 +28,13 @@ jobs:
           owner: adaptive-enforcement-lab
 
       - name: Checkout claude-skills
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # 7.0.1
         with:
           token: ${{ steps.app-token.outputs.token }}
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
 
       - name: Checkout AEL documentation
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # 7.0.1
         with:
           repository: adaptive-enforcement-lab/adaptive-enforcement-lab-com
           path: ael-docs
