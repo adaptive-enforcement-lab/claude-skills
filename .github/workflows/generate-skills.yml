@@ -21,27 +21,27 @@ jobs:
     steps:
       - name: Generate token
         id: app-token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2
         with:
           app-id: ${{ secrets.CORE_APP_ID }}
           private-key: ${{ secrets.CORE_APP_PRIVATE_KEY }}
           owner: adaptive-enforcement-lab
 
       - name: Checkout claude-skills
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           token: ${{ steps.app-token.outputs.token }}
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
 
       - name: Checkout AEL documentation
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           repository: adaptive-enforcement-lab/adaptive-enforcement-lab-com
           path: ael-docs
           token: ${{ steps.app-token.outputs.token }}
 
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
         with:
           go-version: '1.26'
           cache-dependency-path: skillgen/go.sum
