@@ -2,5 +2,21 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
+  ],
+  "pre-commit": {
+    "enabled": true
+  },
+  "ignorePaths": [
+    "plugins/**"
+  ],
+  "packageRules": [
+    {
+      "description": "Pin GitHub Actions to commit SHAs while keeping readable semver updates",
+      "extends": [
+        "helpers:pinGitHubActionDigests"
+      ],
+      "extractVersion": "^v?(?<version>\\d+\\.\\d+\\.\\d+)$",
+      "versioning": "regex:^v?(?<major>\\d+)(\\.(?<minor>\\d+)\\.(?<patch>\\d+))?$"
+    }
   ]
 }
