@@ -53,7 +53,7 @@ jobs:
       # This ensures release-please can create PRs and releases with proper permissions
       - name: Generate AEL CORE App Token
         id: app_token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2
         with:
           app-id: ${{ secrets.CORE_APP_ID }}
           private-key: ${{ secrets.CORE_APP_PRIVATE_KEY }}
@@ -61,7 +61,7 @@ jobs:
 
       - name: Run release-please
         id: release
-        uses: googleapis/release-please-action@v4
+        uses: googleapis/release-please-action@5c625bfb5d1ff62eadeeb3772007f7f66fdcf071 # v4
         with:
           token: ${{ steps.app_token.outputs.token }}
           config-file: release-please-config.json
@@ -76,13 +76,13 @@ jobs:
       contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       # CRITICAL: GitHub App token required because GITHUB_TOKEN cannot trigger workflows
       # This ensures the Build Workflow is triggered when Release Workflow completes
       - name: Generate AEL CORE App Token
         id: generate_token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2
         with:
           app-id: ${{ secrets.CORE_APP_ID }}
           private-key: ${{ secrets.CORE_APP_PRIVATE_KEY }}
