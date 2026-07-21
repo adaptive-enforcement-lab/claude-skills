@@ -64,7 +64,7 @@ FROM europe-west6-docker.pkg.dev/ops/charts/security-policy-repo:main AS securit
 FROM europe-west6-docker.pkg.dev/ops/charts/backend-applications-repo:main AS backend_applications_repo
 
 # Final stage: Combine everything
-FROM alpine:3.22.1
+FROM alpine:3.24.1
 
 # Install policy tools
 RUN apk add --no-cache \

@@ -3,6 +3,6 @@
   ".claude-plugin": "1.0.0",
   "plugins/patterns": "1.0.1",
   "plugins/enforce": "1.0.1",
-  "plugins/build": "1.0.0",
+  "plugins/build": "1.0.1",
   "plugins/secure": "1.0.1"
 }
