@@ -53,7 +53,7 @@ jobs:
       # This ensures release-please can create PRs and releases with proper permissions
       - name: Generate AEL CORE App Token
         id: app_token
-        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # 2.2.2
         with:
           app-id: ${{ secrets.CORE_APP_ID }}
           private-key: ${{ secrets.CORE_APP_PRIVATE_KEY }}
@@ -82,7 +82,7 @@ jobs:
       # This ensures the Build Workflow is triggered when Release Workflow completes
       - name: Generate AEL CORE App Token
         id: generate_token
-        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # 2.2.2
         with:
           app-id: ${{ secrets.CORE_APP_ID }}
           private-key: ${{ secrets.CORE_APP_PRIVATE_KEY }}
