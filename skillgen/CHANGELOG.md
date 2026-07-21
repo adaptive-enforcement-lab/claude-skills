@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.2](https://github.com/adaptive-enforcement-lab/claude-skills/compare/v1.0.1...v1.0.2) (2026-07-21)
+
+
+### Bug Fixes
+
+* **skillgen:** correct source URLs, add validation, remove dead code ([#61](https://github.com/adaptive-enforcement-lab/claude-skills/issues/61)) ([602c368](https://github.com/adaptive-enforcement-lab/claude-skills/commit/602c368fb6211d583fb00745a32dde3034490aee))
+
+
+### Maintenance
+
+* consolidate renovate updates and move to Go 1.26 ([#69](https://github.com/adaptive-enforcement-lab/claude-skills/issues/69)) ([172b000](https://github.com/adaptive-enforcement-lab/claude-skills/commit/172b000874a81d2f8fb80b1a3ed6d5aa99dc605e))
+
 ## [1.0.1](https://github.com/adaptive-enforcement-lab/claude-skills/compare/v1.0.0...v1.0.1) (2026-01-05)
 
 
