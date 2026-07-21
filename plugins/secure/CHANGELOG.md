@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/adaptive-enforcement-lab/claude-skills/compare/secure-v1.0.1...secure-v1.0.2) (2026-07-21)
+
+
+### Bug Fixes
+
+* **skillgen:** correct source URLs, add validation, remove dead code ([#61](https://github.com/adaptive-enforcement-lab/claude-skills/issues/61)) ([602c368](https://github.com/adaptive-enforcement-lab/claude-skills/commit/602c368fb6211d583fb00745a32dde3034490aee))
+
 ## [1.0.1](https://github.com/adaptive-enforcement-lab/claude-skills/compare/secure-v1.0.0...secure-v1.0.1) (2026-01-05)
 
 
