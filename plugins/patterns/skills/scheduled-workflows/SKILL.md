@@ -59,5 +59,5 @@ CronWorkflows run automation on a schedule: hourly builds, nightly backups, week
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/argo-workflows/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/argo-workflows/scheduled/)
 - [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/)

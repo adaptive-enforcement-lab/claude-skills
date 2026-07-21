@@ -61,5 +61,5 @@ kyverno jp query -i manifest.yaml 'spec.template.spec.containers[*].name'
 See [examples.md](examples.md) for code examples.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/template-library/jmespath/)
 - [AEL Enforce](https://adaptive-enforcement-lab.com/enforce/)

@@ -17,12 +17,9 @@ type MarketplaceWriter interface {
 	// Write writes the marketplace.json file atomically.
 	Write(marketplace *domain.Marketplace, path string) error
 
-	// PreservePrivateCollection ensures private-collection is not removed.
-	// This plugin is manually maintained and should never be auto-generated.
-	PreservePrivateCollection(marketplace *domain.Marketplace) error
-
 	// GenerateFromConfig builds marketplace.json from config + versions.
-	// This replaces the old AddSecurePlugin method with full automation.
+	// Every plugin in marketplace.json is rebuilt from plugin-metadata.json on
+	// each run, so a plugin absent from that file is dropped.
 	GenerateFromConfig(
 		metadata *domain.PluginMetadata,
 		versions map[string]string,

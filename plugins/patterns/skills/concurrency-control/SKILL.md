@@ -65,5 +65,5 @@ Concurrency control prevents these conflicts. Argo Workflows provides several me
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/argo-workflows/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/argo-workflows/concurrency/)
 - [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/)

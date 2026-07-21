@@ -19,7 +19,7 @@ A well-designed CLI has commands that work both independently and as part of lar
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/build/go-cli-architecture/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/build/go-cli-architecture/command-architecture/).
 
 
 ## Key Principles
@@ -42,5 +42,5 @@ See the full implementation guide in the [source documentation](https://adaptive
 See [examples.md](examples.md) for code examples.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/build/go-cli-architecture/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/build/go-cli-architecture/command-architecture/)
 - [AEL Build](https://adaptive-enforcement-lab.com/build/)

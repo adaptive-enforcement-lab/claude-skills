@@ -20,7 +20,7 @@ A well-designed Kubernetes CLI provides idiomatic operations that work consisten
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/build/go-cli-architecture/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/build/go-cli-architecture/kubernetes-integration/common-operations/).
 
 
 ## Key Principles
@@ -69,5 +69,5 @@ graph TB
 ---
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/build/go-cli-architecture/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/build/go-cli-architecture/kubernetes-integration/common-operations/)
 - [AEL Build](https://adaptive-enforcement-lab.com/build/)

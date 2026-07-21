@@ -11,8 +11,8 @@ import (
 
 // SkillExtractor implements ports.SkillExtractor.
 type SkillExtractor struct {
-	sectionMapper     ports.SectionMapper
-	nameDeriver       ports.NameDeriver
+	sectionMapper       ports.SectionMapper
+	nameDeriver         ports.NameDeriver
 	admonitionConverter ports.AdmonitionConverter
 }
 
@@ -23,8 +23,8 @@ func NewSkillExtractor(
 	admonitionConverter ports.AdmonitionConverter,
 ) *SkillExtractor {
 	return &SkillExtractor{
-		sectionMapper:     sectionMapper,
-		nameDeriver:       nameDeriver,
+		sectionMapper:       sectionMapper,
+		nameDeriver:         nameDeriver,
 		admonitionConverter: admonitionConverter,
 	}
 }
@@ -157,15 +157,12 @@ func (e *SkillExtractor) extractMappedSections(doc *domain.Document, metadata *d
 
 // determineCategoryFromPath extracts the category from the file path.
 func (e *SkillExtractor) determineCategoryFromPath(path string) string {
-	categories := []string{"patterns", "enforce", "build", "secure"}
 	cleanPath := filepath.Clean(path)
 	parts := strings.Split(cleanPath, string(filepath.Separator))
 
 	for _, part := range parts {
-		for _, category := range categories {
-			if part == category {
-				return category
-			}
+		if domain.IsCategory(part) {
+			return part
 		}
 	}
 
@@ -173,18 +170,25 @@ func (e *SkillExtractor) determineCategoryFromPath(path string) string {
 }
 
 // buildSourceURL constructs the URL to the source documentation.
+//
+// The docs site mirrors the directory layout, so every segment from the
+// category directory down to the document's parent must be preserved.
+// Example: /docs/patterns/efficiency/idempotency/index.md
+//
+//	-> /patterns/efficiency/idempotency/
 func (e *SkillExtractor) buildSourceURL(path string, category string) string {
 	baseURL := "https://adaptive-enforcement-lab.com"
 
-	// Extract the topic from the path
-	// Example: /docs/patterns/idempotency/index.md -> /patterns/idempotency/
 	parts := strings.Split(filepath.Clean(path), string(filepath.Separator))
 
-	// Find category in path
+	// Drop the filename; MkDocs serves index.md as its parent directory.
+	if len(parts) > 0 && strings.HasSuffix(parts[len(parts)-1], ".md") {
+		parts = parts[:len(parts)-1]
+	}
+
 	for i, part := range parts {
-		if part == category && i+1 < len(parts) {
-			topic := parts[i+1]
-			return fmt.Sprintf("%s/%s/%s/", baseURL, category, topic)
+		if part == category {
+			return fmt.Sprintf("%s/%s/", baseURL, strings.Join(parts[i:], "/"))
 		}
 	}
 

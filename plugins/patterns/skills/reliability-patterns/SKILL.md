@@ -15,7 +15,7 @@ Production event systems must handle failures gracefully. Network blips, service
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/argo-events/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/argo-events/reliability/).
 
 
 ## Techniques
@@ -145,5 +145,5 @@ See [examples.md](examples.md) for code examples.
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/argo-events/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/argo-events/reliability/)
 - [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/)

@@ -303,5 +303,5 @@ See [examples.md](examples.md) for code examples.
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/efficiency/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/efficiency/work-avoidance/)
 - [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/)

@@ -55,5 +55,5 @@ See [examples.md](examples.md) for code examples.
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/secure/index.md/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/secure/)
 - [AEL Secure](https://adaptive-enforcement-lab.com/secure/)

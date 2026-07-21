@@ -18,7 +18,7 @@ Trust but verify. Every third-party action you adopt into your workflows execute
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/third-party-actions/).
 
 
 ## Key Principles
@@ -58,5 +58,5 @@ See [examples.md](examples.md) for code examples.
 See [reference.md](reference.md) for complete documentation.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/third-party-actions/)
 - [AEL Secure](https://adaptive-enforcement-lab.com/secure/)

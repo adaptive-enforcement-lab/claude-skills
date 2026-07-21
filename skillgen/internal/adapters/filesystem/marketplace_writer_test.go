@@ -18,7 +18,7 @@ func TestMarketplaceWriter_Read(t *testing.T) {
 		validate    func(*testing.T, *domain.Marketplace)
 	}{
 		{
-			name: "valid marketplace file",
+			name:      "valid marketplace file",
 			setupFile: "marketplace.json",
 			content: `{
   "name": "test-marketplace",
@@ -57,11 +57,11 @@ func TestMarketplaceWriter_Read(t *testing.T) {
 			},
 		},
 		{
-			name: "malformed JSON",
-			setupFile: "malformed.json",
-			content: `{"name": invalid}`,
-			path:    "malformed.json",
-			wantErr: true,
+			name:        "malformed JSON",
+			setupFile:   "malformed.json",
+			content:     `{"name": invalid}`,
+			path:        "malformed.json",
+			wantErr:     true,
 			errContains: "failed to parse marketplace.json",
 		},
 		{
@@ -190,59 +190,6 @@ func TestMarketplaceWriter_Write(t *testing.T) {
 
 			if tt.validate != nil {
 				tt.validate(t, written)
-			}
-		})
-	}
-}
-
-func TestMarketplaceWriter_PreservePrivateCollection(t *testing.T) {
-	tests := []struct {
-		name        string
-		marketplace *domain.Marketplace
-		wantErr     bool
-	}{
-		{
-			name: "marketplace with private-collection",
-			marketplace: &domain.Marketplace{
-				Name: "test",
-				Plugins: []domain.Plugin{
-					{Name: "patterns", Source: "./plugins/patterns"},
-					{Name: "private-collection", Source: "./plugins/private"},
-				},
-			},
-			wantErr: false,
-		},
-		{
-			name: "marketplace without private-collection",
-			marketplace: &domain.Marketplace{
-				Name: "test",
-				Plugins: []domain.Plugin{
-					{Name: "patterns", Source: "./plugins/patterns"},
-				},
-			},
-			wantErr: false,
-		},
-		{
-			name: "empty marketplace",
-			marketplace: &domain.Marketplace{
-				Name:    "test",
-				Plugins: []domain.Plugin{},
-			},
-			wantErr: false,
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			mockFS := NewMockFileSystem()
-			writer := NewMarketplaceWriter(mockFS)
-
-			err := writer.PreservePrivateCollection(tt.marketplace)
-
-			if tt.wantErr && err == nil {
-				t.Error("expected error, got nil")
-			} else if !tt.wantErr && err != nil {
-				t.Errorf("unexpected error: %v", err)
 			}
 		})
 	}

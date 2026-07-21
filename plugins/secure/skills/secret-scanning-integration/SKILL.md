@@ -18,7 +18,7 @@ Prevention is good. Detection is essential. Assume secrets will leak. Build syst
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/secrets/scanning/).
 
 
 ## Examples
@@ -31,5 +31,5 @@ See [examples.md](examples.md) for code examples.
 See [reference.md](reference.md) for complete documentation.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/secrets/scanning/)
 - [AEL Secure](https://adaptive-enforcement-lab.com/secure/)

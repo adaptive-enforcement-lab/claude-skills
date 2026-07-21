@@ -22,8 +22,8 @@ When your workflow fails at step 47 of 50, you have three options:
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/efficiency/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/efficiency/idempotency/).
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/efficiency/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/efficiency/idempotency/)
 - [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/)

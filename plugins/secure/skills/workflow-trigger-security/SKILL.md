@@ -18,7 +18,7 @@ Workflow triggers control when code executes and in what security context. Choos
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/workflows/triggers/).
 
 
 ## Techniques
@@ -213,5 +213,5 @@ See [examples.md](examples.md) for code examples.
 See [reference.md](reference.md) for complete documentation.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/workflows/triggers/)
 - [AEL Secure](https://adaptive-enforcement-lab.com/secure/)

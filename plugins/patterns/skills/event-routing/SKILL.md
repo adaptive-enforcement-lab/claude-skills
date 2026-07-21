@@ -8,14 +8,14 @@ description: >-
 
 ## When to Use This Skill
 
-Event routing controls how events flow from EventSources through Sensors to Triggers. Argo Events provides powerful filtering, transformation, and multi-action capabilities. For the complete reference, see the [official Sensors documentation](https://argoproj.github.io/argo-events/sensors/intro/).
+Event routing controls how events flow from EventSources through Sensors to Triggers. Argo Events provides powerful filtering, transformation, and multi-action capabilities. For the complete reference, see the [official Sensors documentation](https://argoproj.github.io/argo-events/concepts/sensor/).
 
 ---
 
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/argo-events/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/argo-events/routing/).
 
 
 ## Techniques
@@ -47,5 +47,5 @@ See [examples.md](examples.md) for code examples.
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/argo-events/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/argo-events/routing/)
 - [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/)

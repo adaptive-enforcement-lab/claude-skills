@@ -18,7 +18,7 @@ Secrets don't age well. Automate rotation before credentials become liabilities.
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/secrets/rotation/).
 
 
 ## Techniques
@@ -373,5 +373,5 @@ See [examples.md](examples.md) for code examples.
 See [reference.md](reference.md) for complete documentation.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/secrets/rotation/)
 - [AEL Secure](https://adaptive-enforcement-lab.com/secure/)

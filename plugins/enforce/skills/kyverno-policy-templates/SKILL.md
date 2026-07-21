@@ -35,5 +35,5 @@ All templates follow the same deployment pattern:
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/template-library/kyverno/)
 - [AEL Enforce](https://adaptive-enforcement-lab.com/enforce/)

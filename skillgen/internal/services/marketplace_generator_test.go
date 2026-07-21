@@ -121,16 +121,16 @@ func (m *MockLogger) With(keysAndValues ...interface{}) ports.Logger {
 
 func TestMarketplaceGenerator_Generate(t *testing.T) {
 	tests := []struct {
-		name         string
-		metadata     *domain.PluginMetadata
-		manifest     map[string]string
-		metadataErr  error
-		manifestErr  error
-		generateErr  error
+		name           string
+		metadata       *domain.PluginMetadata
+		manifest       map[string]string
+		metadataErr    error
+		manifestErr    error
+		generateErr    error
 		writePluginErr error
-		wantErr      bool
-		errContains  string
-		validate     func(*testing.T, *MockMarketplaceWriter, *MockLogger)
+		wantErr        bool
+		errContains    string
+		validate       func(*testing.T, *MockMarketplaceWriter, *MockLogger)
 	}{
 		{
 			name: "successful generation with all plugins",
@@ -162,7 +162,7 @@ func TestMarketplaceGenerator_Generate(t *testing.T) {
 				},
 			},
 			manifest: map[string]string{
-				".claude-plugin":  "0.2.4",
+				".claude-plugin":   "0.2.4",
 				"plugins/patterns": "0.2.1",
 				"plugins/enforce":  "0.3.0",
 			},
@@ -360,6 +360,7 @@ func TestMarketplaceGenerator_Generate(t *testing.T) {
 				"plugin-metadata.json",
 				".release-please-manifest.json",
 				"./skills",
+				".claude-plugin/marketplace.json",
 			)
 
 			if tt.wantErr {
@@ -429,11 +430,11 @@ func Test_extractVersionForPlugin(t *testing.T) {
 
 func Test_buildPluginManifest(t *testing.T) {
 	tests := []struct {
-		name    string
-		key     string
-		config  *domain.PluginConfig
-		common  *domain.CommonPluginFields
-		version string
+		name     string
+		key      string
+		config   *domain.PluginConfig
+		common   *domain.CommonPluginFields
+		version  string
 		validate func(*testing.T, *domain.PluginManifest)
 	}{
 		{

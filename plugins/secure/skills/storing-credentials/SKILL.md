@@ -21,7 +21,7 @@ Comprehensive guide to securely storing GitHub App credentials across different 
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-apps/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-apps/storing-credentials/).
 
 
 ## Examples
@@ -29,5 +29,5 @@ See the full implementation guide in the [source documentation](https://adaptive
 See [examples.md](examples.md) for code examples.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-apps/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-apps/storing-credentials/)
 - [AEL Secure](https://adaptive-enforcement-lab.com/secure/)

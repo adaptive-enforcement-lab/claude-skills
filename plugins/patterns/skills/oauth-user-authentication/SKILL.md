@@ -27,7 +27,7 @@ OAuth authentication provides user-context access for GitHub Apps. It enables:
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/actions-integration/oauth-authentication/).
 
 
 ## Techniques
@@ -81,5 +81,5 @@ See [examples.md](examples.md) for code examples.
 See [reference.md](reference.md) for complete documentation.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/actions-integration/oauth-authentication/)
 - [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/)

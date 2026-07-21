@@ -64,7 +64,7 @@ Validate cryptographic signatures on all images:
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/template-library/opa/image/).
 
 
 ## Examples
@@ -85,5 +85,5 @@ See [reference.md](reference.md) for complete documentation.
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/template-library/opa/image/)
 - [AEL Enforce](https://adaptive-enforcement-lab.com/enforce/)

@@ -105,4 +105,4 @@ Return to `error` or `info` after debugging to reduce log volume.
 - [EventSource Issues](eventsources.md) - Debug event ingestion
 - [Sensor Issues](sensors.md) - Debug event processing
 - [Common Patterns](common-patterns.md) - Known issues and fixes
-- [Official Troubleshooting](https://argoproj.github.io/argo-events/troubleshooting/) - Argo Events troubleshooting guide
+- [Official Troubleshooting](https://argoproj.github.io/argo-events/FAQ/) - Argo Events troubleshooting guide

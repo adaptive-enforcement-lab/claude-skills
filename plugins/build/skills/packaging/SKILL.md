@@ -21,7 +21,7 @@ Packaging a Go CLI involves creating distributable artifacts that run anywhere. 
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/build/go-cli-architecture/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/build/go-cli-architecture/packaging/).
 
 
 ## Key Principles
@@ -40,5 +40,5 @@ See the full implementation guide in the [source documentation](https://adaptive
 *Ship binaries that run anywhere Kubernetes runs.*
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/build/go-cli-architecture/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/build/go-cli-architecture/packaging/)
 - [AEL Build](https://adaptive-enforcement-lab.com/build/)

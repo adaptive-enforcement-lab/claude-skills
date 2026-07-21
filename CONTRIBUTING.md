@@ -25,8 +25,10 @@ cd skillgen && go test ./... && cd ..
 # Generate skills from AEL docs
 ./bin/skillgen \
   --source ../adaptive-enforcement-lab-com/docs \
-  --output skills \
-  --marketplace .claude-plugin/marketplace.json
+  --output plugins \
+  --plugin-metadata ./plugin-metadata.json \
+  --release-manifest ./.release-please-manifest.json \
+  --templates skillgen/templates
 ```
 
 ## Architecture
@@ -41,7 +43,7 @@ This project follows Clean/Hexagonal Architecture:
 
 ## Code Standards
 
-- Go 1.23+
+- Go 1.25+ (matches the version used in CI)
 - Use `gofmt` for formatting
 - Follow standard Go conventions
 - Keep packages focused and cohesive
@@ -73,7 +75,7 @@ chore: update dependencies to latest versions
 3. **Description**: Explain what and why (not how)
 4. **Tests**: Add tests for new functionality
 5. **Build**: Ensure `cd skillgen && go build ./cmd/skillgen && go test ./...` succeed
-6. **Generated content**: Do not manually edit files in `skills/` - these are auto-generated
+6. **Generated content**: Do not manually edit files in `plugins/` - these are auto-generated
 
 ## Testing Guidelines
 
@@ -84,7 +86,7 @@ chore: update dependencies to latest versions
 
 ## Working with Generated Skills
 
-**IMPORTANT**: Never manually edit files in the `skills/` directory. These are automatically generated from [adaptive-enforcement-lab.com](https://github.com/adaptive-enforcement-lab/adaptive-enforcement-lab-com) documentation.
+**IMPORTANT**: Never manually edit files in the `plugins/` directory. These are automatically generated from [adaptive-enforcement-lab.com](https://github.com/adaptive-enforcement-lab/adaptive-enforcement-lab-com) documentation.
 
 To modify skill content:
 1. Edit the source documentation in the AEL docs repository

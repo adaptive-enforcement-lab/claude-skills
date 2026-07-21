@@ -9,12 +9,6 @@ type SkillValidator interface {
 	Validate(skill *domain.Skill) []ValidationError
 }
 
-// MarketplaceValidator validates the marketplace.json structure.
-type MarketplaceValidator interface {
-	// Validate checks if the marketplace structure is valid.
-	Validate(marketplace *domain.Marketplace) []ValidationError
-}
-
 // ValidationError represents a validation issue.
 type ValidationError struct {
 	Severity Severity // error or warning

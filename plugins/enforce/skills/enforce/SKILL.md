@@ -66,5 +66,5 @@ See [reference.md](reference.md) for complete documentation.
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/index.md/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/)
 - [AEL Enforce](https://adaptive-enforcement-lab.com/enforce/)

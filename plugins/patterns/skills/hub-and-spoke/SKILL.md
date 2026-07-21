@@ -28,5 +28,5 @@ Hub discovers repositories, spawns a spoke workflow for each, then summarizes re
 See [examples.md](examples.md) for code examples.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/architecture/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/architecture/hub-and-spoke/)
 - [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/)

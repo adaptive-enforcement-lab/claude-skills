@@ -20,7 +20,7 @@ These controls ensure failing builds never reach production and provide audit ev
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/enforce/implementation-roadmap/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/enforce/implementation-roadmap/hardening-checklist/phase-2/).
 
 
 ## Related Patterns
@@ -34,5 +34,5 @@ See the full implementation guide in the [source documentation](https://adaptive
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/implementation-roadmap/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/implementation-roadmap/hardening-checklist/phase-2/)
 - [AEL Enforce](https://adaptive-enforcement-lab.com/enforce/)

@@ -81,5 +81,5 @@ This workflow implements patterns from the [Developer Guide](../../../../pattern
 See [troubleshooting.md](troubleshooting.md) for common issues and solutions.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/use-cases/file-distribution/)
 - [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/)

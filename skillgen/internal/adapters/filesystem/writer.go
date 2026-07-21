@@ -146,19 +146,6 @@ func (w *MarketplaceWriter) Write(marketplace *domain.Marketplace, path string) 
 	return nil
 }
 
-// PreservePrivateCollection ensures private-collection is not removed.
-func (w *MarketplaceWriter) PreservePrivateCollection(marketplace *domain.Marketplace) error {
-	// Check if private-collection exists
-	if marketplace.GetPlugin("private-collection") == nil {
-		// It's okay if it doesn't exist - nothing to preserve
-		return nil
-	}
-
-	// The plugin exists, so it's already preserved in the marketplace structure
-	// No action needed
-	return nil
-}
-
 // GenerateFromConfig builds marketplace.json from config + versions.
 func (w *MarketplaceWriter) GenerateFromConfig(
 	metadata *domain.PluginMetadata,

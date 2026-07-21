@@ -26,7 +26,7 @@ Operating a policy-as-code platform requires:
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/operations/).
 
 
 ## Examples
@@ -34,5 +34,5 @@ See the full implementation guide in the [source documentation](https://adaptive
 See [examples.md](examples.md) for code examples.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/operations/)
 - [AEL Enforce](https://adaptive-enforcement-lab.com/enforce/)

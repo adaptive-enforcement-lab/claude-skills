@@ -234,5 +234,5 @@ See [examples.md](examples.md) for code examples.
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/build/release-pipelines/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/build/release-pipelines/release-please/)
 - [AEL Build](https://adaptive-enforcement-lab.com/build/)

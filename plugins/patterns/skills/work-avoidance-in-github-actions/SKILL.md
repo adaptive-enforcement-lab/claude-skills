@@ -188,5 +188,5 @@ See [examples.md](examples.md) for code examples.
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/patterns/github-actions/use-cases/work-avoidance/)
 - [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/)

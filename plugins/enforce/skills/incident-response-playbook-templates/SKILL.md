@@ -43,5 +43,5 @@ This library is designed for teams operating Kubernetes infrastructure at scale,
 ---
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/incident-readiness/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/incident-readiness/playbook-library/)
 - [AEL Enforce](https://adaptive-enforcement-lab.com/enforce/)

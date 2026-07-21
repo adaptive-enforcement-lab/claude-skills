@@ -96,11 +96,11 @@ func (p *SectionParser) ExtractIntroduction(markdown string) string {
 func (p *SectionParser) extractSections(node ast.Node, source []byte) []domain.Section {
 	// First pass: collect all headings with their positions
 	type headingInfo struct {
-		title     string
-		level     int
-		startPos  int
-		endPos    int
-		astNode   ast.Node
+		title    string
+		level    int
+		startPos int
+		endPos   int
+		astNode  ast.Node
 	}
 
 	var headings []headingInfo

@@ -37,6 +37,7 @@ func (g *MarketplaceGenerator) Generate(
 	metadataPath string,
 	manifestPath string,
 	outputDir string,
+	marketplacePath string,
 ) error {
 	g.logger.Info("reading plugin metadata", "path", metadataPath)
 
@@ -57,7 +58,6 @@ func (g *MarketplaceGenerator) Generate(
 	g.logger.Info("generating marketplace.json")
 
 	// 3. Generate marketplace.json
-	marketplacePath := filepath.Join(".claude-plugin", "marketplace.json")
 	if err := g.writer.GenerateFromConfig(metadata, versions, marketplacePath); err != nil {
 		return fmt.Errorf("failed to generate marketplace.json: %w", err)
 	}

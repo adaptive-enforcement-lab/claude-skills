@@ -8,10 +8,12 @@ import (
 	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/adapters/filesystem"
 	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/adapters/logger"
 	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/adapters/parser"
+	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/domain"
 	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/ports"
 	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/services"
 	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/services/extractor"
 	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/services/generator"
+	"github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/services/validator"
 )
 
 var version = "dev"
@@ -30,7 +32,7 @@ func main() {
 
 	flag.StringVar(&sourcePath, "source", "", "Path to AEL documentation source (required)")
 	flag.StringVar(&outputPath, "output", "./plugins", "Path to output generated plugins")
-	flag.StringVar(&marketplacePath, "marketplace", "./.claude-plugin/marketplace.json", "Path to marketplace.json (DEPRECATED)")
+	flag.StringVar(&marketplacePath, "marketplace", "./.claude-plugin/marketplace.json", "Path to marketplace.json")
 	flag.StringVar(&templatesPath, "templates", "./templates", "Path to template directory")
 	flag.StringVar(&pluginMetadataPath, "plugin-metadata", "./plugin-metadata.json", "Path to plugin metadata config")
 	flag.StringVar(&releaseManifestPath, "release-manifest", "./.release-please-manifest.json", "Path to release-please manifest")
@@ -80,8 +82,11 @@ func main() {
 		log.Fatalf("Failed to load templates: %v", err)
 	}
 
+	// Initialize validator
+	skillValidator := validator.NewSkillValidator()
+
 	// Initialize document reader
-	categories := []string{"patterns", "enforce", "build", "secure"}
+	categories := domain.Categories
 	documentReader := filesystem.NewDocumentReader(fs, frontmatterParser, sectionParser, contentExtractor, categories)
 
 	// Initialize writers
@@ -102,6 +107,8 @@ func main() {
 		processed int
 		skipped   int
 		errors    int
+		invalid   int
+		warned    int
 	)
 
 	// Process each file
@@ -129,6 +136,26 @@ func main() {
 			continue
 		}
 
+		// Validate the skill. Findings are advisory: a skill that fails
+		// validation is still written, but is surfaced so it can be fixed
+		// at the source document.
+		if findings := skillValidator.Validate(skill); len(findings) > 0 {
+			var hasError bool
+			for _, f := range findings {
+				if f.Severity == ports.SeverityError {
+					hasError = true
+					logger.Error("skill validation", "name", skill.Metadata.Name, "issue", f.Message)
+					continue
+				}
+				logger.Warn("skill validation", "name", skill.Metadata.Name, "issue", f.Message)
+			}
+			if hasError {
+				invalid++
+			} else {
+				warned++
+			}
+		}
+
 		// Write skill to filesystem
 		if err := skillWriter.WriteSkill(skill, outputPath); err != nil {
 			logger.Error("failed to write skill", "name", skill.Metadata.Name, "error", err)
@@ -143,7 +170,7 @@ func main() {
 	// Generate marketplace files
 	logger.Info("generating marketplace files")
 	marketplaceGen := services.NewMarketplaceGenerator(configReader, marketplaceWriter, logger)
-	err = marketplaceGen.Generate(pluginMetadataPath, releaseManifestPath, outputPath)
+	err = marketplaceGen.Generate(pluginMetadataPath, releaseManifestPath, outputPath, marketplacePath)
 	if err != nil {
 		logger.Error("failed to generate marketplace files", "error", err)
 		errors++
@@ -156,6 +183,8 @@ func main() {
 	fmt.Printf("Categories: %d\n", len(categories))
 	fmt.Printf("Processed:  %d\n", processed)
 	fmt.Printf("Skipped:    %d (blog posts)\n", skipped)
+	fmt.Printf("Invalid:    %d (written, but failed validation)\n", invalid)
+	fmt.Printf("Warnings:   %d\n", warned)
 	fmt.Printf("Errors:     %d\n", errors)
 	fmt.Printf("Output:     %s\n", outputPath)
 

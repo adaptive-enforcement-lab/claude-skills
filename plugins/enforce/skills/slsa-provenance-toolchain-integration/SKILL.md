@@ -30,7 +30,7 @@ Each toolchain guide covers:
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/enforce/slsa-provenance/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/enforce/slsa-provenance/toolchains/).
 
 
 ## Techniques
@@ -168,5 +168,5 @@ See [reference.md](reference.md) for complete documentation.
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/slsa-provenance/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/slsa-provenance/toolchains/)
 - [AEL Enforce](https://adaptive-enforcement-lab.com/enforce/)

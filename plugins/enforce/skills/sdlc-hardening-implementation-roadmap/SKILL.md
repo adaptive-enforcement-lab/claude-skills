@@ -554,5 +554,5 @@ See [reference.md](reference.md) for complete documentation.
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/implementation-roadmap/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/implementation-roadmap/hardening-checklist/)
 - [AEL Enforce](https://adaptive-enforcement-lab.com/enforce/)

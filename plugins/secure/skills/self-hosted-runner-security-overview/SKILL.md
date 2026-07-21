@@ -412,7 +412,7 @@ Use this checklist when deploying or auditing self-hosted runners.
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/runners/).
 
 
 ## Key Principles
@@ -491,5 +491,5 @@ See [reference.md](reference.md) for complete documentation.
 
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/runners/)
 - [AEL Secure](https://adaptive-enforcement-lab.com/secure/)

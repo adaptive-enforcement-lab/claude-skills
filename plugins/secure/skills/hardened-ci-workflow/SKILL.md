@@ -18,7 +18,7 @@ Copy-paste ready CI workflow templates with comprehensive security hardening. Ea
 
 ## Implementation
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/).
+See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/examples/ci-workflow/).
 
 
 ## Examples
@@ -31,5 +31,5 @@ See [examples.md](examples.md) for code examples.
 See [reference.md](reference.md) for complete documentation.
 ## References
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/)
+- [Source Documentation](https://adaptive-enforcement-lab.com/secure/github-actions-security/examples/ci-workflow/)
 - [AEL Secure](https://adaptive-enforcement-lab.com/secure/)
