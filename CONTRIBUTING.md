@@ -43,7 +43,7 @@ This project follows Clean/Hexagonal Architecture:
 
 ## Code Standards
 
-- Go 1.25+ (matches the version used in CI)
+- Go 1.26+ (matches the version used in CI)
 - Use `gofmt` for formatting
 - Follow standard Go conventions
 - Keep packages focused and cohesive
