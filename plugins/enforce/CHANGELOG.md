@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/adaptive-enforcement-lab/claude-skills/compare/enforce-v1.0.1...enforce-v1.0.2) (2026-07-21)
+
+
+### Maintenance
+
+* **main:** release build 1.0.1 ([#66](https://github.com/adaptive-enforcement-lab/claude-skills/issues/66)) ([92f8f49](https://github.com/adaptive-enforcement-lab/claude-skills/commit/92f8f499da8c61550e376765c5b5a012eb914ed2))
+
 ## [1.0.1](https://github.com/adaptive-enforcement-lab/claude-skills/compare/enforce-v1.0.0...enforce-v1.0.1) (2026-07-21)
 
 
