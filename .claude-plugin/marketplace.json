@@ -31,7 +31,7 @@
       "name": "enforce",
       "source": "./plugins/enforce",
       "description": "Security and compliance enforcement automation including pre-commit hooks, policy checks, and validation",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "category": "security",
       "author": {
         "name": "Adaptive Enforcement Lab",
