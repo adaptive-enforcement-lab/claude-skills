@@ -4,7 +4,7 @@ FROM policy-repo-2:tag AS policy_repo_2
 FROM policy-repo-3:tag AS policy_repo_3
 
 # Final stage: Aggregate and install tools
-FROM alpine:3.22.1
+FROM alpine:3.24.1
 
 # Install tools
 RUN apk add curl bash helm yq

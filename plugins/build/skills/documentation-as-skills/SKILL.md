@@ -21,7 +21,7 @@ The trade-off is that generated skills are only as good as their source. A vague
 
 - A documentation tree with consistent structure, since this pipeline keys on `index.md` files and YAML frontmatter
 - YAML frontmatter carrying at minimum `title` and `description` on every page intended to become a skill
-- Go 1.25 or later to build the generator
+- Go 1.26 or later to build the generator
 - A GitHub App (or equivalent machine identity) if regeneration runs in CI and must open pull requests
 
 
