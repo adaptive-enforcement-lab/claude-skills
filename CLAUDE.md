@@ -175,17 +175,30 @@ Release-please manages 6 independent components:
 
 Each uses separate-pull-requests for independent versioning.
 
+**A commit bumps only the components whose paths it touches.** This is the single most surprising part of the setup: one commit spanning several component directories opens one release PR *per component*. A `chore:` commit that edited `.claude-plugin/marketplace.json`, all four `plugins/*/.claude-plugin/plugin.json`, and two files under `skillgen/` opened **six** release PRs at once (#84-#89), one per package.
+
+`always-update: true` keeps existing release PRs refreshed as `main` moves. It does not create a release PR on its own — a `docs:`-titled commit produced none.
+
+**Merge release PRs one at a time.** All of them modify `.release-please-manifest.json`, so merging one leaves the rest out of date. Let the Release run finish before merging the next; release-please updates the remaining PRs, and `generate-skills.yml` re-syncs their `marketplace.json`. Merge the four collections first, then `marketplace` (its `marketplace.json` aggregates the collection versions), then `skillgen` last, since its release dispatches the binary build.
+
 ## Conventional Commits
 
-Use these commit prefixes for release-please automation:
+Use these commit prefixes for release-please automation. The behaviour below comes from `changelog-sections` in `release-please-config.json` — a type listed as visible there is releasable, and a type marked `hidden: true` is not:
 
-- `feat:` → Minor version bump, new features
-- `fix:` → Patch version bump, bug fixes
-- `chore:` → Maintenance, no version bump
-- `docs:` → Documentation only, hidden from changelog
-- `refactor:` → Code refactoring, appears in changelog
-- `test:` → Test changes, hidden from changelog
-- `perf:` → Performance improvements, appears in changelog
+| Prefix | Bump | Changelog section |
+| ------ | ---- | ----------------- |
+| `feat:` | minor | Features |
+| `fix:` | patch | Bug Fixes |
+| `perf:` | patch | Performance |
+| `refactor:` | patch | Code Refactoring |
+| `chore:` | **patch** | Maintenance |
+| `docs:` | none | hidden |
+| `test:` | none | hidden |
+| `ci:` | none | hidden |
+
+**`chore:` bumps the version in this repo.** It is configured as a visible "Maintenance" section, so it is releasable — unlike the release-please default, where `chore` is inert. Use `docs:`, `test:` or `ci:` when you want a change to land without cutting a release.
+
+**Squash merge means the PR title is the commit release-please parses.** The repo allows squash merge only, so the individual commits on a branch are discarded and the PR title becomes the conventional commit. A branch of tidy `fix:` commits merged under a `chore:` title releases as a patch chore; the reverse is also true. Title the PR as the release you intend.
 
 ## Key Implementation Notes
 
