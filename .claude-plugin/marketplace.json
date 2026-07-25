@@ -64,7 +64,7 @@
       "name": "secure",
       "source": "./plugins/secure",
       "description": "Security hardening for GitHub Actions, secrets and runners, OIDC and Workload Identity Federation, GKE, and supply chain security",
-      "version": "1.0.2",
+      "version": "1.0.3",
       "category": "security",
       "author": {
         "name": "Adaptive Enforcement Lab",
