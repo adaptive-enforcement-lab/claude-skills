@@ -149,10 +149,11 @@ cd skillgen && go test ./...
   --source ../adaptive-enforcement-lab-com/docs \
   --output plugins \
   --plugin-metadata ./plugin-metadata.json \
-  --release-manifest ./.release-please-manifest.json
+  --release-manifest ./.release-please-manifest.json \
+  --templates skillgen/templates
 ```
 
-Add `--verbose` for per-document logging. See [CLAUDE.md](CLAUDE.md) for the full flag reference and [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines.
+`--templates` is required in practice: the flag defaults to `./templates`, which does not exist at the repo root, so omitting it fails with `pattern matches no files`. Add `--verbose` for per-document logging. See [CLAUDE.md](CLAUDE.md) for the full flag reference and [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines.
 
 ## Architecture
 
