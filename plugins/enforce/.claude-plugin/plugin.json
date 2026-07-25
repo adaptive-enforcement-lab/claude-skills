@@ -1,6 +1,6 @@
 {
   "name": "enforce",
-  "description": "Security and compliance enforcement automation including pre-commit hooks, policy checks, and validation",
+  "description": "Policy-as-code enforcement with Kyverno and OPA template libraries, repository controls, SLSA provenance, and phased SDLC hardening",
   "version": "1.0.2",
   "author": {
     "name": "Adaptive Enforcement Lab",
@@ -12,6 +12,7 @@
   "keywords": [
     "policy-as-code",
     "kyverno",
-    "opa"
+    "opa",
+    "slsa"
   ]
 }

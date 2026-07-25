@@ -1,6 +1,6 @@
 {
   "name": "build",
-  "description": "Build engineering patterns for CI/CD pipelines, release automation, and deployment strategies",
+  "description": "Build engineering for Go CLIs and Kubernetes tooling: release-please automation, container packaging, testing strategies, and versioned documentation",
   "version": "1.0.1",
   "author": {
     "name": "Adaptive Enforcement Lab",
@@ -10,7 +10,9 @@
   "repository": "https://github.com/adaptive-enforcement-lab/claude-skills",
   "license": "MIT",
   "keywords": [
+    "go-cli",
     "release-please",
-    "github-actions"
+    "kubernetes",
+    "packaging"
   ]
 }

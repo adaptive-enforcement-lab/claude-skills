@@ -20,29 +20,29 @@
   },
   "plugins": {
     "patterns": {
-      "description": "Reusable engineering patterns for error handling, state management, performance optimization, and resilience",
+      "description": "Automation and architecture patterns for GitHub Actions, Argo Workflows and Events, GitHub App authentication, idempotency, and resilience",
       "category": "development",
       "tags": ["patterns", "engineering", "best-practices"],
-      "keywords": ["error-handling", "state-management", "performance", "resilience"]
+      "keywords": ["github-actions", "argo-workflows", "idempotency", "resilience"]
     },
     "enforce": {
       "marketplaceName": "enforce",
-      "description": "Security and compliance enforcement automation including pre-commit hooks, policy checks, and validation",
+      "description": "Policy-as-code enforcement with Kyverno and OPA template libraries, repository controls, SLSA provenance, and phased SDLC hardening",
       "category": "security",
       "tags": ["security", "compliance", "enforcement", "devsecops"],
-      "keywords": ["policy-as-code", "kyverno", "opa"]
+      "keywords": ["policy-as-code", "kyverno", "opa", "slsa"]
     },
     "build": {
-      "description": "Build engineering patterns for CI/CD pipelines, release automation, and deployment strategies",
+      "description": "Build engineering for Go CLIs and Kubernetes tooling: release-please automation, container packaging, testing strategies, and versioned documentation",
       "category": "devops",
       "tags": ["ci-cd", "build", "release", "deployment"],
-      "keywords": ["release-please", "github-actions"]
+      "keywords": ["go-cli", "release-please", "kubernetes", "packaging"]
     },
     "secure": {
-      "description": "Security patterns and hardening guides for cloud-native applications, GitHub Actions, and supply chain security",
+      "description": "Security hardening for GitHub Actions, secrets and runners, OIDC and Workload Identity Federation, GKE, and supply chain security",
       "category": "security",
       "tags": ["security", "hardening", "devsecops", "supply-chain"],
-      "keywords": ["github-actions", "gke", "oidc"]
+      "keywords": ["github-actions", "gke", "oidc", "secrets"]
     }
   }
 }

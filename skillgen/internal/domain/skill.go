@@ -16,7 +16,7 @@ type SkillMetadata struct {
 	Name                string // Kebab-case name derived from title
 	Title               string // Display title from frontmatter
 	Description         string // From frontmatter
-	Category            string // patterns, enforcement, build, secure
+	Category            string // patterns, enforce, build, secure
 	Tags                []string
 	WhenToUse           string      // Extracted from "Why It Matters" or similar sections
 	Prerequisites       string      // Extracted from "Prerequisites" section

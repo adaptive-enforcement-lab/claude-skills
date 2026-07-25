@@ -21,7 +21,8 @@ cd skillgen && go build -o ../bin/skillgen ./cmd/skillgen && cd ..
   --source ../adaptive-enforcement-lab-com/docs \
   --output plugins \
   --plugin-metadata ./plugin-metadata.json \
-  --release-manifest ./.release-please-manifest.json
+  --release-manifest ./.release-please-manifest.json \
+  --templates skillgen/templates
 
 # Run with verbose logging
 ./bin/skillgen \
@@ -29,6 +30,7 @@ cd skillgen && go build -o ../bin/skillgen ./cmd/skillgen && cd ..
   --output plugins \
   --plugin-metadata ./plugin-metadata.json \
   --release-manifest ./.release-please-manifest.json \
+  --templates skillgen/templates \
   --verbose
 
 # Run tests (from skillgen directory)
@@ -44,8 +46,8 @@ gofmt -w skillgen/
 - `--output`: Output path for generated plugins (default: `./plugins`)
 - `--plugin-metadata`: Path to plugin metadata config (default: `./plugin-metadata.json`)
 - `--release-manifest`: Path to release-please manifest (default: `./.release-please-manifest.json`)
-- `--templates`: Path to template directory (default: `./templates`)
-- `--marketplace`: Path to marketplace.json (DEPRECATED - now auto-generated)
+- `--templates`: Path to template directory (default: `./templates`). **Effectively required**: the default does not exist at the repo root, so omitting the flag fails with `pattern matches no files`. Pass `skillgen/templates`.
+- `--marketplace`: Output path for the generated marketplace.json (default: `./.claude-plugin/marketplace.json`). The file's *content* is generated, but this flag still controls where it is written.
 - `--verbose`: Enable verbose logging
 - `--version`: Show version and exit
 
@@ -60,7 +62,9 @@ skillgen/
     domain/            → Core entities (Skill, Document, Marketplace)
     ports/             → Interfaces for external dependencies
     adapters/          → Implementations (filesystem, parser, logger)
-    services/          → Application services (extractor, generator)
+    services/          → Application services (extractor, generator, validator,
+                         marketplace generator)
+  templates/           → Go text/template files
 ```
 
 **Key Principles:**
@@ -103,24 +107,25 @@ skillgen/
 
 The generator processes 4 documentation categories:
 
-- `patterns/` → Development patterns (error handling, state management, etc.)
-- `enforce/` → Security enforcement automation (pre-commit hooks, policy validation)
-- `build/` → Build engineering patterns (CI/CD, release automation)
-- `secure/` → Security patterns and practices
+- `patterns/` → Automation and architecture patterns (GitHub Actions, Argo, GitHub App auth, idempotency)
+- `enforce/` → Policy-as-code enforcement (Kyverno and OPA templates, SLSA, SDLC hardening)
+- `build/` → Build engineering (Go CLIs, release-please, packaging, versioned docs)
+- `secure/` → Security hardening (GitHub Actions, secrets, runners, OIDC, GKE)
+
+The canonical list lives in `skillgen/internal/domain/category.go` (`domain.Categories`). Note the category is `enforce`, not `enforcement`.
 
 Blog posts (detected via frontmatter `date`/`authors` fields) are automatically skipped.
 
 ## Templates
 
-Templates live in `templates/` and use Go's text/template syntax:
+Templates live in `skillgen/templates/` and use Go's text/template syntax. There are four:
 
-- `skill.tmpl` - Base SKILL.md template
-- `pattern_skill.tmpl` - Pattern-specific skills
-- `enforce_skill.tmpl` - Enforcement-specific skills
-- `build_skill.tmpl` - Build-specific skills
+- `skill.tmpl` - SKILL.md template, used for every category
 - `examples.tmpl` - Examples documentation
 - `reference.tmpl` - Reference documentation
 - `troubleshooting.tmpl` - Troubleshooting guides
+
+There are no per-category templates; `skill.tmpl` renders all four collections.
 
 ## Configuration Files
 
@@ -201,7 +206,9 @@ The **SectionMapper** (`internal/services/extractor`) maps source doc sections t
 Source docs use VitePress admonitions (`::: tip`, `::: warning`). The **AdmonitionConverter** transforms these to standard markdown for Claude Code compatibility.
 
 ### Error Handling Philosophy
-The generator logs errors but exits with code 0 even when errors occur. Many errors are expected (missing titles, malformed content) and shouldn't fail CI builds. The generation summary reports error counts for visibility.
+**Per-document** errors are logged but do not change the exit code. Many are expected (missing titles, malformed content) and shouldn't fail CI builds; the generation summary reports error counts for visibility.
+
+**Startup** failures are fatal (`log.Fatal`, exit 1): a missing `--source`, a template directory that loads no `*.tmpl` files, or a failure to walk the source tree. A run that exits 1 with no summary means the generator never got started, not that documents failed.
 
 ## Testing Strategy
 
@@ -213,7 +220,7 @@ The generator logs errors but exits with code 0 even when errors occur. Many err
 
 ## Dependencies
 
-Go 1.25+ with minimal external dependencies:
+Go 1.26+ (`skillgen/go.mod`, matching the version pinned in CI) with minimal external dependencies:
 - `github.com/yuin/goldmark` - Markdown parsing
 - `gopkg.in/yaml.v3` - YAML frontmatter parsing
 
@@ -224,9 +231,10 @@ Go 1.25+ with minimal external dependencies:
 3. **Editing plugins/*/​.claude-plugin/plugin.json directly** - Auto-generated from plugin-metadata.json
 4. **Forgetting --plugin-metadata and --release-manifest flags** - Required for marketplace generation
 5. **Forgetting --source flag** - Generator requires source docs path
-6. **Assuming specific section names** - Source docs vary, extractor uses fuzzy matching
-7. **Breaking template syntax** - Go templates are whitespace-sensitive
-8. **Not testing with actual docs** - Clone AEL docs repo for realistic testing
+6. **Forgetting --templates skillgen/templates** - The default `./templates` does not exist at the repo root, so the run dies before generating anything
+7. **Assuming specific section names** - Source docs vary, extractor uses fuzzy matching
+8. **Breaking template syntax** - Go templates are whitespace-sensitive
+9. **Not testing with actual docs** - Clone AEL docs repo for realistic testing
 
 ## Updating Plugin Metadata
 

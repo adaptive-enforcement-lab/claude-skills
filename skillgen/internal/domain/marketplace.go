@@ -23,7 +23,7 @@ type MarketplaceMetadata struct {
 }
 
 // Plugin represents a skill collection within the marketplace.
-// Each plugin corresponds to a category: patterns, enforcement, build, secure.
+// Each plugin corresponds to a category: patterns, enforce, build, secure.
 type Plugin struct {
 	Name        string        `json:"name"`
 	Source      string        `json:"source"`
