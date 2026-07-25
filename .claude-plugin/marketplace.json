@@ -31,7 +31,7 @@
       "name": "enforce",
       "source": "./plugins/enforce",
       "description": "Policy-as-code enforcement with Kyverno and OPA template libraries, repository controls, SLSA provenance, and phased SDLC hardening",
-      "version": "1.0.2",
+      "version": "1.0.3",
       "category": "security",
       "author": {
         "name": "Adaptive Enforcement Lab",
