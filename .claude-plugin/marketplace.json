@@ -14,7 +14,7 @@
       "name": "build",
       "source": "./plugins/build",
       "description": "Build engineering for Go CLIs and Kubernetes tooling: release-please automation, container packaging, testing strategies, and versioned documentation",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "category": "devops",
       "author": {
         "name": "Adaptive Enforcement Lab",
