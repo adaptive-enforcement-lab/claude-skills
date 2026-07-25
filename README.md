@@ -2,7 +2,7 @@
 
 Claude Code skills marketplace for secure development patterns, enforcement automation, and build engineering.
 
-**Status**: 🚧 Under active development
+**118 skills** across 4 plugin collections, generated from [AEL documentation](https://adaptive-enforcement-lab.com).
 
 ## Installation
 
@@ -10,46 +10,71 @@ Claude Code skills marketplace for secure development patterns, enforcement auto
 # Add the AEL skills marketplace
 /plugin marketplace add adaptive-enforcement-lab/claude-skills
 
-# Install individual plugin collections
+# Install plugin collections (install any subset)
 /plugin install patterns@ael-skills
-/plugin install enforcement@ael-skills
+/plugin install enforce@ael-skills
+/plugin install secure@ael-skills
 /plugin install build@ael-skills
 ```
 
 ## Available Skills
 
+| Collection | Skills | Version | Focus |
+| ---------- | -----: | ------- | ----- |
+| [`patterns`](plugins/patterns/skills) | 38 | 1.0.2 | Automation and architecture patterns |
+| [`enforce`](plugins/enforce/skills) | 34 | 1.0.2 | Policy-as-code and SDLC hardening |
+| [`secure`](plugins/secure/skills) | 33 | 1.0.2 | Supply chain and platform security |
+| [`build`](plugins/build/skills) | 13 | 1.0.1 | Go CLI and release engineering |
+
 ### Patterns (Development)
-Reusable engineering patterns automatically generated from [AEL documentation](https://adaptive-enforcement-lab.com/patterns/):
 
-- Error handling patterns (fail-fast, circuit breakers, retry logic)
-- State management patterns
-- Performance optimization patterns
-- Resilience and fault tolerance patterns
+From [AEL patterns](https://adaptive-enforcement-lab.com/patterns/):
 
-### Enforcement (Security)
-Security and compliance enforcement automation from [AEL enforcement guides](https://adaptive-enforcement-lab.com/enforce/):
+- GitHub Actions automation — matrix distribution and filtering, work avoidance, idempotency, file distribution
+- Argo Workflows and Argo Events — WorkflowTemplates, event routing, concurrency control, scheduled workflows
+- GitHub App authentication — JWT generation, installation tokens, OAuth user flows, token lifecycle
+- Architecture patterns — hub-and-spoke, strangler fig, separation of concerns, secure-by-design
+- Reliability — fail-fast, graceful degradation, prerequisite checks, chaos engineering for Kubernetes
 
-- Pre-commit hook setup and configuration
-- Policy validation automation
-- Security scanning integration
-- Compliance checking workflows
+### Enforce (Security)
+
+From [AEL enforcement guides](https://adaptive-enforcement-lab.com/enforce/):
+
+- Kyverno policy templates — pod security, image validation, mutation, generation, network, resource governance
+- OPA policy templates — pod security, image security, RBAC, resource governance
+- Repository controls — branch protection enforcement, required status checks
+- Supply chain — SLSA provenance and toolchain integration, policy packaging, multi-source aggregation
+- Operations — phased SDLC hardening roadmap, local development with policy-as-code, incident response playbooks
+
+### Secure (Security)
+
+From [AEL security guides](https://adaptive-enforcement-lab.com/secure/):
+
+- GitHub Actions hardening — action pinning, `GITHUB_TOKEN` permissions, workflow trigger security, third-party action risk
+- Secrets — storing credentials, rotation patterns, secret scanning integration
+- Authentication — OIDC federation, Workload Identity Federation, GitHub core app setup
+- Runners — self-hosted hardening, ephemeral runners, runner group management
+- Platform — GKE hardening (cluster config, network, IAM, runtime), OpenSSF Scorecard, Go security tooling
 
 ### Build (DevOps)
-Build engineering patterns from [AEL build guides](https://adaptive-enforcement-lab.com/build/):
 
-- CI/CD pipeline patterns
-- Release automation strategies
-- Deployment patterns
-- Build optimization techniques
+From [AEL build guides](https://adaptive-enforcement-lab.com/build/):
+
+- Go CLI architecture — framework selection, command architecture, Kubernetes client-go integration
+- Release automation — release-please configuration, modular release pipelines
+- Packaging — distroless container images, static binaries
+- Testing strategies and versioned documentation
+- Open source project templates (CONTRIBUTING, SECURITY, issue forms)
 
 ## Automated Generation
 
-All skills in this repository are automatically generated from AEL documentation:
+All skills in `plugins/` are generated from AEL documentation — **never edit them by hand**:
 
 - **Source**: [adaptive-enforcement-lab.com](https://github.com/adaptive-enforcement-lab/adaptive-enforcement-lab-com)
-- **Generator**: Go-based extraction pipeline
-- **CI/CD**: GitHub Actions workflows
-- **Sync**: Skills update automatically when documentation changes
+- **Generator**: `skillgen`, a Go extraction pipeline in this repo
+- **Sync**: the `generate-skills.yml` workflow runs on `repository_dispatch` (`docs-updated`) from the docs repo, on manual `workflow_dispatch`, and on pull requests to `main`. Dispatch runs open or force-push a PR on the `chore/regenerate-skills` branch; on a release-please PR it commits regenerated output directly to that PR's branch. Regeneration is proposed automatically — merging is a human step.
+
+The same run regenerates `.claude-plugin/marketplace.json` and every `plugins/*/.claude-plugin/plugin.json` from `plugin-metadata.json` plus `.release-please-manifest.json`.
 
 ## Team Distribution
 
@@ -67,7 +92,8 @@ To auto-register this marketplace for your team, add to `.claude/settings.json` 
   },
   "enabledPlugins": {
     "patterns@ael-skills": true,
-    "enforcement@ael-skills": true,
+    "enforce@ael-skills": true,
+    "secure@ael-skills": true,
     "build@ael-skills": true
   }
 }
@@ -77,75 +103,77 @@ To auto-register this marketplace for your team, add to `.claude/settings.json` 
 
 ```
 .claude-plugin/
-└── marketplace.json              # Marketplace catalog
+└── marketplace.json              # Marketplace catalog (GENERATED)
 
 plugins/                          # Generated plugins (DO NOT EDIT)
 ├── patterns/
 │   ├── .claude-plugin/
-│   │   └── plugin.json          # Plugin metadata
-│   └── skills/                   # Pattern skills
+│   │   └── plugin.json           # Plugin metadata (GENERATED)
+│   └── skills/                   # One directory per skill, each with SKILL.md
 ├── enforce/
-│   ├── .claude-plugin/
-│   │   └── plugin.json          # Plugin metadata
-│   └── skills/                   # Enforcement skills
-├── build/
-│   ├── .claude-plugin/
-│   │   └── plugin.json          # Plugin metadata
-│   └── skills/                   # Build skills
-└── secure/
-    ├── .claude-plugin/
-    │   └── plugin.json          # Plugin metadata
-    └── skills/                   # Security skills
+├── secure/
+└── build/
+
+plugin-metadata.json              # Source of truth: descriptions, categories, tags
+.release-please-manifest.json     # Source of truth: versions (release-please owned)
+release-please-config.json        # Multi-component release configuration
 
 skillgen/                         # Generator source
-├── cmd/skillgen/                 # Main application
+├── cmd/skillgen/                 # Entry point and dependency injection
 ├── internal/
-│   ├── domain/                   # Core entities
+│   ├── domain/                   # Core entities (Document, Skill, Marketplace)
 │   ├── ports/                    # Interfaces
-│   ├── adapters/                 # Implementations
-│   └── services/                 # Business logic
-└── templates/                    # Go templates
+│   ├── adapters/                 # filesystem, parser, logger
+│   └── services/                 # extractor, generator, validator
+└── templates/                    # skill, examples, reference, troubleshooting
 
 .github/workflows/
-└── generate-skills.yml           # CI automation
+├── generate-skills.yml           # Regeneration PR automation
+├── build.yml                     # Tests + cross-platform binaries
+└── release.yml                   # release-please
 ```
 
 ## Development
+
+Requires Go 1.26+.
 
 ```bash
 # Build the generator
 cd skillgen && go build -o ../bin/skillgen ./cmd/skillgen
 
-# Run generator (from repo root)
+# Run tests
+cd skillgen && go test ./...
+
+# Run generator (from repo root, needs the docs repo checked out alongside)
 ./bin/skillgen \
   --source ../adaptive-enforcement-lab-com/docs \
   --output plugins \
   --plugin-metadata ./plugin-metadata.json \
-  --release-manifest ./.release-please-manifest.json
-
-# Run tests
-cd skillgen && go test ./...
+  --release-manifest ./.release-please-manifest.json \
+  --templates skillgen/templates
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed development guidelines.
+`--templates` is required in practice: the flag defaults to `./templates`, which does not exist at the repo root, so omitting it fails with `pattern matches no files`. Add `--verbose` for per-document logging. See [CLAUDE.md](CLAUDE.md) for the full flag reference and [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines.
 
 ## Architecture
 
-This project follows Clean/Hexagonal Architecture:
+`skillgen` follows Clean/Hexagonal Architecture — dependencies point inward:
 
-- **Domain** (`internal/domain`): Core entities and business logic
-- **Ports** (`internal/ports`): Interfaces for external dependencies
-- **Adapters** (`internal/adapters`): Implementations (filesystem, parsers)
-- **Services** (`internal/services`): Application services (extractors, generators)
-- **CMD** (`cmd/skillgen`): Entry point and dependency injection
+- **Domain** (`skillgen/internal/domain`): core entities, no external dependencies
+- **Ports** (`skillgen/internal/ports`): interfaces for external dependencies
+- **Adapters** (`skillgen/internal/adapters`): filesystem, markdown parser, logger
+- **Services** (`skillgen/internal/services`): extractor, generator, validator
+- **CMD** (`skillgen/cmd/skillgen`): entry point and wiring
+
+Pipeline: read docs → parse frontmatter and sections → extract skills → render templates → write `SKILL.md` (plus optional `examples.md`, `reference.md`, `troubleshooting.md`) → generate marketplace files.
 
 ## Releases
 
-Releases are automated using [release-please](https://github.com/googleapis/release-please):
+Releases are automated with [release-please](https://github.com/googleapis/release-please). Six components version independently, each with its own release PR:
 
-- Conventional commits trigger version bumps
-- Changelog is auto-generated
-- GitHub releases include pre-built binaries for Linux, macOS, and Windows
+`skillgen`, `.claude-plugin`, `plugins/patterns`, `plugins/enforce`, `plugins/secure`, `plugins/build`
+
+Conventional commits drive version bumps and changelog entries. Generator releases publish binaries for Linux, macOS (amd64 and arm64), and Windows.
 
 ## Contributing
 
