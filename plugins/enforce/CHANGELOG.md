@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/adaptive-enforcement-lab/claude-skills/compare/enforce-v1.0.2...enforce-v1.0.3) (2026-07-25)
+
+
+### Maintenance
+
+* correct CLAUDE.md and published plugin descriptions ([#83](https://github.com/adaptive-enforcement-lab/claude-skills/issues/83)) ([c6cb3c1](https://github.com/adaptive-enforcement-lab/claude-skills/commit/c6cb3c15f9cac556c1bfea4c3c884ed54e3cae7d))
+
 ## [1.0.2](https://github.com/adaptive-enforcement-lab/claude-skills/compare/enforce-v1.0.1...enforce-v1.0.2) (2026-07-21)
 
 
