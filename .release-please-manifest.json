@@ -1,6 +1,6 @@
 {
   "skillgen": "1.0.2",
-  ".claude-plugin": "1.0.1",
+  ".claude-plugin": "1.0.2",
   "plugins/patterns": "1.0.3",
   "plugins/enforce": "1.0.3",
   "plugins/build": "1.0.2",
