@@ -48,7 +48,7 @@
       "name": "patterns",
       "source": "./plugins/patterns",
       "description": "Automation and architecture patterns for GitHub Actions, Argo Workflows and Events, GitHub App authentication, idempotency, and resilience",
-      "version": "1.0.2",
+      "version": "1.0.3",
       "category": "development",
       "author": {
         "name": "Adaptive Enforcement Lab",
