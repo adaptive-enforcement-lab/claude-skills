@@ -62,6 +62,11 @@ jobs:
       - name: Create pull request or commit to existing PR
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          # Pass context through the environment rather than interpolating it
+          # into the script. A branch name is attacker-controlled text, and
+          # ${{ }} substitution happens before the shell parses the script.
+          EVENT_NAME: ${{ github.event_name }}
+          HEAD_REF: ${{ github.head_ref }}
         run: |
           # Configure git
           git config user.name "github-actions[bot]"
@@ -79,9 +84,9 @@ jobs:
           fi
 
           # Determine target branch based on event type
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
+          if [ "$EVENT_NAME" = "pull_request" ]; then
             # Triggered by release-please PR - commit directly to that branch
-            BRANCH="${{ github.head_ref }}"
+            BRANCH="$HEAD_REF"
             echo "Committing to existing release-please PR branch: $BRANCH"
 
             SKILL_COUNT=$(find plugins/ -name "SKILL.md" | wc -l | xargs)
