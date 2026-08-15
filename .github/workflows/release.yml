@@ -51,7 +51,7 @@ jobs:
     steps:
       # CRITICAL: GitHub App token required because GITHUB_TOKEN cannot trigger workflows
       # This ensures release-please can create PRs and releases with proper permissions
-      - name: Generate AEL CORE App Token
+      - name: Generate GitHub App Token
         id: app_token
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # 3.2.0
         with:
@@ -70,6 +70,9 @@ jobs:
   dispatch-build:
     name: Dispatch Build Workflow
     needs: release-please
+    # Runs even when release-please was skipped (workflow_dispatch with
+    # skip_release_please=true is meant to trigger a manual rebuild).
+    if: always()
     runs-on: ubuntu-latest
     permissions:
       actions: write
@@ -80,8 +83,8 @@ jobs:
 
       # CRITICAL: GitHub App token required because GITHUB_TOKEN cannot trigger workflows
       # This ensures the Build Workflow is triggered when Release Workflow completes
-      - name: Generate AEL CORE App Token
-        id: generate_token
+      - name: Generate GitHub App Token
+        id: app_token
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # 3.2.0
         with:
           app-id: ${{ secrets.CORE_APP_ID }}
@@ -90,7 +93,7 @@ jobs:
 
       - name: Dispatch build workflow
         env:
-          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          GH_TOKEN: ${{ steps.app_token.outputs.token }}
           GENERATOR_TAG: ${{ needs.release-please.outputs.generator_tag_name }}
         run: |
           gh workflow run build.yml \
@@ -100,7 +103,7 @@ jobs:
             -f skip_build_version_tags="true" \
             -f triggered_by="release-workflow"
 
-  announce-skills:
+  release-status:
     name: Announce Skill Releases
     needs: release-please
     if: |
