@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.1](https://github.com/adaptive-enforcement-lab/claude-skills/compare/v1.2.0...v1.2.1) (2026-08-15)
+
+
+### Bug Fixes
+
+* link SKILL.md topics to the bundled library instead of live docs ([#104](https://github.com/adaptive-enforcement-lab/claude-skills/issues/104)) ([08817d8](https://github.com/adaptive-enforcement-lab/claude-skills/commit/08817d84e090d41342776b9c74f85b676f4881da))
+
+
+### Maintenance
+
+* consolidate renovate dependency updates ([#110](https://github.com/adaptive-enforcement-lab/claude-skills/issues/110)) ([605a142](https://github.com/adaptive-enforcement-lab/claude-skills/commit/605a1427eb5ca8235ef2f7d0e05a26b77f87e12a))
+
 ## [1.2.0](https://github.com/adaptive-enforcement-lab/claude-skills/compare/v1.1.0...v1.2.0) (2026-08-15)
 
 
