@@ -35,8 +35,30 @@ permissions:
   contents: write
 
 jobs:
+  detect-changes:
+    name: "Detect Changes"
+    runs-on: ubuntu-latest
+    outputs:
+      skillgen: ${{ steps.changes.outputs.skillgen_any_changed }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # 7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed paths
+        id: changes
+        uses: tj-actions/changed-files@24d32ffd492484c1d75e0c0b894501ddb9d30d62 # v47.0.0
+        with:
+          base_sha: origin/${{ github.event.repository.default_branch }}
+          files_yaml: |
+            skillgen:
+              - skillgen/**
+
   build-generator:
     name: Build Generator Binaries
+    needs: detect-changes
+    if: github.event_name == 'workflow_dispatch' || needs.detect-changes.outputs.skillgen == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
