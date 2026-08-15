@@ -1,3 +1,0 @@
-# Enforced by: escalation.yaml
-# Result: Containers must set allowPrivilegeEscalation: false
-# Impact: Blocks setuid binaries and capability inheritance

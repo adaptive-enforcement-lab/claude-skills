@@ -6,91 +6,17 @@ description: >-
 
 # {{.Metadata.Title}}
 
-## When to Use This Skill
+## Overview
 
-{{.Metadata.WhenToUse}}
-{{if .Metadata.Prerequisites}}
-
-## Prerequisites
-
-{{.Metadata.Prerequisites}}
+{{.Metadata.Overview}}
+{{range .Groups}}
+## {{.Title}}
+{{if .Description}}
+{{.Description}}
 {{end -}}
-{{if .Metadata.WhenToApply}}
-
-## When to Apply
-
-{{.Metadata.WhenToApply}}
+{{range .Topics}}- [{{.Title}}]({{.URL}}){{if .Description}} — {{.Description}}{{end}}
 {{end -}}
-{{if .Metadata.ImplementationSteps}}
-
-## Implementation
-
-{{.Metadata.ImplementationSteps}}
-{{else}}
-
-## Implementation
-
-See the full implementation guide in the [source documentation]({{.Metadata.SourceURL}}).
-{{end -}}
-{{if .Metadata.KeyPrinciples}}
-
-## Key Principles
-
-{{.Metadata.KeyPrinciples}}
-{{end -}}
-{{if .Metadata.Techniques}}
-
-## Techniques
-{{range .Metadata.Techniques}}
-
-### {{.Name}}
-
-{{.Content}}
-{{end -}}
-{{if .Reference}}
-*See [reference.md](reference.md) for additional techniques and detailed examples.*
-{{end -}}
-{{end -}}
-{{if .Metadata.Comparison}}
-
-## Comparison
-
-{{.Metadata.Comparison}}
-{{end -}}
-{{if .Metadata.AntiPatterns}}
-
-## Anti-Patterns to Avoid
-
-{{.Metadata.AntiPatterns}}
-{{end -}}
-{{if .Examples}}
-
-## Examples
-
-See [examples.md](examples.md) for code examples.
-{{end -}}
-{{if .Troubleshooting}}
-
-## Troubleshooting
-
-See [troubleshooting.md](troubleshooting.md) for common issues and solutions.
-{{end -}}
-{{if .Reference}}
-
+{{end}}
 ## Full Reference
 
-See [reference.md](reference.md) for complete documentation.
-{{end -}}
-{{if .Metadata.RelatedPatterns}}
-
-## Related Patterns
-
-{{range .Metadata.RelatedPatterns -}}
-- {{.}}
-{{end}}
-{{end -}}
-
-## References
-
-- [Source Documentation]({{.Metadata.SourceURL}})
-- [AEL {{.Metadata.Category | title}}](https://adaptive-enforcement-lab.com/{{.Metadata.Category}}/)
+See [reference.md](reference.md) for the complete content behind every link above, or [the live docs]({{.Metadata.SourceURL}}) on adaptive-enforcement-lab.com.

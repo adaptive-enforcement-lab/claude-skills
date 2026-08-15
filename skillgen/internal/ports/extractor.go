@@ -2,31 +2,17 @@ package ports
 
 import "github.com/adaptive-enforcement-lab/claude-skills/skillgen/internal/domain"
 
-// SectionMapper maps document sections to skill components using fuzzy matching.
-// For example, "Why It Matters" maps to the "WhenToUse" field in the skill.
-type SectionMapper interface {
-	// MapSection attempts to map a section title to a known skill component name.
-	// Returns empty string if no mapping is found.
-	MapSection(sectionTitle string) string
-
-	// FindSection searches for a section matching any of the given keywords.
-	// Returns nil if no match is found.
-	FindSection(sections []domain.Section, keywords []string) *domain.Section
+// TopicExtractor turns a single parsed document into a lightweight Topic
+// link-out entry (title, one-line description, URL). It does not extract
+// prose content: fan-out links are the point, not duplication.
+type TopicExtractor interface {
+	// Extract derives a Topic from a document's frontmatter and path.
+	Extract(doc *domain.Document) (*domain.Topic, error)
 }
 
-// SkillExtractor transforms a parsed document into skill components.
-type SkillExtractor interface {
-	// Extract analyzes a document and extracts all components needed for skill generation.
-	Extract(doc *domain.Document) (*domain.Skill, error)
-}
-
-// NameDeriver generates skill names from document titles.
-type NameDeriver interface {
-	// DeriveSkillName converts a title to kebab-case skill name.
-	// Example: "GitHub Actions Integration" -> "github-actions-integration"
-	DeriveSkillName(title string) string
-
-	// DeriveFilename generates a filename from a code block.
-	// Uses language extension and any hints in the code content.
-	DeriveFilename(block domain.CodeBlock, index int) string
+// HubBuilder aggregates every topic in a category into a single hub Skill:
+// a short overview plus a grouped index of links to the upstream docs.
+type HubBuilder interface {
+	// Build assembles the hub skill for a category from its documents.
+	Build(category string, docs []*domain.Document, pluginCfg domain.PluginConfig) (*domain.Skill, error)
 }

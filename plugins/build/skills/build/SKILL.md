@@ -1,28 +1,42 @@
 ---
 name: build
 description: >-
-  Production-grade Go CLI patterns, automated release workflows with Release Please, versioned docs, and coverage enforcement for DevSecOps build pipelines.
+  Use when building a Go CLI, wiring release-please for automated versioning, packaging a container, or setting up versioned documentation for a Kubernetes tool.
 ---
 
 # Build
 
-## When to Use This Skill
+## Overview
 
-This section covers the development practices, tooling choices, and automation patterns that turn code into deployable, documented, versioned artifacts.
+Development tools and release processes.
 
+## Documentation as Skills
 
-## Implementation
+Compile MkDocs documentation into Claude Code skills so…
 
-See the full implementation guide in the [source documentation](https://adaptive-enforcement-lab.com/build/).
+## Go CLI Architecture
 
+Build Kubernetes-native CLIs in Go with type safety…
+- [Command Architecture](https://adaptive-enforcement-lab.com/build/go-cli-architecture/command-architecture/) — Design CLI commands that work independently and compose…
+- [Common Operations](https://adaptive-enforcement-lab.com/build/go-cli-architecture/kubernetes-integration/common-operations/) — Implement idiomatic Kubernetes operations with label selectors, strategic…
+- [Framework Selection](https://adaptive-enforcement-lab.com/build/go-cli-architecture/framework-selection/) — Choose the right Go CLI framework for Kubernetes-native…
+- [Kubernetes Integration](https://adaptive-enforcement-lab.com/build/go-cli-architecture/kubernetes-integration/) — Integrate Go CLIs with Kubernetes using client-go.
+- [Packaging](https://adaptive-enforcement-lab.com/build/go-cli-architecture/packaging/) — Package Go CLIs as minimal secure containers with…
+- [Testing Strategies](https://adaptive-enforcement-lab.com/build/go-cli-architecture/testing/) — Build confidence with comprehensive CLI testing.
 
-## Related Patterns
+## Modular Release Pipelines
 
-- Secure
-- Enforce
-- Patterns
+Automate version management and changelog generation with smart…
+- [Release-Please Configuration](https://adaptive-enforcement-lab.com/build/release-pipelines/release-please/) — Configure automated versioning with release-please.
 
-## References
+## Open Source Project Templates
 
-- [Source Documentation](https://adaptive-enforcement-lab.com/build/)
-- [AEL Build](https://adaptive-enforcement-lab.com/build/)
+Production-ready templates for CONTRIBUTING.
+
+## Versioned Documentation
+
+Deploy version-tagged documentation alongside releases using MkDocs Material…
+
+## Full Reference
+
+See [reference.md](reference.md) for the complete content behind every link above, or [the live docs](https://adaptive-enforcement-lab.com/build/) on adaptive-enforcement-lab.com.

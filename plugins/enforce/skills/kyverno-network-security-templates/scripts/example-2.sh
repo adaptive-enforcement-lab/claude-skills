@@ -1,1 +1,0 @@
-kubectl apply -f ingress-class.yaml

@@ -11,12 +11,12 @@ import (
 func validSkill() *domain.Skill {
 	return &domain.Skill{
 		Metadata: domain.SkillMetadata{
-			Name:        "idempotency",
-			Title:       "Idempotency",
+			Name:        "patterns",
+			Title:       "Patterns",
 			Description: "Build automation that survives reruns.",
 			Category:    "patterns",
-			SourceURL:   "https://adaptive-enforcement-lab.com/patterns/efficiency/idempotency/",
-			WhenToUse:   "When an operation may be retried.",
+			SourceURL:   "https://adaptive-enforcement-lab.com/patterns/",
+			Overview:    "Battle-tested automation patterns for GitHub Actions and Kubernetes.",
 		},
 	}
 }
@@ -108,38 +108,24 @@ func TestValidateLengthLimits(t *testing.T) {
 	})
 }
 
-func TestValidateWarnsWhenNoSectionMatched(t *testing.T) {
+func TestValidateWarnsWhenNoBodyExtracted(t *testing.T) {
 	skill := validSkill()
-	skill.Metadata.WhenToUse = ""
+	skill.Metadata.Overview = ""
 
 	if len(messages(NewSkillValidator().Validate(skill), ports.SeverityWarning)) == 0 {
-		t.Error("expected a warning when no section mapped to a component")
+		t.Error("expected a warning when neither an overview nor topic groups were extracted")
 	}
 }
 
-func TestValidateAcceptsAnyExtractedComponent(t *testing.T) {
+func TestValidateAcceptsGroupsWithoutOverview(t *testing.T) {
 	// MainContent is empty until the template renderer runs, so an extracted
-	// body must be recognised from any one of the mapped components.
-	components := map[string]func(*domain.SkillMetadata){
-		"Prerequisites":       func(m *domain.SkillMetadata) { m.Prerequisites = "x" },
-		"ImplementationSteps": func(m *domain.SkillMetadata) { m.ImplementationSteps = "x" },
-		"KeyPrinciples":       func(m *domain.SkillMetadata) { m.KeyPrinciples = "x" },
-		"WhenToApply":         func(m *domain.SkillMetadata) { m.WhenToApply = "x" },
-		"Comparison":          func(m *domain.SkillMetadata) { m.Comparison = "x" },
-		"AntiPatterns":        func(m *domain.SkillMetadata) { m.AntiPatterns = "x" },
-		"Techniques":          func(m *domain.SkillMetadata) { m.Techniques = []domain.Technique{{Name: "x"}} },
-	}
+	// body must be recognised from either the overview or the topic groups.
+	skill := validSkill()
+	skill.Metadata.Overview = ""
+	skill.Groups = []domain.TopicGroup{{Title: "Architecture", Topics: []domain.Topic{{Title: "Hub and Spoke"}}}}
 
-	for name, set := range components {
-		t.Run(name, func(t *testing.T) {
-			skill := validSkill()
-			skill.Metadata.WhenToUse = ""
-			set(&skill.Metadata)
-
-			if len(NewSkillValidator().Validate(skill)) != 0 {
-				t.Errorf("%s alone should count as an extracted body", name)
-			}
-		})
+	if len(NewSkillValidator().Validate(skill)) != 0 {
+		t.Error("topic groups alone should count as an extracted body")
 	}
 }
 

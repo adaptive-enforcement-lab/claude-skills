@@ -1,4 +1,0 @@
-- name: Policy Check
-  image: policy-platform:latest
-  script:
-    - kyverno apply /repos/security-policy/ --resource app.yaml

@@ -1,59 +1,63 @@
 ---
 name: secure
 description: >-
-  Find and fix security issues before they become incidents. Vulnerability scanning, SBOM generation, supply chain security, and secure authentication workflows.
+  Use when hardening GitHub Actions workflows, managing secrets or self-hosted runners, configuring OIDC or Workload Identity Federation, securing a GKE cluster, or assessing supply-chain risk.
 ---
 
 # Secure
 
-## When to Use This Skill
+## Overview
 
-This section covers the **tools and practices** for discovering and remediating security issues in code, dependencies, containers, and supply chains.
+Finding and fixing security issues before they become incidents.
 
+## Cloud Native
+- [GKE Cluster Configuration](https://adaptive-enforcement-lab.com/secure/cloud-native/gke-hardening/cluster-configuration/) — Private GKE cluster setup, Workload Identity, and Shielded…
+- [GKE Security Hardening Guide](https://adaptive-enforcement-lab.com/secure/cloud-native/gke-hardening/) — GKE security hardening guide with Pulumi.
+- [IAM Configuration](https://adaptive-enforcement-lab.com/secure/cloud-native/gke-hardening/iam-configuration/) — Least-privilege IAM roles for GKE nodes and workloads.
+- [Network Security](https://adaptive-enforcement-lab.com/secure/cloud-native/gke-hardening/network-security/) — Secure GKE networking with VPC-native IP allocation, zero-trust…
+- [Runtime Security](https://adaptive-enforcement-lab.com/secure/cloud-native/gke-hardening/runtime-security/) — Pod Security Standards and admission controllers for GKE.
+- [Workload Identity Federation Implementation](https://adaptive-enforcement-lab.com/secure/cloud-native/workload-identity/) — Workload Identity Federation implementation guide.
 
-## Implementation
+## GitHub Actions Security Patterns Hub
 
-1. **Start with GitHub Apps**: Replace PATs with secure, auditable authentication
-2. **Add vulnerability scanning**: Catch known CVEs before they deploy
-3. **Generate SBOMs**: Document your supply chain for compliance
-4. **Run Scorecard**: Measure and improve security posture
-5. **Layer on enforcement**: Make findings actionable with Enforce patterns
+Complete security patterns for GitHub Actions covering action…
+- [Action Pinning Overview](https://adaptive-enforcement-lab.com/secure/github-actions-security/action-pinning/) — Why pinning GitHub Actions to SHA-256 commits matters…
+- [Complete Workflow Examples](https://adaptive-enforcement-lab.com/secure/github-actions-security/examples/) — Copy-paste hardened CI/CD workflows with SHA-pinned actions, minimal…
+- [Environment Protection Patterns](https://adaptive-enforcement-lab.com/secure/github-actions-security/workflows/environments/) — Deployment protection with environment protection rules, required reviewers…
+- [Ephemeral Runner Patterns](https://adaptive-enforcement-lab.com/secure/github-actions-security/runners/ephemeral/) — Disposable runner patterns for GitHub Actions.
+- [GITHUB_TOKEN Permissions Overview](https://adaptive-enforcement-lab.com/secure/github-actions-security/token-permissions/) — Understanding GITHUB_TOKEN scope, default permissions, and implementing least-privilege…
+- [GitHub Actions Security Cheat Sheet](https://adaptive-enforcement-lab.com/secure/github-actions-security/cheat-sheet/) — Quick reference for GitHub Actions security patterns.
+- [Hardened CI Workflow](https://adaptive-enforcement-lab.com/secure/github-actions-security/examples/ci-workflow/) — Production-ready CI workflow examples with all security patterns…
+- [Hardened Deployment Workflow](https://adaptive-enforcement-lab.com/secure/github-actions-security/examples/deployment-workflow/) — Production-ready deployment workflow examples with OIDC authentication, environment…
+- [Hardened Release Workflow](https://adaptive-enforcement-lab.com/secure/github-actions-security/examples/release-workflow/) — Production-ready release workflow examples with signed releases, SLSA…
+- [OIDC Federation Patterns](https://adaptive-enforcement-lab.com/secure/github-actions-security/secrets/oidc/) — Secretless authentication to cloud providers using OpenID Connect…
+- [Reusable Workflow Security](https://adaptive-enforcement-lab.com/secure/github-actions-security/workflows/reusable/) — Secure reusable workflow patterns for GitHub Actions.
+- [Runner Group Management](https://adaptive-enforcement-lab.com/secure/github-actions-security/runners/groups/) — Runner group organization strategies for GitHub Actions.
+- [Secret Management Overview](https://adaptive-enforcement-lab.com/secure/github-actions-security/secrets/secrets-management/) — Understanding GitHub Actions secret types, storage hierarchy, and…
+- [Secret Rotation Patterns](https://adaptive-enforcement-lab.com/secure/github-actions-security/secrets/rotation/) — Automated secret rotation for GitHub Actions.
+- [Secret Scanning Integration](https://adaptive-enforcement-lab.com/secure/github-actions-security/secrets/scanning/) — GitHub secret scanning configuration, push protection, custom pattern…
+- [Security Scanning Workflows](https://adaptive-enforcement-lab.com/secure/github-actions-security/examples/security-scanning/) — Comprehensive security scanning examples with SAST (CodeQL), dependency…
+- [Self-Hosted Runner Hardening](https://adaptive-enforcement-lab.com/secure/github-actions-security/runners/hardening/) — Comprehensive hardening steps for self-hosted GitHub Actions runners.
+- [Self-Hosted Runner Security Overview](https://adaptive-enforcement-lab.com/secure/github-actions-security/runners/) — Understanding the threat model for self-hosted GitHub Actions…
+- [Third-Party Action Risk Assessment](https://adaptive-enforcement-lab.com/secure/github-actions-security/third-party-actions/) — Structured framework for evaluating GitHub Actions security before…
+- [Workflow Trigger Security](https://adaptive-enforcement-lab.com/secure/github-actions-security/workflows/triggers/) — Secure GitHub Actions trigger patterns for pull requests…
 
+## GitHub Core App Setup
 
-## Comparison
+Configure organization-level GitHub Apps for secure cross-repository automation.
+- [Storing Credentials](https://adaptive-enforcement-lab.com/secure/github-apps/storing-credentials/) — Securely store GitHub App credentials across different environments.
 
-Understanding the distinction:
+## Go Security Tooling
 
-- **Secure** (this section): Find and fix security issues
-  - Vulnerability scanners that *identify* CVEs
-  - SBOM generators that *document* dependencies
-  - Security tools that *discover* weaknesses
-  - GitHub Apps that *provide* secure authentication
+Standard Go security toolkit: race detector, golangci-lint, Trivy…
 
-- **Enforce** ([see Enforce](../enforce/index.md)): Make security mandatory through automation
-  - Branch protection that *requires* reviews
-  - Pre-commit hooks that *block* violations
-  - Status checks that *prevent* merges
-  - Policy-as-code that *enforces* runtime compliance
+## OpenSSF Scorecard Achievement Guide
 
-**Litmus test**: Can this be bypassed?
+Complete OpenSSF Scorecard achievement guide.
 
-- If **no** → It's a Secure tool (finding/fixing)
-- If **yes** → It belongs in Enforce (making mandatory)
+## Risk Management
+- [Risk Prioritization Framework for Engineers](https://adaptive-enforcement-lab.com/secure/risk-management/engineer-framework/) — Risk prioritization framework for engineers.
 
+## Full Reference
 
-## Examples
-
-See [examples.md](examples.md) for code examples.
-
-
-## Related Patterns
-
-- Enforce
-- Build
-- Patterns
-
-## References
-
-- [Source Documentation](https://adaptive-enforcement-lab.com/secure/)
-- [AEL Secure](https://adaptive-enforcement-lab.com/secure/)
+See [reference.md](reference.md) for the complete content behind every link above, or [the live docs](https://adaptive-enforcement-lab.com/secure/) on adaptive-enforcement-lab.com.

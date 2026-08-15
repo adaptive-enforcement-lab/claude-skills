@@ -1,7 +1,0 @@
-permissions:
-  contents: read
-
-jobs:
-  release:
-    permissions:
-      contents: write

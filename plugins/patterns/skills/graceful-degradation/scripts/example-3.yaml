@@ -1,6 +1,0 @@
-# Kubernetes volume mount with optional flag
-volumes:
-  - name: cache-volume
-    configMap:
-      name: deployment-cache
-      optional: true  # Tier 1 can fail gracefully

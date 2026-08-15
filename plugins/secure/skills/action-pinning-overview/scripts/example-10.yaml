@@ -1,2 +1,0 @@
-# Action runs in container
-- uses: docker://alpine:3.18

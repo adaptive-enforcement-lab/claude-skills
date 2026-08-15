@@ -1,10 +1,21 @@
----
-name: {{.Metadata.Name}} - Reference
-description: Complete reference for {{.Metadata.Title}}
----
+# {{.Metadata.Title}} — Full Reference
 
-# {{.Metadata.Title}} - Reference
+Generated from adaptive-enforcement-lab.com. For a scannable index with links to the live docs, see SKILL.md in this skill.
 
-This is the complete reference documentation extracted from the source.
+## Overview
 
-{{.Reference.Content}}
+{{.Metadata.ReferenceBody}}
+{{range .Groups}}
+## {{.Title}}
+{{if .Description}}
+{{.Description}}
+{{end -}}
+{{if .ReferenceBody}}
+{{.ReferenceBody}}
+{{end -}}
+{{range .Topics}}
+### {{.Title}}
+
+{{.ReferenceBody}}
+{{end -}}
+{{end}}

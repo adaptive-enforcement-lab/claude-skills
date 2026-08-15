@@ -1,3 +1,0 @@
-# Enforced by: wildcards.yaml
-# Result: Roles must specify resources: ["pods"], not resources: ["*"]
-# Impact: Reduces blast radius of compromised service accounts

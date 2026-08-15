@@ -73,6 +73,11 @@ func (f *FileSystem) IsDir(path string) bool {
 	return info.IsDir()
 }
 
+// RemoveAll removes path and any children it contains.
+func (f *FileSystem) RemoveAll(path string) error {
+	return os.RemoveAll(path)
+}
+
 // FindIndexFiles recursively finds all index.md files in the given categories.
 // Categories are subdirectories under rootPath (e.g., "patterns", "enforce", "build", "secure").
 func FindIndexFiles(filesystem *FileSystem, rootPath string, categories []string) ([]string, error) {

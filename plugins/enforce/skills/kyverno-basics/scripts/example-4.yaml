@@ -1,2 +1,0 @@
-spec:
-  validationFailureAction: Audit  # Log violations, don't block

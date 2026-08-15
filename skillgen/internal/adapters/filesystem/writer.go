@@ -25,17 +25,31 @@ func NewSkillWriter(fs ports.FileSystem, renderer ports.TemplateRenderer) *Skill
 	}
 }
 
-// WriteSkill writes all components of a skill to the output directory.
+// WriteSkill writes the hub skill's SKILL.md and reference.md to the output
+// directory. It first removes any stale sibling skill directories left over
+// from a previous generation (e.g. the old one-skill-per-doc layout), and
+// then wipes the hub's own directory before recreating it — a category's
+// root doc can share its name with the new hub (e.g. "patterns"), in which
+// case the old per-doc skill's leftover examples.md/scripts/ would
+// otherwise survive as a same-named "sibling of itself".
 func (w *SkillWriter) WriteSkill(skill *domain.Skill, outputDir string) error {
-	// Determine output path: outputDir/category/skills/skill-name/
-	skillDir := filepath.Join(outputDir, skill.Metadata.Category, "skills", skill.Metadata.Name)
+	skillsDir := filepath.Join(outputDir, skill.Metadata.Category, "skills")
+	skillDir := filepath.Join(skillsDir, skill.Metadata.Name)
+
+	if err := w.removeStaleSiblings(skillsDir, skill.Metadata.Name); err != nil {
+		return fmt.Errorf("failed to remove stale skill directories in %s: %w", skillsDir, err)
+	}
+
+	if err := w.fs.RemoveAll(skillDir); err != nil {
+		return fmt.Errorf("failed to clear skill directory %s: %w", skillDir, err)
+	}
 
 	// Create skill directory
 	if err := w.fs.MkdirAll(skillDir, 0755); err != nil {
 		return fmt.Errorf("failed to create skill directory %s: %w", skillDir, err)
 	}
 
-	// Write SKILL.md (always required)
+	// Write SKILL.md: the lean, scannable index
 	skillContent, err := w.renderer.RenderSkill(skill)
 	if err != nil {
 		return fmt.Errorf("failed to render SKILL.md for %s: %w", skill.Metadata.Name, err)
@@ -46,57 +60,38 @@ func (w *SkillWriter) WriteSkill(skill *domain.Skill, outputDir string) error {
 		return fmt.Errorf("failed to write SKILL.md: %w", err)
 	}
 
-	// Write examples.md if needed
-	if skill.Examples != nil && skill.Examples.ShouldGenerate() {
-		examplesContent, err := w.renderer.RenderExamples(skill)
-		if err != nil {
-			return fmt.Errorf("failed to render examples.md: %w", err)
-		}
-
-		examplesPath := filepath.Join(skillDir, "examples.md")
-		if err := w.fs.WriteFile(examplesPath, []byte(examplesContent), 0644); err != nil {
-			return fmt.Errorf("failed to write examples.md: %w", err)
-		}
+	// Write reference.md: the full offline depth behind it
+	referenceContent, err := w.renderer.RenderReference(skill)
+	if err != nil {
+		return fmt.Errorf("failed to render reference.md for %s: %w", skill.Metadata.Name, err)
 	}
 
-	// Write troubleshooting.md if needed
-	if skill.Troubleshooting != nil && skill.Troubleshooting.ShouldGenerate() {
-		troubleshootingContent, err := w.renderer.RenderTroubleshooting(skill)
-		if err != nil {
-			return fmt.Errorf("failed to render troubleshooting.md: %w", err)
-		}
-
-		troubleshootingPath := filepath.Join(skillDir, "troubleshooting.md")
-		if err := w.fs.WriteFile(troubleshootingPath, []byte(troubleshootingContent), 0644); err != nil {
-			return fmt.Errorf("failed to write troubleshooting.md: %w", err)
-		}
+	referencePath := filepath.Join(skillDir, "reference.md")
+	if err := w.fs.WriteFile(referencePath, []byte(referenceContent), 0644); err != nil {
+		return fmt.Errorf("failed to write reference.md: %w", err)
 	}
 
-	// Write reference.md if needed
-	if skill.Reference != nil && skill.Reference.ShouldGenerate() {
-		referenceContent, err := w.renderer.RenderReference(skill)
-		if err != nil {
-			return fmt.Errorf("failed to render reference.md: %w", err)
-		}
+	return nil
+}
 
-		referencePath := filepath.Join(skillDir, "reference.md")
-		if err := w.fs.WriteFile(referencePath, []byte(referenceContent), 0644); err != nil {
-			return fmt.Errorf("failed to write reference.md: %w", err)
+// removeStaleSiblings deletes every entry under skillsDir other than keep,
+// so regenerating a category's hub also cleans up skill directories that
+// are no longer produced.
+func (w *SkillWriter) removeStaleSiblings(skillsDir, keep string) error {
+	entries, err := w.fs.Glob(filepath.Join(skillsDir, "*"))
+	if err != nil {
+		if !w.fs.Exists(skillsDir) {
+			return nil
 		}
+		return err
 	}
 
-	// Write script files if any
-	if len(skill.Scripts) > 0 {
-		scriptsDir := filepath.Join(skillDir, "scripts")
-		if err := w.fs.MkdirAll(scriptsDir, 0755); err != nil {
-			return fmt.Errorf("failed to create scripts directory: %w", err)
+	for _, entry := range entries {
+		if filepath.Base(entry) == keep {
+			continue
 		}
-
-		for _, script := range skill.Scripts {
-			scriptPath := filepath.Join(scriptsDir, script.Filename)
-			if err := w.fs.WriteFile(scriptPath, []byte(script.Content), 0755); err != nil {
-				return fmt.Errorf("failed to write script %s: %w", script.Filename, err)
-			}
+		if err := w.fs.RemoveAll(entry); err != nil {
+			return err
 		}
 	}
 

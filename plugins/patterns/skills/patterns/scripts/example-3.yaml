@@ -1,3 +1,0 @@
-# BAD: Always creates PR even if no changes
-- name: Create PR
-  run: gh pr create --fill

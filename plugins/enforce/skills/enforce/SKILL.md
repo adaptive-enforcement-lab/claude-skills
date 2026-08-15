@@ -1,70 +1,65 @@
 ---
 name: enforce
 description: >-
-  Make security mandatory through automation. Branch protection, pre-commit hooks, status checks, policy-as-code, and SLSA provenance for SOC 2 compliance.
+  Use when setting up or reviewing policy-as-code enforcement — writing Kyverno or OPA policies, configuring branch protection, generating SLSA provenance, or planning a phased SDLC hardening rollout.
 ---
 
 # Enforce
 
-## When to Use This Skill
+## Overview
 
-This section covers the **enforcement mechanisms** that make security policies mandatory, auditable, and impossible to ignore.
+Making security mandatory through automation.
 
-These controls pass SOC 2, ISO 27001, and PCI-DSS audits by shifting security left and making compliance automatic.
+## Branch Protection Enforcement Patterns
 
+Comprehensive branch protection configuration patterns with enforcement automation.
 
-## Implementation
+## Implementation Roadmap
 
-See [Implementation Roadmap](implementation-roadmap/index.md) for phased rollout:
+Phased rollout plan for SDLC hardening.
+- [Phase 1: Foundation (Weeks 1-4)](https://adaptive-enforcement-lab.com/enforce/implementation-roadmap/hardening-checklist/phase-1/) — Deploy pre-commit hooks for secrets detection, branch protection…
+- [Phase 2: Automation (Weeks 5-8)](https://adaptive-enforcement-lab.com/enforce/implementation-roadmap/hardening-checklist/phase-2/) — Automation phase SDLC hardening overview.
+- [Phase 3: Runtime (Weeks 9-12)](https://adaptive-enforcement-lab.com/enforce/implementation-roadmap/hardening-checklist/phase-3/) — Runtime enforcement phase overview.
+- [Phase 4: Advanced (Month 4+)](https://adaptive-enforcement-lab.com/enforce/implementation-roadmap/hardening-checklist/phase-4/) — Audit evidence collection and compliance validation.
+- [SDLC Hardening Implementation Roadmap](https://adaptive-enforcement-lab.com/enforce/implementation-roadmap/hardening-checklist/) — Deploy defense-in-depth SDLC hardening across four phases: pre-commit…
 
-1. **Phase 1**: Branch protection (1 week)
-2. **Phase 2**: Status checks (2 weeks)
-3. **Phase 3**: Pre-commit hooks (1 week)
-4. **Phase 4**: Policy-as-code (4 weeks)
-5. **Phase 5**: SLSA provenance (2 weeks)
+## Incident Readiness
+- [Incident Response Playbook Templates](https://adaptive-enforcement-lab.com/enforce/incident-readiness/playbook-library/) — Incident response playbook templates for Kubernetes.
 
-**Total timeline**: 10 weeks for complete enforcement stack.
+## Policy-as-Code: End-to-End Enforcement
 
+Enforce security and compliance policies across local dev…
+- [CI Integration: Automated Policy Enforcement](https://adaptive-enforcement-lab.com/enforce/policy-as-code/ci-integration/) — Block non-compliant manifests at merge time using policy-platform…
+- [JMESPath for Kyverno](https://adaptive-enforcement-lab.com/enforce/policy-as-code/template-library/jmespath/) — Master JMESPath for Kyverno policies.
+- [Kyverno Basics](https://adaptive-enforcement-lab.com/enforce/policy-as-code/kyverno/) — Install Kyverno, create validation policies, and understand audit…
+- [Kyverno Generation Templates](https://adaptive-enforcement-lab.com/enforce/policy-as-code/template-library/kyverno/generation/) — Kyverno generation policy templates that auto-create supporting resources…
+- [Kyverno Image Validation Templates](https://adaptive-enforcement-lab.com/enforce/policy-as-code/template-library/kyverno/image/) — Kyverno image validation: registry allowlists, digests, signatures, and…
+- [Kyverno Mutation Templates](https://adaptive-enforcement-lab.com/enforce/policy-as-code/template-library/kyverno/mutation/) — Kyverno mutation policies that auto-inject labels, sidecars, and…
+- [Kyverno Network Security Templates](https://adaptive-enforcement-lab.com/enforce/policy-as-code/template-library/kyverno/network/) — Kyverno network security policies that enforce NetworkPolicy requirements…
+- [Kyverno Pod Security Templates](https://adaptive-enforcement-lab.com/enforce/policy-as-code/template-library/kyverno/pod-security/) — Kyverno pod security policies enforcing Pod Security Standards…
+- [Kyverno Policy Templates](https://adaptive-enforcement-lab.com/enforce/policy-as-code/template-library/kyverno/) — Kyverno policy templates overview.
+- [Kyverno Resource Governance Templates](https://adaptive-enforcement-lab.com/enforce/policy-as-code/template-library/kyverno/resource/) — Kyverno resource governance policies enforcing CPU/memory limits, HPA…
+- [Local Development with Policy-as-Code](https://adaptive-enforcement-lab.com/enforce/policy-as-code/local-development/) — Run Kyverno policy validation locally with policy-platform containers.
+- [Multi-Source Policy Aggregation](https://adaptive-enforcement-lab.com/enforce/policy-as-code/multi-source-policies/) — Aggregate Kyverno policies from security, DevOps, and application…
+- [OPA Image Security Templates](https://adaptive-enforcement-lab.com/enforce/policy-as-code/template-library/opa/image/) — OPA image security policies for container registry allowlisting…
+- [OPA Pod Security Templates](https://adaptive-enforcement-lab.com/enforce/policy-as-code/template-library/opa/pod-security/) — OPA pod security policies preventing privileged containers, restricting…
+- [OPA Policy Templates](https://adaptive-enforcement-lab.com/enforce/policy-as-code/template-library/opa/) — OPA Gatekeeper policy templates overview.
+- [OPA RBAC Templates](https://adaptive-enforcement-lab.com/enforce/policy-as-code/template-library/opa/rbac/) — OPA RBAC policies preventing cluster-admin privilege escalation, restricting…
+- [OPA Resource Governance Templates](https://adaptive-enforcement-lab.com/enforce/policy-as-code/template-library/opa/resource/) — OPA resource governance policies enforcing CPU/memory limits, ResourceQuota…
+- [Policy Packaging](https://adaptive-enforcement-lab.com/enforce/policy-as-code/policy-packaging/) — Build policy-platform containers that aggregate Kyverno policies from…
+- [Policy-as-Code Operations](https://adaptive-enforcement-lab.com/enforce/policy-as-code/operations/) — Manage Kyverno policy lifecycle from creation to enforcement.
+- [Policy-as-Code Template Library](https://adaptive-enforcement-lab.com/enforce/policy-as-code/template-library/) — Production-ready policy template library: 48 battle-tested policies (28…
+- [Runtime Deployment: Admission Control with Kyverno](https://adaptive-enforcement-lab.com/enforce/policy-as-code/runtime-deployment/) — Deploy Kyverno admission control as final safety net…
 
-## Comparison
+## Required Status Checks
 
-Understanding the distinction:
+CI/CD pipelines as merge gates.
 
-- **Secure** ([see Secure](../secure/index.md)): Find and fix security issues
-  - Vulnerability scanners that *identify* CVEs
-  - SBOM generators that *document* dependencies
-  - Security tools that *discover* weaknesses
+## SLSA Implementation Playbook
 
-- **Enforce** (this section): Make security mandatory through automation
-  - Branch protection that *requires* reviews
-  - Pre-commit hooks that *block* violations
-  - Status checks that *prevent* merges
-  - Policy-as-code that *rejects* non-compliant resources
-  - SLSA provenance that *attests* build integrity
-
-**Litmus test**: Can this be bypassed?
-
-- If **yes** → Belongs in Enforce (make it mandatory)
-- If **no** → Belongs in Secure (it's a finding/fix tool)
-
-
-## Examples
-
-See [examples.md](examples.md) for code examples.
-
+Complete SLSA implementation playbook: clarify SLSA vs SBOM…
+- [SLSA Provenance: Toolchain Integration](https://adaptive-enforcement-lab.com/enforce/slsa-provenance/toolchains/) — SLSA provenance for Go, Node.
 
 ## Full Reference
 
-See [reference.md](reference.md) for complete documentation.
-
-
-## Related Patterns
-
-- Secure
-- Build
-- Patterns
-
-## References
-
-- [Source Documentation](https://adaptive-enforcement-lab.com/enforce/)
-- [AEL Enforce](https://adaptive-enforcement-lab.com/enforce/)
+See [reference.md](reference.md) for the complete content behind every link above, or [the live docs](https://adaptive-enforcement-lab.com/enforce/) on adaptive-enforcement-lab.com.

@@ -1,4 +1,0 @@
-strategy:
-  matrix:
-    target: ${{ fromJson(needs.discover.outputs.targets) }}
-  max-parallel: 10  # Limit concurrent jobs

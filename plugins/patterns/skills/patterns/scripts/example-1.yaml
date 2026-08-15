@@ -1,3 +1,0 @@
-# BAD: Creates duplicate issues on retry
-- name: Create issue
-  run: gh issue create --title "Alert" --body "Problem detected"

@@ -1,3 +1,0 @@
-# Enforced by: contexts.yaml
-# Result: Containers must define runAsNonRoot: true and runAsUser > 0
-# Impact: Prevents root-level filesystem access and privilege escalation
