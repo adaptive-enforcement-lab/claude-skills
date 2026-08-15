@@ -40,7 +40,19 @@ func (e *TopicExtractor) Extract(doc *domain.Document) (*domain.Topic, error) {
 		Title:       title,
 		Description: description,
 		URL:         buildSourceURL(doc.Path, category),
+		LibraryPath: buildLibraryPath(doc.Path, category),
 	}, nil
+}
+
+// buildLibraryPath mirrors HubBuilder.libraryFile's RelPath computation, so
+// a topic's SKILL.md link points at the exact file HubBuilder writes under
+// library/ for the same doc.
+func buildLibraryPath(path, category string) string {
+	segments := categorySegments(path, category)
+	if len(segments) == 0 {
+		return "library/index.md"
+	}
+	return "library/" + strings.Join(segments, "/") + "/index.md"
 }
 
 // determineCategoryFromPath extracts the category from the file path.

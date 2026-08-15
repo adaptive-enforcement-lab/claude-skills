@@ -32,6 +32,11 @@ func TestTopicExtractorUsesFrontmatter(t *testing.T) {
 	if topic.URL != want {
 		t.Errorf("URL = %q, want %q", topic.URL, want)
 	}
+
+	wantLibraryPath := "library/architecture/hub-and-spoke/index.md"
+	if topic.LibraryPath != wantLibraryPath {
+		t.Errorf("LibraryPath = %q, want %q", topic.LibraryPath, wantLibraryPath)
+	}
 }
 
 func TestTopicExtractorFallsBackToIntroductionSentence(t *testing.T) {
