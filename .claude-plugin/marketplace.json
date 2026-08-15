@@ -64,7 +64,7 @@
       "name": "secure",
       "source": "./plugins/secure",
       "description": "Use when hardening GitHub Actions workflows, managing secrets or self-hosted runners, configuring OIDC or Workload Identity Federation, securing a GKE cluster, or assessing supply-chain risk.",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "category": "security",
       "author": {
         "name": "Adaptive Enforcement Lab",
