@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/adaptive-enforcement-lab/claude-skills/compare/patterns-v1.1.0...patterns-v1.1.1) (2026-08-15)
+
+
+### Bug Fixes
+
+* link SKILL.md topics to the bundled library instead of live docs ([#104](https://github.com/adaptive-enforcement-lab/claude-skills/issues/104)) ([08817d8](https://github.com/adaptive-enforcement-lab/claude-skills/commit/08817d84e090d41342776b9c74f85b676f4881da))
+
 ## [1.1.0](https://github.com/adaptive-enforcement-lab/claude-skills/compare/patterns-v1.0.3...patterns-v1.1.0) (2026-08-15)
 
 
