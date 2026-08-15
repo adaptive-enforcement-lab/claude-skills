@@ -2,7 +2,7 @@
 
 Claude Code skills marketplace for secure development patterns, enforcement automation, and build engineering.
 
-**4 hub skills** — one per plugin collection, each a lean scannable index plus a full offline reference and the complete source doc library — generated from [AEL documentation](https://adaptive-enforcement-lab.com).
+**{{len .Hubs}} hub skills** — one per plugin collection, each a lean scannable index plus a full offline reference and the complete source doc library — generated from [AEL documentation](https://adaptive-enforcement-lab.com).
 
 ## Installation
 
@@ -11,68 +11,27 @@ Claude Code skills marketplace for secure development patterns, enforcement auto
 /plugin marketplace add adaptive-enforcement-lab/claude-skills
 
 # Install plugin collections (install any subset)
-/plugin install build@ael-skills
-/plugin install enforce@ael-skills
-/plugin install patterns@ael-skills
-/plugin install secure@ael-skills
+{{range .Hubs -}}
+/plugin install {{.Category}}@{{$.MarketplaceName}}
+{{end -}}
 ```
 
 ## Available Skills
 
 | Collection | Version | Topics indexed | Focus |
 | ---------- | ------- | --------------: | ----- |
-| [`build`](plugins/build/skills/build) | 1.1.0 | 13 | Use when building a Go CLI, wiring release-please for automated versioning, packaging a container… |
-| [`enforce`](plugins/enforce/skills/enforce) | 1.1.0 | 34 | Use when setting up or reviewing policy-as-code enforcement — writing Kyverno or OPA policies… |
-| [`patterns`](plugins/patterns/skills/patterns) | 1.1.0 | 38 | Use when designing or reviewing automation architecture for GitHub Actions, Argo Workflows, or Argo… |
-| [`secure`](plugins/secure/skills/secure) | 1.1.0 | 33 | Use when hardening GitHub Actions workflows, managing secrets or self-hosted runners, configuring OIDC or… |
-
+{{range .Hubs -}}
+| [`{{.Category}}`](plugins/{{.Category}}/skills/{{.Category}}) | {{.Version}} | {{.TopicCount}} | {{.Focus}} |
+{{end}}
 Each hub skill ships three files: `SKILL.md` (short overview + grouped link index, under ~500 words), `reference.md` (every topic's full content, concatenated), and `library/` (every source doc shipped verbatim, one file each, mirroring the AEL docs tree).
+{{range .Hubs}}
+### {{.Title}} ({{.CategoryLabel}})
 
-### Build (DevOps)
-
-From [AEL Build](https://adaptive-enforcement-lab.com/build/):
-
-- **Documentation as Skills** — Compile MkDocs documentation into Claude Code…
-- **Go CLI Architecture** — Build Kubernetes-native CLIs in Go with…
-- **Modular Release Pipelines** — Automate version management and changelog generation…
-- **Open Source Project Templates** — Production-ready templates for CONTRIBUTING.
-- **Versioned Documentation** — Deploy version-tagged documentation alongside releases using…
-
-### Enforce (Security)
-
-From [AEL Enforce](https://adaptive-enforcement-lab.com/enforce/):
-
-- **Branch Protection Enforcement Patterns** — Comprehensive branch protection configuration patterns with…
-- **Implementation Roadmap** — Phased rollout plan for SDLC hardening.
-- **Incident Readiness**
-- **Policy-as-Code: End-to-End Enforcement** — Enforce security and compliance policies across…
-- **Required Status Checks** — CI/CD pipelines as merge gates.
-- **SLSA Implementation Playbook** — Complete SLSA implementation playbook: clarify SLSA…
-
-### Patterns (Development)
-
-From [AEL Patterns](https://adaptive-enforcement-lab.com/patterns/):
-
-- **Architecture Patterns** — Fundamental patterns for building maintainable, scalable…
-- **Argo Events** — Build event-driven Kubernetes automation with Argo…
-- **Argo Workflows Patterns** — Production Argo Workflows patterns: reusable templates…
-- **Efficiency Patterns** — Optimize automation with idempotency and work…
-- **Error Handling Patterns** — Master when to fail fast vs…
-- **Github Actions**
-- **Reliability**
-- **Security**
-
-### Secure (Security)
-
-From [AEL Secure](https://adaptive-enforcement-lab.com/secure/):
-
-- **Cloud Native**
-- **GitHub Actions Security Patterns Hub** — Complete security patterns for GitHub Actions…
-- **GitHub Core App Setup** — Configure organization-level GitHub Apps for secure…
-- **Go Security Tooling** — Standard Go security toolkit: race detector…
-- **OpenSSF Scorecard Achievement Guide** — Complete OpenSSF Scorecard achievement guide.
-- **Risk Management**
-
+From [AEL {{.Title}}]({{.SourceURL}}):
+{{range .Groups}}
+- **{{.Title}}**{{if .Description}} — {{.Description}}{{end}}
+{{- end}}
+{{end}}
 ## Automated Generation
 
 All skills in `plugins/` — and this README — are generated from AEL documentation — **never edit them by hand**:
@@ -90,7 +49,7 @@ To auto-register this marketplace for your team, add to `.claude/settings.json` 
 ```json
 {
   "extraKnownMarketplaces": {
-    "ael-skills": {
+    "{{.MarketplaceName}}": {
       "source": {
         "source": "github",
         "repo": "adaptive-enforcement-lab/claude-skills"
@@ -98,10 +57,9 @@ To auto-register this marketplace for your team, add to `.claude/settings.json` 
     }
   },
   "enabledPlugins": {
-    "build@ael-skills": true,
-    "enforce@ael-skills": true,
-    "patterns@ael-skills": true,
-    "secure@ael-skills": true
+{{- range $i, $h := .Hubs}}
+    "{{$h.Category}}@{{$.MarketplaceName}}": true{{if not (eq (add $i 1) (len $.Hubs))}},{{end}}
+{{- end}}
   }
 }
 ```

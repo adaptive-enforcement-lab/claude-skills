@@ -16,4 +16,7 @@ type TemplateRenderer interface {
 	// RenderReference renders the reference.md file: the full, offline
 	// depth behind the SKILL.md link index.
 	RenderReference(skill *domain.Skill) (string, error)
+
+	// RenderReadme renders the repo root README.md from the generated hubs.
+	RenderReadme(data *domain.ReadmeData) (string, error)
 }

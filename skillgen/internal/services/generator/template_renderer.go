@@ -56,3 +56,14 @@ func (r *TemplateRenderer) RenderReference(skill *domain.Skill) (string, error) 
 
 	return buf.String(), nil
 }
+
+// RenderReadme renders the repo root README.md.
+func (r *TemplateRenderer) RenderReadme(data *domain.ReadmeData) (string, error) {
+	var buf bytes.Buffer
+
+	if err := r.templates.ExecuteTemplate(&buf, "readme.tmpl", data); err != nil {
+		return "", fmt.Errorf("failed to render readme template: %w", err)
+	}
+
+	return buf.String(), nil
+}

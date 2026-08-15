@@ -23,6 +23,7 @@ func main() {
 		sourcePath          string
 		outputPath          string
 		marketplacePath     string
+		readmePath          string
 		templatesPath       string
 		pluginMetadataPath  string
 		releaseManifestPath string
@@ -33,6 +34,7 @@ func main() {
 	flag.StringVar(&sourcePath, "source", "", "Path to AEL documentation source (required)")
 	flag.StringVar(&outputPath, "output", "./plugins", "Path to output generated plugins")
 	flag.StringVar(&marketplacePath, "marketplace", "./.claude-plugin/marketplace.json", "Path to marketplace.json")
+	flag.StringVar(&readmePath, "readme", "./README.md", "Path to generated README.md")
 	flag.StringVar(&templatesPath, "templates", "./templates", "Path to template directory")
 	flag.StringVar(&pluginMetadataPath, "plugin-metadata", "./plugin-metadata.json", "Path to plugin metadata config")
 	flag.StringVar(&releaseManifestPath, "release-manifest", "./.release-please-manifest.json", "Path to release-please manifest")
@@ -101,10 +103,11 @@ func main() {
 	}
 
 	var (
-		topics int
-		hubs   int
-		errors int
-		warned int
+		topics    int
+		hubCount  int
+		errors    int
+		warned    int
+		builtHubs []*domain.Skill
 	)
 
 	// Build one hub skill per category.
@@ -175,7 +178,8 @@ func main() {
 		}
 
 		logger.Info("generated hub skill", "category", category, "groups", len(hub.Groups))
-		hubs++
+		builtHubs = append(builtHubs, hub)
+		hubCount++
 	}
 
 	// Generate marketplace files
@@ -189,11 +193,28 @@ func main() {
 		logger.Info("marketplace files generated successfully")
 	}
 
+	// Generate README.md from the same hubs and metadata just used above,
+	// so it can never drift from what was actually generated.
+	logger.Info("generating README.md")
+	versions, err := configReader.ReadReleaseManifest(releaseManifestPath)
+	if err != nil {
+		logger.Error("failed to read release manifest for README", "error", err)
+		errors++
+	} else {
+		readmeGen := services.NewReadmeGenerator(templateRenderer, fs, logger)
+		if err := readmeGen.Generate(builtHubs, pluginMetadata, versions, readmePath); err != nil {
+			logger.Error("failed to generate README.md", "error", err)
+			errors++
+		} else {
+			logger.Info("README.md generated successfully")
+		}
+	}
+
 	// Summary
 	fmt.Println("\n=== Generation Summary ===")
 	fmt.Printf("Categories:     %d\n", len(categories))
 	fmt.Printf("Topics indexed: %d\n", topics)
-	fmt.Printf("Hub skills:     %d\n", hubs)
+	fmt.Printf("Hub skills:     %d\n", hubCount)
 	fmt.Printf("Warnings:       %d\n", warned)
 	fmt.Printf("Errors:         %d\n", errors)
 	fmt.Printf("Output:         %s\n", outputPath)

@@ -48,6 +48,7 @@ gofmt -w skillgen/
 - `--release-manifest`: Path to release-please manifest (default: `./.release-please-manifest.json`)
 - `--templates`: Path to template directory (default: `./templates`). **Effectively required**: the default does not exist at the repo root, so omitting the flag fails with `pattern matches no files`. Pass `skillgen/templates`.
 - `--marketplace`: Output path for the generated marketplace.json (default: `./.claude-plugin/marketplace.json`). The file's *content* is generated, but this flag still controls where it is written.
+- `--readme`: Output path for the generated README.md (default: `./README.md`). Same as `--marketplace`: controls where it's written, not whether it's generated.
 - `--verbose`: Enable verbose logging
 - `--version`: Show version and exit
 
@@ -85,6 +86,7 @@ skillgen produces exactly **one hub skill per category** (4 total: patterns, enf
 6. **SkillWriter** (adapter) removes stale sibling skill directories, then writes `SKILL.md`, `reference.md`, and the `library/` tree
 7. **MarketplaceGenerator** (service) reads plugin-metadata.json and .release-please-manifest.json
 8. **MarketplaceWriter** (adapter) generates marketplace.json and all plugin.json files
+9. **ReadmeGenerator** (service) builds the repo root `README.md` from the same hub `Skill`s, plugin metadata, and release versions used above — never hand-maintained, so it can't drift the way the old static README did (it said "118 skills" for weeks after the hub-skill rewrite)
 
 ### Domain Models
 
@@ -101,6 +103,10 @@ skillgen produces exactly **one hub skill per category** (4 total: patterns, enf
 **Marketplace** (`internal/domain/marketplace.go`):
 - Represents .claude-plugin/marketplace.json structure
 - Defines available plugin collections (patterns, enforcement, build, secure)
+
+**Readme** (`internal/domain/readme.go`):
+- `ReadmeData` (marketplace name/owner/description, `Hubs []ReadmeHub`) is the data passed to `readme.tmpl`
+- Each `ReadmeHub` carries the fields that used to be hand-typed and go stale: `Version` (from the release manifest), `TopicCount` (`len(hub.LibraryFiles)`, i.e. the real count of docs shipped), `Focus` (the plugin description, word-truncated for a table cell), and `Groups` (reused directly from the hub `Skill`, so the per-collection bullet lists are the same data `SKILL.md` shows)
 
 **PluginMetadata** (`internal/domain/plugin_config.go`):
 - Represents plugin-metadata.json configuration
@@ -122,12 +128,13 @@ Blog posts (detected via frontmatter `date`/`authors` fields) are automatically 
 
 ## Templates
 
-Templates live in `skillgen/templates/` and use Go's text/template syntax. There are two:
+Templates live in `skillgen/templates/` and use Go's text/template syntax. There are three:
 
 - `skill.tmpl` - SKILL.md: short overview + grouped topic index, links out to the upstream docs
 - `reference.tmpl` - reference.md: the full offline depth behind every topic, assembled from each doc's body exactly once
+- `readme.tmpl` - the repo root README.md: available-skills table, per-collection topic bullets, and static usage/architecture sections
 
-There are no per-category templates and no examples/troubleshooting templates.
+There are no per-category templates and no examples/troubleshooting templates. `library/` files have no template — each is the doc's own body shipped verbatim (see "Reference Body Assembly" below).
 
 ## Configuration Files
 
@@ -139,7 +146,7 @@ There are no per-category templates and no examples/troubleshooting templates.
 - Contains common fields applied to all plugin.json files (author, license, homepage)
 - Per-plugin configuration (descriptions, categories, tags, keywords)
 - Combined with `.release-please-manifest.json` to generate all marketplace files
-- Each plugin's `description` is dual-purpose: it becomes both the marketplace catalog blurb and the hub `SKILL.md`'s frontmatter description (via `pluginCfg.Description` in `HubBuilder`). Per `superpowers:writing-skills`, write it as a triggering condition ("Use when...", concrete situations/symptoms), not a content summary — that's what Claude uses to decide whether to load the skill.
+- Each plugin's `description` is triple-purpose: the marketplace catalog blurb, the hub `SKILL.md`'s frontmatter description (via `pluginCfg.Description` in `HubBuilder`), and the source for README.md's truncated "Focus" column (via `ReadmeGenerator`). Per `superpowers:writing-skills`, write it as a triggering condition ("Use when...", concrete situations/symptoms), not a content summary — that's what Claude uses to decide whether to load the skill.
 
 ### `.release-please-manifest.json`
 **Source of truth for versions**:
@@ -243,12 +250,13 @@ Go 1.26+ (`skillgen/go.mod`, matching the version pinned in CI) with minimal ext
 1. **Editing plugins/ directly** - These are auto-generated, edits will be overwritten
 2. **Editing .claude-plugin/marketplace.json directly** - Auto-generated from plugin-metadata.json
 3. **Editing plugins/*/​.claude-plugin/plugin.json directly** - Auto-generated from plugin-metadata.json
-4. **Forgetting --plugin-metadata and --release-manifest flags** - Required for marketplace generation
-5. **Forgetting --source flag** - Generator requires source docs path
-6. **Forgetting --templates skillgen/templates** - The default `./templates` does not exist at the repo root, so the run dies before generating anything
-7. **Assuming a doc without its own index.md still gets a group heading** - it falls back to a humanized slug instead
-8. **Breaking template syntax** - Go templates are whitespace-sensitive
-9. **Not testing with actual docs** - Clone AEL docs repo for realistic testing
+4. **Editing README.md directly** - Auto-generated by `ReadmeGenerator` from the same hub skills, plugin-metadata.json, and release manifest; edits will be overwritten on the next run
+5. **Forgetting --plugin-metadata and --release-manifest flags** - Required for marketplace and README generation
+6. **Forgetting --source flag** - Generator requires source docs path
+7. **Forgetting --templates skillgen/templates** - The default `./templates` does not exist at the repo root, so the run dies before generating anything
+8. **Assuming a doc without its own index.md still gets a group heading** - it falls back to a humanized slug instead
+9. **Breaking template syntax** - Go templates are whitespace-sensitive
+10. **Not testing with actual docs** - Clone AEL docs repo for realistic testing
 
 ## Updating Plugin Metadata
 
