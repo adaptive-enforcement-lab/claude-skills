@@ -73,13 +73,13 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           # Stage changes to check what would be committed
-          git add -A plugins/ .claude-plugin/marketplace.json
+          git add -A plugins/ .claude-plugin/marketplace.json README.md
 
           # Check if there are staged changes using git status --porcelain on specific paths
           # This detects modified files (M), new files (A), and deleted files (D)
           # but only in the paths we care about (not untracked ael-docs/)
-          if [ -z "$(git status --porcelain plugins/ .claude-plugin/marketplace.json)" ]; then
-            echo "No changes detected in plugins/ or marketplace.json, skipping commit"
+          if [ -z "$(git status --porcelain plugins/ .claude-plugin/marketplace.json README.md)" ]; then
+            echo "No changes detected in plugins/, marketplace.json, or README.md, skipping commit"
             exit 0
           fi
 
@@ -96,7 +96,8 @@ jobs:
 
           - Updated marketplace.json with versions from .release-please-manifest.json
           - Generated $SKILL_COUNT skills across 4 categories
-          - Plugin versions synced automatically"
+          - Plugin versions synced automatically
+          - Regenerated README.md"
 
             git push origin "$BRANCH"
             echo "✅ Pushed marketplace updates to release-please PR"
@@ -110,7 +111,7 @@ jobs:
               git fetch origin "$BRANCH"
               git checkout -B "$BRANCH" "origin/$BRANCH"
               # Re-stage changes after checkout
-              git add -A plugins/ .claude-plugin/marketplace.json
+              git add -A plugins/ .claude-plugin/marketplace.json README.md
             else
               echo "Creating new branch $BRANCH"
               git checkout -b "$BRANCH"
@@ -126,7 +127,9 @@ jobs:
           - patterns
           - enforce
           - build
-          - secure"
+          - secure
+
+          Regenerated README.md"
 
             # Force push to handle idempotent updates
             git push --force origin "$BRANCH"
