@@ -4,9 +4,10 @@ package domain
 // overview plus a linked index of every topic in that collection. There is
 // exactly one Skill per category (patterns, enforce, build, secure).
 type Skill struct {
-	Metadata    SkillMetadata
-	Groups      []TopicGroup
-	MainContent string // SKILL.md content (required)
+	Metadata     SkillMetadata
+	Groups       []TopicGroup
+	LibraryFiles []LibraryFile // Every source doc, verbatim, mirroring the docs tree
+	MainContent  string        // SKILL.md content (required)
 }
 
 // SkillMetadata contains the frontmatter and derived metadata for a hub skill.
@@ -40,6 +41,16 @@ type Topic struct {
 	Description   string
 	URL           string
 	ReferenceBody string // Full cleaned body of the topic's doc, for reference.md
+}
+
+// LibraryFile is a single source doc shipped verbatim (title, source URL
+// note, then its full original content — nothing stripped, nothing
+// shifted) under a hub's library/ directory, mirroring the doc's path
+// under the category. This is the complete unmerged source library,
+// shipped in addition to the curated reference.md.
+type LibraryFile struct {
+	RelPath string // Path relative to the hub's library/ directory
+	Content string
 }
 
 // Note: CodeBlock, Table, and MermaidDiagram are defined in document.go

@@ -62,4 +62,4 @@ Complete SLSA implementation playbook: clarify SLSA vs SBOM…
 
 ## Full Reference
 
-See [reference.md](reference.md) for the complete content behind every link above, or [the live docs](https://adaptive-enforcement-lab.com/enforce/) on adaptive-enforcement-lab.com.
+[reference.md](reference.md) has the full content, [library/](library/) the raw source docs, [live docs](https://adaptive-enforcement-lab.com/enforce/) stay current.

@@ -82,7 +82,7 @@ skillgen produces exactly **one hub skill per category** (4 total: patterns, enf
 3. **TopicExtractor** (service) turns a single document into a lightweight `Topic` (title, one-line description, URL) for the `SKILL.md` index — no prose extraction
 4. **HubBuilder** (service) aggregates a category's documents into one hub `Skill`: the category root doc supplies `Overview`, every other doc is grouped by its first path segment under the category and becomes a linked `Topic`. It also assembles each doc's full body **exactly once** (via `prepareReferenceBody`, a pure heading-shift helper — no fuzzy section matching) into `SkillMetadata.ReferenceBody` / `TopicGroup.ReferenceBody` / `Topic.ReferenceBody` for `reference.md`
 5. **TemplateRenderer** (service) applies `skill.tmpl` and `reference.tmpl` to generate the hub's two files
-6. **SkillWriter** (adapter) removes stale sibling skill directories, then writes `SKILL.md` and `reference.md`
+6. **SkillWriter** (adapter) removes stale sibling skill directories, then writes `SKILL.md`, `reference.md`, and the `library/` tree
 7. **MarketplaceGenerator** (service) reads plugin-metadata.json and .release-please-manifest.json
 8. **MarketplaceWriter** (adapter) generates marketplace.json and all plugin.json files
 
@@ -96,7 +96,7 @@ skillgen produces exactly **one hub skill per category** (4 total: patterns, enf
 **Skill** (`internal/domain/skill.go`):
 - One hub per category: `SkillMetadata` (name, title, description, overview, `ReferenceBody`) plus `Groups []TopicGroup`
 - Each `TopicGroup` is a themed cluster of `Topic` entries (title, one-line description, URL), each also carrying a `ReferenceBody` — the topic's full cleaned content for `reference.md`
-- A hub skill produces exactly two files: `SKILL.md` (the scannable index, fans out to the upstream docs) and `reference.md` (the full depth behind it, offline) — there are no examples/troubleshooting files or extracted scripts
+- A hub skill produces `SKILL.md` (the scannable index, fans out to the upstream docs), `reference.md` (the full depth behind it, offline), and `library/` (every source doc shipped verbatim, one file per doc, mirroring the docs tree) — there are no examples/troubleshooting files or extracted scripts
 
 **Marketplace** (`internal/domain/marketplace.go`):
 - Represents .claude-plugin/marketplace.json structure
@@ -215,6 +215,9 @@ The **HubBuilder** (`internal/services/extractor/hub_builder.go`) groups a categ
 
 ### Reference Body Assembly
 `reference.md`'s full-depth content comes from `prepareReferenceBody` (`internal/services/extractor/reference_body.go`): a pure line-based helper that drops a doc's leading `# Title` heading and shifts every remaining heading deeper by a fixed number of levels, so it nests under the heading the caller wraps it in. Each doc's body flows through this exactly once, at one shift level per role (category root, group root, or topic) — there is no fuzzy keyword matching and no recursion into already-consumed subsections, which is what caused the old per-doc pipeline to triplicate content into `SKILL.md`. When editing this, keep the invariant: every doc contributes its body to exactly one place in the reference tree.
+
+### Library Files
+`HubBuilder.libraryFile` (`internal/services/extractor/hub_builder.go`) ships every doc a hub processes as its own file under `library/`, mirroring the doc's path under the category (e.g. `patterns/architecture/hub-and-spoke/index.md` → `library/architecture/hub-and-spoke/index.md`; the category root doc becomes `library/index.md`). Unlike `reference.md`, nothing is stripped or heading-shifted here — each file keeps its doc's natural title and heading structure, with a `Source: <url>` line inserted right after the title. This exists so the complete, unmerged source library is available in the tree in addition to the curated `SKILL.md` index and the merged `reference.md` — three ways to consume the same content depending on what's needed (routing, curated depth, or the raw original doc).
 
 ### Error Handling Philosophy
 **Per-document** errors are logged but do not change the exit code. Many are expected (missing titles, malformed content) and shouldn't fail CI builds; the generation summary reports error counts for visibility.

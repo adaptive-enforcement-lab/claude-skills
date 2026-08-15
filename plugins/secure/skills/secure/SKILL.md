@@ -60,4 +60,4 @@ Complete OpenSSF Scorecard achievement guide.
 
 ## Full Reference
 
-See [reference.md](reference.md) for the complete content behind every link above, or [the live docs](https://adaptive-enforcement-lab.com/secure/) on adaptive-enforcement-lab.com.
+[reference.md](reference.md) has the full content, [library/](library/) the raw source docs, [live docs](https://adaptive-enforcement-lab.com/secure/) stay current.

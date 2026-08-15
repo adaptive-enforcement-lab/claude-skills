@@ -37,9 +37,11 @@ func (b *HubBuilder) Build(category string, docs []*domain.Document, pluginCfg d
 	var rootDoc *domain.Document
 	groupRoots := make(map[string]*domain.Document)
 	var rest []*domain.Document
+	libraryFiles := make([]domain.LibraryFile, 0, len(docs))
 
 	for _, doc := range docs {
 		segments := categorySegments(doc.Path, category)
+		libraryFiles = append(libraryFiles, b.libraryFile(doc, segments, category))
 		switch len(segments) {
 		case 0:
 			rootDoc = doc
@@ -110,9 +112,52 @@ func (b *HubBuilder) Build(category string, docs []*domain.Document, pluginCfg d
 	}
 
 	return &domain.Skill{
-		Metadata: metadata,
-		Groups:   sortedGroups,
+		Metadata:     metadata,
+		Groups:       sortedGroups,
+		LibraryFiles: libraryFiles,
 	}, nil
+}
+
+// libraryFile builds the verbatim library/ entry for a single doc: its
+// natural title and heading structure preserved as-is (unlike
+// ReferenceBody, nothing is stripped or shifted here — this is a
+// standalone file), with a source URL note added right after the title.
+// RelPath mirrors the doc's own path under the category, so the library/
+// tree is a 1:1 copy of the source doc tree (the category root doc becomes
+// "index.md", a nested doc keeps its full relative path).
+func (b *HubBuilder) libraryFile(doc *domain.Document, segments []string, category string) domain.LibraryFile {
+	relPath := "index.md"
+	if len(segments) > 0 {
+		relPath = strings.Join(segments, "/") + "/index.md"
+	}
+
+	body := b.admonitionConverter.Convert(doc.RawContent)
+	content := insertSourceNoteAfterTitle(body, buildSourceURL(doc.Path, category))
+
+	return domain.LibraryFile{RelPath: relPath, Content: content}
+}
+
+// insertSourceNoteAfterTitle inserts a "Source: <url>" line right after a
+// doc's leading "# Title" heading (its first line, since doc bodies always
+// start with the title). If the body doesn't start with a heading (should
+// not happen for AEL docs, but handled defensively), the note is simply
+// prepended.
+func insertSourceNoteAfterTitle(body, url string) string {
+	// Source docs commonly have a blank line between frontmatter and the
+	// leading "# Title", so the title isn't always literally line zero.
+	trimmed := strings.TrimLeft(body, "\n")
+	lines := strings.SplitN(trimmed, "\n", 2)
+	note := "Source: " + url
+
+	if len(lines) > 0 && isHeading(strings.TrimLeft(lines[0], " ")) {
+		rest := ""
+		if len(lines) > 1 {
+			rest = lines[1]
+		}
+		return strings.TrimSpace(lines[0]) + "\n\n" + note + "\n" + rest
+	}
+
+	return note + "\n\n" + body
 }
 
 // humanize turns a URL slug into a title-cased heading, e.g.

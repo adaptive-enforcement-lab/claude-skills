@@ -174,3 +174,93 @@ func TestHubBuilderPopulatesReferenceBodies(t *testing.T) {
 		t.Errorf("expected root content to appear exactly once across the reference tree, got %d", occurrences)
 	}
 }
+
+func TestHubBuilderPopulatesLibraryFiles(t *testing.T) {
+	docs := []*domain.Document{
+		docWithBody([]string{"docs", "patterns", "index.md"}, "Patterns", "d", "",
+			"# Patterns\n\nReusable design patterns."),
+		docWithBody([]string{"docs", "patterns", "architecture", "index.md"}, "Architecture Patterns", "d", "",
+			"# Architecture Patterns\n\nGroup body content."),
+		docWithBody([]string{"docs", "patterns", "architecture", "hub-and-spoke", "index.md"}, "Hub and Spoke", "d", "",
+			"# Hub and Spoke\n\nOne coordinator, many workers."),
+	}
+
+	hub, err := newTestHubBuilder().Build("patterns", docs, domain.PluginConfig{Description: "d"})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	if len(hub.LibraryFiles) != len(docs) {
+		t.Fatalf("expected %d library files, got %d: %+v", len(docs), len(hub.LibraryFiles), hub.LibraryFiles)
+	}
+
+	byPath := make(map[string]domain.LibraryFile, len(hub.LibraryFiles))
+	for _, lf := range hub.LibraryFiles {
+		byPath[lf.RelPath] = lf
+	}
+
+	root, ok := byPath["index.md"]
+	if !ok {
+		t.Fatalf("expected a library file at index.md for the category root, got paths: %+v", keysOf(byPath))
+	}
+	if !strings.HasPrefix(root.Content, "# Patterns\n\nSource: https://adaptive-enforcement-lab.com/patterns/\n\n") {
+		t.Errorf("root library content = %q, want title + source note preserved at top", root.Content)
+	}
+	if !strings.Contains(root.Content, "Reusable design patterns.") {
+		t.Errorf("root library content missing original body: %q", root.Content)
+	}
+
+	group, ok := byPath["architecture/index.md"]
+	if !ok {
+		t.Fatalf("expected a library file at architecture/index.md, got paths: %+v", keysOf(byPath))
+	}
+	if !strings.Contains(group.Content, "Source: https://adaptive-enforcement-lab.com/patterns/architecture/") {
+		t.Errorf("group library content missing source note: %q", group.Content)
+	}
+
+	topic, ok := byPath["architecture/hub-and-spoke/index.md"]
+	if !ok {
+		t.Fatalf("expected a library file at architecture/hub-and-spoke/index.md, got paths: %+v", keysOf(byPath))
+	}
+	want := "# Hub and Spoke\n\nSource: https://adaptive-enforcement-lab.com/patterns/architecture/hub-and-spoke/\n\nOne coordinator, many workers."
+	if topic.Content != want {
+		t.Errorf("topic library content = %q, want %q", topic.Content, want)
+	}
+}
+
+func keysOf(m map[string]domain.LibraryFile) []string {
+	keys := make([]string, 0, len(m))
+	for k := range m {
+		keys = append(keys, k)
+	}
+	return keys
+}
+
+func TestHubBuilderLibraryFilesHandleLeadingBlankLine(t *testing.T) {
+	// Real AEL docs have a blank line between frontmatter and the title
+	// (RawContent = "\n# Title\n\nBody."), which broke a naive "is line
+	// zero a heading" check.
+	docs := []*domain.Document{
+		docWithBody([]string{"docs", "patterns", "index.md"}, "Patterns", "d", "",
+			"\n# Patterns\n\nReusable design patterns."),
+		docWithBody([]string{"docs", "patterns", "architecture", "index.md"}, "Architecture Patterns", "d", "",
+			"\n# Architecture Patterns\n\nOne hub coordinates."),
+	}
+
+	hub, err := newTestHubBuilder().Build("patterns", docs, domain.PluginConfig{Description: "d"})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	var root domain.LibraryFile
+	for _, lf := range hub.LibraryFiles {
+		if lf.RelPath == "index.md" {
+			root = lf
+		}
+	}
+
+	want := "# Patterns\n\nSource: https://adaptive-enforcement-lab.com/patterns/\n\nReusable design patterns."
+	if root.Content != want {
+		t.Errorf("root library content = %q, want %q (title must come before the source note)", root.Content, want)
+	}
+}

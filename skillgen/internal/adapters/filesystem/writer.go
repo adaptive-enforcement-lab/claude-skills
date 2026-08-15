@@ -71,6 +71,17 @@ func (w *SkillWriter) WriteSkill(skill *domain.Skill, outputDir string) error {
 		return fmt.Errorf("failed to write reference.md: %w", err)
 	}
 
+	// Write library/: every source doc verbatim, mirroring the docs tree.
+	// WriteFile creates parent directories as needed, so no separate
+	// MkdirAll per file is required.
+	libraryDir := filepath.Join(skillDir, "library")
+	for _, lf := range skill.LibraryFiles {
+		libraryPath := filepath.Join(libraryDir, lf.RelPath)
+		if err := w.fs.WriteFile(libraryPath, []byte(lf.Content), 0644); err != nil {
+			return fmt.Errorf("failed to write library file %s: %w", lf.RelPath, err)
+		}
+	}
+
 	return nil
 }
 
