@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/adaptive-enforcement-lab/claude-skills/compare/build-v1.0.2...build-v1.1.0) (2026-08-15)
+
+
+### Features
+
+* replace per-doc skills with lean hub skills and offline reference docs ([082ac8e](https://github.com/adaptive-enforcement-lab/claude-skills/commit/082ac8ec85e00ab42d5e0f9aa5d2ecfaf2d433d7))
+
 ## [1.0.2](https://github.com/adaptive-enforcement-lab/claude-skills/compare/build-v1.0.1...build-v1.0.2) (2026-07-25)
 
 
