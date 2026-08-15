@@ -2,7 +2,7 @@
 
 Claude Code skills marketplace for secure development patterns, enforcement automation, and build engineering.
 
-**118 skills** across 4 plugin collections, generated from [AEL documentation](https://adaptive-enforcement-lab.com).
+**4 hub skills** — one per plugin collection, each a lean scannable index plus a full offline reference and the complete source doc library — generated from [AEL documentation](https://adaptive-enforcement-lab.com).
 
 ## Installation
 
@@ -19,12 +19,14 @@ Claude Code skills marketplace for secure development patterns, enforcement auto
 
 ## Available Skills
 
-| Collection | Skills | Version | Focus |
-| ---------- | -----: | ------- | ----- |
-| [`patterns`](plugins/patterns/skills) | 38 | 1.0.2 | Automation and architecture patterns |
-| [`enforce`](plugins/enforce/skills) | 34 | 1.0.2 | Policy-as-code and SDLC hardening |
-| [`secure`](plugins/secure/skills) | 33 | 1.0.2 | Supply chain and platform security |
-| [`build`](plugins/build/skills) | 13 | 1.0.1 | Go CLI and release engineering |
+| Collection | Hub skill | Version | Topics indexed | Focus |
+| ---------- | --------- | ------- | --------------: | ----- |
+| [`patterns`](plugins/patterns/skills/patterns) | 1 | 1.1.0 | 38 | Automation and architecture patterns |
+| [`enforce`](plugins/enforce/skills/enforce) | 1 | 1.1.0 | 34 | Policy-as-code and SDLC hardening |
+| [`secure`](plugins/secure/skills/secure) | 1 | 1.1.0 | 33 | Supply chain and platform security |
+| [`build`](plugins/build/skills/build) | 1 | 1.1.0 | 13 | Go CLI and release engineering |
+
+Each hub skill ships three files: `SKILL.md` (short overview + grouped link index, under ~500 words), `reference.md` (every topic's full content, concatenated), and `library/` (every source doc shipped verbatim, one file each, mirroring the AEL docs tree).
 
 ### Patterns (Development)
 
@@ -109,7 +111,10 @@ plugins/                          # Generated plugins (DO NOT EDIT)
 ├── patterns/
 │   ├── .claude-plugin/
 │   │   └── plugin.json           # Plugin metadata (GENERATED)
-│   └── skills/                   # One directory per skill, each with SKILL.md
+│   └── skills/patterns/          # One hub skill directory
+│       ├── SKILL.md              # Lean overview + grouped link index
+│       ├── reference.md          # Full content, every topic, concatenated
+│       └── library/              # Every source doc, verbatim, tree-mirrored
 ├── enforce/
 ├── secure/
 └── build/
@@ -125,7 +130,7 @@ skillgen/                         # Generator source
 │   ├── ports/                    # Interfaces
 │   ├── adapters/                 # filesystem, parser, logger
 │   └── services/                 # extractor, generator, validator
-└── templates/                    # skill, examples, reference, troubleshooting
+└── templates/                    # skill.tmpl, reference.tmpl
 
 .github/workflows/
 ├── generate-skills.yml           # Regeneration PR automation
@@ -165,7 +170,7 @@ cd skillgen && go test ./...
 - **Services** (`skillgen/internal/services`): extractor, generator, validator
 - **CMD** (`skillgen/cmd/skillgen`): entry point and wiring
 
-Pipeline: read docs → parse frontmatter and sections → extract skills → render templates → write `SKILL.md` (plus optional `examples.md`, `reference.md`, `troubleshooting.md`) → generate marketplace files.
+Pipeline: read every doc in a category → extract each as a lightweight `Topic` (title, one-line description, URL) → `HubBuilder` aggregates them into one hub `Skill` per category (grouped topics, plus each doc's full body assembled once) → render templates → write `SKILL.md`, `reference.md`, and the `library/` tree → generate marketplace files.
 
 ## Releases
 
