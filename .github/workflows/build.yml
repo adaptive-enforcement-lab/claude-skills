@@ -6,6 +6,7 @@ on:
       - "**"
       - "!main"
       - "!renovate/**"
+      - "!release-please--**"
   workflow_dispatch:
     inputs:
       generator_is_release:
@@ -57,9 +58,7 @@ jobs:
   build-generator:
     name: Build Generator Binaries
     needs: detect-changes
-    if: |
-      !startsWith(github.ref_name, 'release-please--') &&
-      (github.event_name == 'workflow_dispatch' || needs.detect-changes.outputs.skillgen == 'true')
+    if: github.event_name == 'workflow_dispatch' || needs.detect-changes.outputs.skillgen == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
