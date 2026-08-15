@@ -297,7 +297,7 @@ Browse all content tagged with policy-enforcement, automation, compliance, and s
 
 ## Branch Protection Enforcement Patterns
 
-Comprehensive branch protection configuration patterns with enforcement automation.
+Comprehensive branch protection configuration patterns with…
 
 Branch protection rules transform security policies into automated enforcement. No manual oversight. No trust required.
 
@@ -1795,7 +1795,7 @@ For playbook updates, questions, or incident support:
 
 ## Policy-as-Code: End-to-End Enforcement
 
-Enforce security and compliance policies across local dev…
+Enforce security and compliance policies across…
 
 Enforce security and operational policies across the entire SDLC: local development, CI pipelines, and runtime admission control.
 
@@ -7033,7 +7033,7 @@ All matrix combinations must pass.
 
 ## SLSA Implementation Playbook
 
-Complete SLSA implementation playbook: clarify SLSA vs SBOM…
+Complete SLSA implementation playbook: clarify SLSA…
 
 Turn supply chain security from aspirational to operational.
 

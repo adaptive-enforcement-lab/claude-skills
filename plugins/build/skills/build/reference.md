@@ -103,7 +103,7 @@ Browse all content tagged with ci-cd, automation, testing, and go on the [Tags](
 
 ## Documentation as Skills
 
-Compile MkDocs documentation into Claude Code skills so…
+Compile MkDocs documentation into Claude Code…
 
 Compile a documentation site into Claude Code skills, so the same markdown that renders a page also ships as a capability the agent loads at authoring time.
 
@@ -189,7 +189,7 @@ graph LR
 
 ## Go CLI Architecture
 
-Build Kubernetes-native CLIs in Go with type safety…
+Build Kubernetes-native CLIs in Go with…
 
 Build orchestration CLIs in Go for Kubernetes-native automation.
 
@@ -835,7 +835,7 @@ test-e2e:
 
 ## Modular Release Pipelines
 
-Automate version management and changelog generation with smart…
+Automate version management and changelog generation…
 
 Automated version management, changelog generation, and optimized builds for monorepos.
 
@@ -1326,7 +1326,7 @@ When adapting these templates:
 
 ## Versioned Documentation
 
-Deploy version-tagged documentation alongside releases using MkDocs Material…
+Deploy version-tagged documentation alongside releases using…
 
 Deploy documentation versions that align with software releases using MkDocs Material and mike.
 

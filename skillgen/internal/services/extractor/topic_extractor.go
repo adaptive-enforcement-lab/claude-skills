@@ -104,9 +104,10 @@ func categorySegments(path, category string) []string {
 }
 
 // maxTopicDescriptionWords caps a topic's one-line description so a hub with
-// dozens of topics still fits SKILL.md's word budget. reference.md carries
-// the full text regardless, so nothing is lost — SKILL.md is purely an index.
-const maxTopicDescriptionWords = 8
+// dozens of topics still fits SKILL.md's word budget with real margin, not
+// right at the wire. reference.md and library/ carry the full text
+// regardless, so nothing is lost — SKILL.md is purely an index.
+const maxTopicDescriptionWords = 6
 
 // firstSentence returns the first sentence of the first paragraph of text,
 // trimmed and capped to a short one-liner. Only the first paragraph is

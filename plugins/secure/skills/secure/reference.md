@@ -953,7 +953,7 @@ gcloud iam service-accounts add-iam-policy-binding \
 
 ## GitHub Actions Security Patterns Hub
 
-Complete security patterns for GitHub Actions covering action…
+Complete security patterns for GitHub Actions…
 
 Consolidated, authoritative resource for securing GitHub Actions workflows. From action pinning to runner hardening, we cover what vendor cheat sheets miss.
 
@@ -7469,7 +7469,7 @@ on:
 
 ## GitHub Core App Setup
 
-Configure organization-level GitHub Apps for secure cross-repository automation.
+Configure organization-level GitHub Apps for secure…
 
 This guide describes the concept, setup, and configuration of a GitHub Core App for organization-level automation.
 
@@ -7774,7 +7774,7 @@ jobs:
 
 ## Go Security Tooling
 
-Standard Go security toolkit: race detector, golangci-lint, Trivy…
+Standard Go security toolkit: race detector…
 
 Security-focused tooling built into the Go ecosystem. No exotic tools needed. Everything is standard, integrated, and runs every commit.
 

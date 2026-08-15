@@ -325,7 +325,7 @@ Browse all content tagged with patterns, automation, idempotency, three-stage, a
 
 ## Architecture Patterns
 
-Fundamental patterns for building maintainable, scalable systems: separation…
+Fundamental patterns for building maintainable, scalable…
 
 These patterns govern how systems are structured and how components interact.
 
@@ -1171,7 +1171,7 @@ Replace entire components without routing traffic, including databases, service 
 
 ## Argo Events
 
-Build event-driven Kubernetes automation with Argo Events.
+Build event-driven Kubernetes automation with Argo…
 
 Argo Events is an event-driven workflow automation framework for Kubernetes. It connects external event sources to Argo Workflows, enabling reactive automation. For comprehensive documentation, see the [official Argo Events docs](https://argoproj.github.io/argo-events/).
 
@@ -1603,7 +1603,7 @@ Return to `error` or `info` after debugging to reduce log volume.
 
 ## Argo Workflows Patterns
 
-Production Argo Workflows patterns: reusable templates, error handling…
+Production Argo Workflows patterns: reusable templates…
 
 Production patterns for Argo Workflows: reusable templates, error handling, concurrency control, workflow composition, and scheduled automation.
 
@@ -1903,7 +1903,7 @@ WorkflowTemplates solve this by extracting the workflow logic into a standalone 
 
 ## Efficiency Patterns
 
-Optimize automation with idempotency and work avoidance.
+Optimize automation with idempotency and work…
 
 Patterns for avoiding unnecessary work and ensuring safe retries.
 
@@ -2557,7 +2557,7 @@ flowchart TD
 
 ## Error Handling Patterns
 
-Master when to fail fast vs degrade gracefully.
+Master when to fail fast vs…
 
 Patterns for detecting, reporting, and recovering from failures.
 
