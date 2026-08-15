@@ -1,7 +1,7 @@
 {
   "name": "patterns",
   "description": "Use when designing or reviewing automation architecture for GitHub Actions, Argo Workflows, or Argo Events — choosing an idempotency or work-avoidance strategy, wiring GitHub App authentication, or picking an error-handling or hub-and-spoke pattern.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": {
     "name": "Adaptive Enforcement Lab",
     "email": "contact@adaptive-enforcement-lab.com"
