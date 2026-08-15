@@ -1,1 +1,0 @@
-git log --show-signature | grep "Good signature"

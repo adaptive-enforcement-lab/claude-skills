@@ -109,6 +109,26 @@ func (m *MockFileSystem) IsDir(path string) bool {
 	return m.dirs[path]
 }
 
+// RemoveAll removes path and any children it contains.
+func (m *MockFileSystem) RemoveAll(path string) error {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+
+	prefix := strings.TrimSuffix(path, "/") + "/"
+	for p := range m.files {
+		if p == path || strings.HasPrefix(p, prefix) {
+			delete(m.files, p)
+		}
+	}
+	for p := range m.dirs {
+		if p == path || strings.HasPrefix(p, prefix) {
+			delete(m.dirs, p)
+		}
+	}
+
+	return nil
+}
+
 // AddFile seeds the filesystem with a file for testing.
 func (m *MockFileSystem) AddFile(path string, content []byte) {
 	m.mu.Lock()

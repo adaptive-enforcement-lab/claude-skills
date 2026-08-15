@@ -33,4 +33,7 @@ type FileSystem interface {
 
 	// IsDir returns true if the path is a directory.
 	IsDir(path string) bool
+
+	// RemoveAll removes path and any children it contains.
+	RemoveAll(path string) error
 }

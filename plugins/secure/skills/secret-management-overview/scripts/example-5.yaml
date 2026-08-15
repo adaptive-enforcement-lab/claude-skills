@@ -1,3 +1,0 @@
-env:
-  API_ENDPOINT: ${{ vars.API_URL }}
-  ENVIRONMENT: ${{ vars.DEPLOY_ENV }}

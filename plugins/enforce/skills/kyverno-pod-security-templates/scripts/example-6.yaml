@@ -1,3 +1,0 @@
-# Enforced by: standards.yaml
-# Result: Pods must define securityContext.seccompProfile
-# Impact: Reduces kernel attack surface by blocking dangerous syscalls

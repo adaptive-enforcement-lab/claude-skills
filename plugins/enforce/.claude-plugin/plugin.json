@@ -1,6 +1,6 @@
 {
   "name": "enforce",
-  "description": "Policy-as-code enforcement with Kyverno and OPA template libraries, repository controls, SLSA provenance, and phased SDLC hardening",
+  "description": "Use when setting up or reviewing policy-as-code enforcement — writing Kyverno or OPA policies, configuring branch protection, generating SLSA provenance, or planning a phased SDLC hardening rollout.",
   "version": "1.0.3",
   "author": {
     "name": "Adaptive Enforcement Lab",

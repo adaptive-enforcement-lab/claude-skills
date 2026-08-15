@@ -1,3 +1,0 @@
-# Enforced by: capabilities.yaml
-# Result: All containers must drop CAP_SYS_ADMIN, CAP_NET_RAW
-# Impact: Prevents kernel manipulation and network sniffing

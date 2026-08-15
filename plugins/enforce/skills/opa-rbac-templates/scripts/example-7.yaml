@@ -1,3 +1,0 @@
-# Enforced by: privileged-verbs.yaml
-# Result: Roles cannot include escalate/bind/impersonate verbs
-# Impact: Prevents users from granting themselves additional permissions

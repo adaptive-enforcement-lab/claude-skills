@@ -72,9 +72,8 @@ func main() {
 	admonitionConverter := parser.NewAdmonitionConverter()
 
 	// Initialize services
-	sectionMapper := extractor.NewSectionMapper()
-	nameDeriver := extractor.NewNameDeriver()
-	skillExtractor := extractor.NewSkillExtractor(sectionMapper, nameDeriver, admonitionConverter)
+	topicExtractor := extractor.NewTopicExtractor()
+	hubBuilder := extractor.NewHubBuilder(topicExtractor, admonitionConverter)
 
 	// Initialize template renderer
 	templateRenderer, err := generator.NewTemplateRenderer(templatesPath)
@@ -94,44 +93,58 @@ func main() {
 	marketplaceWriter := filesystem.NewMarketplaceWriter(fs)
 	configReader := filesystem.NewConfigReader(fs)
 
-	// Find all index.md files
-	logger.Info("discovering index.md files")
-	indexFiles, err := documentReader.ListIndexFiles(sourcePath, categories)
+	// Plugin metadata is the source of truth for each hub's curated
+	// description and tags.
+	pluginMetadata, err := configReader.ReadPluginMetadata(pluginMetadataPath)
 	if err != nil {
-		log.Fatalf("Failed to discover index.md files: %v", err)
+		log.Fatalf("Failed to read plugin metadata: %v", err)
 	}
 
-	logger.Info("discovered files", "count", len(indexFiles))
-
 	var (
-		processed int
-		skipped   int
-		errors    int
-		invalid   int
-		warned    int
+		topics int
+		hubs   int
+		errors int
+		warned int
 	)
 
-	// Process each file
-	for _, filePath := range indexFiles {
-		// Read and parse document
-		doc, err := documentReader.ReadDocument(filePath)
+	// Build one hub skill per category.
+	for _, category := range categories {
+		logger.Info("discovering index.md files", "category", category)
+		indexFiles, err := documentReader.ListIndexFiles(sourcePath, []string{category})
 		if err != nil {
-			logger.Error("failed to read document", "path", filePath, "error", err)
+			logger.Error("failed to discover index.md files", "category", category, "error", err)
 			errors++
 			continue
 		}
 
-		// Skip blog posts
-		if doc.Frontmatter.IsBlogPost() {
-			logger.Debug("skipping blog post", "path", filePath)
-			skipped++
+		var docs []*domain.Document
+		for _, filePath := range indexFiles {
+			doc, err := documentReader.ReadDocument(filePath)
+			if err != nil {
+				logger.Error("failed to read document", "path", filePath, "error", err)
+				errors++
+				continue
+			}
+
+			if doc.Frontmatter.IsBlogPost() {
+				logger.Debug("skipping blog post", "path", filePath)
+				continue
+			}
+
+			docs = append(docs, doc)
+			topics++
+		}
+
+		pluginCfg, ok := pluginMetadata.Plugins[category]
+		if !ok {
+			logger.Error("no plugin-metadata.json entry for category", "category", category)
+			errors++
 			continue
 		}
 
-		// Extract skill components
-		skill, err := skillExtractor.Extract(doc)
+		hub, err := hubBuilder.Build(category, docs, pluginCfg)
 		if err != nil {
-			logger.Error("failed to extract skill", "path", filePath, "error", err)
+			logger.Error("failed to build hub skill", "category", category, "error", err)
 			errors++
 			continue
 		}
@@ -139,32 +152,30 @@ func main() {
 		// Validate the skill. Findings are advisory: a skill that fails
 		// validation is still written, but is surfaced so it can be fixed
 		// at the source document.
-		if findings := skillValidator.Validate(skill); len(findings) > 0 {
+		if findings := skillValidator.Validate(hub); len(findings) > 0 {
 			var hasError bool
 			for _, f := range findings {
 				if f.Severity == ports.SeverityError {
 					hasError = true
-					logger.Error("skill validation", "name", skill.Metadata.Name, "issue", f.Message)
+					logger.Error("skill validation", "name", hub.Metadata.Name, "issue", f.Message)
 					continue
 				}
-				logger.Warn("skill validation", "name", skill.Metadata.Name, "issue", f.Message)
+				logger.Warn("skill validation", "name", hub.Metadata.Name, "issue", f.Message)
+				warned++
 			}
 			if hasError {
-				invalid++
-			} else {
-				warned++
+				errors++
 			}
 		}
 
-		// Write skill to filesystem
-		if err := skillWriter.WriteSkill(skill, outputPath); err != nil {
-			logger.Error("failed to write skill", "name", skill.Metadata.Name, "error", err)
+		if err := skillWriter.WriteSkill(hub, outputPath); err != nil {
+			logger.Error("failed to write hub skill", "category", category, "error", err)
 			errors++
 			continue
 		}
 
-		logger.Info("generated skill", "name", skill.Metadata.Name, "category", skill.Metadata.Category)
-		processed++
+		logger.Info("generated hub skill", "category", category, "groups", len(hub.Groups))
+		hubs++
 	}
 
 	// Generate marketplace files
@@ -180,13 +191,12 @@ func main() {
 
 	// Summary
 	fmt.Println("\n=== Generation Summary ===")
-	fmt.Printf("Categories: %d\n", len(categories))
-	fmt.Printf("Processed:  %d\n", processed)
-	fmt.Printf("Skipped:    %d (blog posts)\n", skipped)
-	fmt.Printf("Invalid:    %d (written, but failed validation)\n", invalid)
-	fmt.Printf("Warnings:   %d\n", warned)
-	fmt.Printf("Errors:     %d\n", errors)
-	fmt.Printf("Output:     %s\n", outputPath)
+	fmt.Printf("Categories:     %d\n", len(categories))
+	fmt.Printf("Topics indexed: %d\n", topics)
+	fmt.Printf("Hub skills:     %d\n", hubs)
+	fmt.Printf("Warnings:       %d\n", warned)
+	fmt.Printf("Errors:         %d\n", errors)
+	fmt.Printf("Output:         %s\n", outputPath)
 
 	if errors > 0 {
 		logger.Info("completed with errors", "count", errors)

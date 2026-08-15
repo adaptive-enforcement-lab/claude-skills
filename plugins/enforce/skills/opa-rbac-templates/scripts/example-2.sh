@@ -1,1 +1,0 @@
-kubectl apply -f privileged-verbs.yaml

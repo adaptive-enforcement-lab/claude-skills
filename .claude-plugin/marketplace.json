@@ -13,7 +13,7 @@
     {
       "name": "build",
       "source": "./plugins/build",
-      "description": "Build engineering for Go CLIs and Kubernetes tooling: release-please automation, container packaging, testing strategies, and versioned documentation",
+      "description": "Use when building a Go CLI, wiring release-please for automated versioning, packaging a container, or setting up versioned documentation for a Kubernetes tool.",
       "version": "1.0.2",
       "category": "devops",
       "author": {
@@ -30,7 +30,7 @@
     {
       "name": "enforce",
       "source": "./plugins/enforce",
-      "description": "Policy-as-code enforcement with Kyverno and OPA template libraries, repository controls, SLSA provenance, and phased SDLC hardening",
+      "description": "Use when setting up or reviewing policy-as-code enforcement — writing Kyverno or OPA policies, configuring branch protection, generating SLSA provenance, or planning a phased SDLC hardening rollout.",
       "version": "1.0.3",
       "category": "security",
       "author": {
@@ -47,7 +47,7 @@
     {
       "name": "patterns",
       "source": "./plugins/patterns",
-      "description": "Automation and architecture patterns for GitHub Actions, Argo Workflows and Events, GitHub App authentication, idempotency, and resilience",
+      "description": "Use when designing or reviewing automation architecture for GitHub Actions, Argo Workflows, or Argo Events — choosing an idempotency or work-avoidance strategy, wiring GitHub App authentication, or picking an error-handling or hub-and-spoke pattern.",
       "version": "1.0.3",
       "category": "development",
       "author": {
@@ -63,7 +63,7 @@
     {
       "name": "secure",
       "source": "./plugins/secure",
-      "description": "Security hardening for GitHub Actions, secrets and runners, OIDC and Workload Identity Federation, GKE, and supply chain security",
+      "description": "Use when hardening GitHub Actions workflows, managing secrets or self-hosted runners, configuring OIDC or Workload Identity Federation, securing a GKE cluster, or assessing supply-chain risk.",
       "version": "1.0.3",
       "category": "security",
       "author": {

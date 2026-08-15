@@ -75,24 +75,28 @@ skillgen/
 
 ### Data Flow
 
-1. **DocumentReader** (adapter) reads index.md files from source docs
-2. **FrontmatterParser** + **SectionParser** extract structured content
-3. **SkillExtractor** (service) transforms Document → Skill using business rules
-4. **TemplateRenderer** (service) applies Go templates to generate markdown
-5. **SkillWriter** (adapter) writes SKILL.md files to filesystem
-6. **MarketplaceGenerator** (service) reads plugin-metadata.json and .release-please-manifest.json
-7. **MarketplaceWriter** (adapter) generates marketplace.json and all plugin.json files
+skillgen produces exactly **one hub skill per category** (4 total: patterns, enforce, build, secure): a lean `SKILL.md` (short overview + grouped index of links out to the upstream docs) plus a `reference.md` leaf holding the full offline depth behind it — not one skill per source document, and not a link-only index that depends on live fetches to go deep.
+
+1. **DocumentReader** (adapter) reads every index.md under a category
+2. **FrontmatterParser** + **SectionParser** extract title, description, and introduction; **AdmonitionConverter** cleans up VitePress admonitions in each doc's raw body for reference.md
+3. **TopicExtractor** (service) turns a single document into a lightweight `Topic` (title, one-line description, URL) for the `SKILL.md` index — no prose extraction
+4. **HubBuilder** (service) aggregates a category's documents into one hub `Skill`: the category root doc supplies `Overview`, every other doc is grouped by its first path segment under the category and becomes a linked `Topic`. It also assembles each doc's full body **exactly once** (via `prepareReferenceBody`, a pure heading-shift helper — no fuzzy section matching) into `SkillMetadata.ReferenceBody` / `TopicGroup.ReferenceBody` / `Topic.ReferenceBody` for `reference.md`
+5. **TemplateRenderer** (service) applies `skill.tmpl` and `reference.tmpl` to generate the hub's two files
+6. **SkillWriter** (adapter) removes stale sibling skill directories, then writes `SKILL.md`, `reference.md`, and the `library/` tree
+7. **MarketplaceGenerator** (service) reads plugin-metadata.json and .release-please-manifest.json
+8. **MarketplaceWriter** (adapter) generates marketplace.json and all plugin.json files
 
 ### Domain Models
 
 **Document** (`internal/domain/document.go`):
 - Represents parsed AEL documentation
 - Contains frontmatter, sections, code blocks, mermaid diagrams
-- Source for skill extraction
+- Source for topic extraction
 
 **Skill** (`internal/domain/skill.go`):
-- Output model with metadata, main content, optional examples/reference/troubleshooting
-- Each skill may generate multiple files: SKILL.md, examples.md, troubleshooting.md, reference.md
+- One hub per category: `SkillMetadata` (name, title, description, overview, `ReferenceBody`) plus `Groups []TopicGroup`
+- Each `TopicGroup` is a themed cluster of `Topic` entries (title, one-line description, URL), each also carrying a `ReferenceBody` — the topic's full cleaned content for `reference.md`
+- A hub skill produces `SKILL.md` (the scannable index, fans out to the upstream docs), `reference.md` (the full depth behind it, offline), and `library/` (every source doc shipped verbatim, one file per doc, mirroring the docs tree) — there are no examples/troubleshooting files or extracted scripts
 
 **Marketplace** (`internal/domain/marketplace.go`):
 - Represents .claude-plugin/marketplace.json structure
@@ -118,14 +122,12 @@ Blog posts (detected via frontmatter `date`/`authors` fields) are automatically 
 
 ## Templates
 
-Templates live in `skillgen/templates/` and use Go's text/template syntax. There are four:
+Templates live in `skillgen/templates/` and use Go's text/template syntax. There are two:
 
-- `skill.tmpl` - SKILL.md template, used for every category
-- `examples.tmpl` - Examples documentation
-- `reference.tmpl` - Reference documentation
-- `troubleshooting.tmpl` - Troubleshooting guides
+- `skill.tmpl` - SKILL.md: short overview + grouped topic index, links out to the upstream docs
+- `reference.tmpl` - reference.md: the full offline depth behind every topic, assembled from each doc's body exactly once
 
-There are no per-category templates; `skill.tmpl` renders all four collections.
+There are no per-category templates and no examples/troubleshooting templates.
 
 ## Configuration Files
 
@@ -137,6 +139,7 @@ There are no per-category templates; `skill.tmpl` renders all four collections.
 - Contains common fields applied to all plugin.json files (author, license, homepage)
 - Per-plugin configuration (descriptions, categories, tags, keywords)
 - Combined with `.release-please-manifest.json` to generate all marketplace files
+- Each plugin's `description` is dual-purpose: it becomes both the marketplace catalog blurb and the hub `SKILL.md`'s frontmatter description (via `pluginCfg.Description` in `HubBuilder`). Per `superpowers:writing-skills`, write it as a triggering condition ("Use when...", concrete situations/symptoms), not a content summary — that's what Claude uses to decide whether to load the skill.
 
 ### `.release-please-manifest.json`
 **Source of truth for versions**:
@@ -202,21 +205,19 @@ Use these commit prefixes for release-please automation. The behaviour below com
 
 ## Key Implementation Notes
 
-### Name Derivation
-Skill names are auto-generated from document titles:
-- Convert to lowercase
-- Replace spaces with hyphens
-- Remove special characters
-- Example: "Error Handling: Fail Fast" → "error-handling-fail-fast"
+### Hub Skill Naming
+A hub skill's name is simply its category slug (`patterns`, `enforce`, `build`, `secure`) — there's no per-document name derivation anymore.
 
-### Section Mapping
-The **SectionMapper** (`internal/services/extractor`) maps source doc sections to skill components:
-- "Why It Matters" → `WhenToUse`
-- "Prerequisites" → `Prerequisites`
-- Custom logic determines what goes into SKILL.md vs examples.md vs reference.md
+### Topic Grouping
+The **HubBuilder** (`internal/services/extractor/hub_builder.go`) groups a category's documents by their first path segment under the category (e.g. `patterns/architecture/...` → the "Architecture" group). If that segment has its own `index.md`, its title/description/URL become the group heading; otherwise the slug is humanized as a fallback. No deeper sub-grouping is attempted — this keeps each hub scannable rather than deeply nested. `TopicExtractor` reads each document's frontmatter `title`/`description` directly (falling back to the first sentence of the intro) rather than extracting prose sections.
 
-### Admonition Conversion
-Source docs use VitePress admonitions (`::: tip`, `::: warning`). The **AdmonitionConverter** transforms these to standard markdown for Claude Code compatibility.
+`TopicExtractor`/`HubBuilder` cap every one-line description (topic and group) to `maxTopicDescriptionWords` (6, in `topic_extractor.go`) so a hub with 20-30 topics fits SKILL.md's ~500-word budget (per `superpowers:writing-skills`) with real margin, not right at the wire — at 6 words the four hubs land at 165-442 words. This is purely a SKILL.md concern — `reference.md` and `library/` always carry the untruncated text, so nothing is lost, just deferred to the on-demand files. If a future doc set pushes a hub back over budget, tighten this constant (or `firstSentences`' sentence count for the root `Overview`) before reaching for deeper structural changes.
+
+### Reference Body Assembly
+`reference.md`'s full-depth content comes from `prepareReferenceBody` (`internal/services/extractor/reference_body.go`): a pure line-based helper that drops a doc's leading `# Title` heading and shifts every remaining heading deeper by a fixed number of levels, so it nests under the heading the caller wraps it in. Each doc's body flows through this exactly once, at one shift level per role (category root, group root, or topic) — there is no fuzzy keyword matching and no recursion into already-consumed subsections, which is what caused the old per-doc pipeline to triplicate content into `SKILL.md`. When editing this, keep the invariant: every doc contributes its body to exactly one place in the reference tree.
+
+### Library Files
+`HubBuilder.libraryFile` (`internal/services/extractor/hub_builder.go`) ships every doc a hub processes as its own file under `library/`, mirroring the doc's path under the category (e.g. `patterns/architecture/hub-and-spoke/index.md` → `library/architecture/hub-and-spoke/index.md`; the category root doc becomes `library/index.md`). Unlike `reference.md`, nothing is stripped or heading-shifted here — each file keeps its doc's natural title and heading structure, with a `Source: <url>` line inserted right after the title. This exists so the complete, unmerged source library is available in the tree in addition to the curated `SKILL.md` index and the merged `reference.md` — three ways to consume the same content depending on what's needed (routing, curated depth, or the raw original doc).
 
 ### Error Handling Philosophy
 **Per-document** errors are logged but do not change the exit code. Many are expected (missing titles, malformed content) and shouldn't fail CI builds; the generation summary reports error counts for visibility.
@@ -245,7 +246,7 @@ Go 1.26+ (`skillgen/go.mod`, matching the version pinned in CI) with minimal ext
 4. **Forgetting --plugin-metadata and --release-manifest flags** - Required for marketplace generation
 5. **Forgetting --source flag** - Generator requires source docs path
 6. **Forgetting --templates skillgen/templates** - The default `./templates` does not exist at the repo root, so the run dies before generating anything
-7. **Assuming specific section names** - Source docs vary, extractor uses fuzzy matching
+7. **Assuming a doc without its own index.md still gets a group heading** - it falls back to a humanized slug instead
 8. **Breaking template syntax** - Go templates are whitespace-sensitive
 9. **Not testing with actual docs** - Clone AEL docs repo for realistic testing
 

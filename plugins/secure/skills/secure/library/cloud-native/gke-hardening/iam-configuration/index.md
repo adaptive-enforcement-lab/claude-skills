@@ -1,0 +1,61 @@
+# IAM Configuration
+
+Source: https://adaptive-enforcement-lab.com/secure/cloud-native/gke-hardening/iam-configuration/
+
+Identity and access management controls who can do what in your cluster. Least-privilege service accounts minimize blast radius. Workload Identity Federation enables external identity integration. Audit logging provides complete visibility.
+
+> **IAM Security Layers**
+>
+>
+> 1. **[Least Privilege Roles](least-privilege-roles.md)** - Minimal permissions for service accounts
+> 2. **[Workload Identity Federation](workload-identity-federation.md)** - GitHub Actions and external auth
+> 3. **[Audit Logging](audit-logging.md)** - Comprehensive activity tracking
+>
+
+## Overview
+
+This section covers identity and access management for GKE clusters:
+
+- **Service Account Roles**: Fine-grained IAM permissions for nodes, admins, and developers
+- **Workload Identity Federation**: External identity provider integration (GitHub, OIDC)
+- **Audit Logging**: Complete visibility into cluster management and API access
+
+## Security Principles
+
+### Least Privilege
+
+Grant only the minimum IAM roles required for each service account:
+
+- Node service accounts: Logging, monitoring only
+- Application service accounts: Specific GCP resource access
+- Developer accounts: Read-only cluster access
+- Admin accounts: Full cluster management (limited users)
+
+### External Identity Integration
+
+Workload Identity Federation enables pods and external systems to authenticate without static credentials:
+
+- GitHub Actions: OIDC token exchange
+- External CI/CD: Custom identity providers
+- Multi-cloud workloads: Cross-cloud authentication
+
+### Complete Audit Trail
+
+Comprehensive audit logging captures all cluster activity:
+
+- API server requests (create, update, delete)
+- Authentication attempts and failures
+- IAM policy changes
+- Service account usage
+
+## Prerequisites
+
+- GCP project with billing enabled
+- Terraform 1.0+
+- Appropriate IAM permissions (Security Admin or Project Editor)
+
+## Related Configuration
+
+- **[Cluster Configuration](../cluster-configuration/index.md)** - Private GKE, Workload Identity, Shielded Nodes
+- **[Network Security](../network-security/index.md)** - VPC-native networking, Network Policies
+- **[Runtime Security](../runtime-security/index.md)** - Pod Security Standards, admission controllers

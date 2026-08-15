@@ -1,6 +1,6 @@
 {
   "name": "build",
-  "description": "Build engineering for Go CLIs and Kubernetes tooling: release-please automation, container packaging, testing strategies, and versioned documentation",
+  "description": "Use when building a Go CLI, wiring release-please for automated versioning, packaging a container, or setting up versioned documentation for a Kubernetes tool.",
   "version": "1.0.2",
   "author": {
     "name": "Adaptive Enforcement Lab",

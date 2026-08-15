@@ -1,6 +1,0 @@
-repos:
-  - repo: https://github.com/trufflesecurity/trufflehog
-    rev: v3.63.0
-    hooks:
-      - id: trufflehog
-        entry: trufflehog filesystem --fail --no-update

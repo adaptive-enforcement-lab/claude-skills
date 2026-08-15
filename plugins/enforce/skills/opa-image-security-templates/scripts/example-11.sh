@@ -1,1 +1,0 @@
-cosign sign --key cosign.key registry.company.com/app:v1.2.3

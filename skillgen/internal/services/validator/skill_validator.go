@@ -73,9 +73,9 @@ func (v *SkillValidator) Validate(skill *domain.Skill) []ports.ValidationError {
 	}
 
 	// MainContent is deliberately empty until the template renderer runs, so
-	// body quality is judged from the extracted sections instead.
-	if !hasExtractedBody(&skill.Metadata) {
-		add(ports.SeverityWarning, "no section matched a known component; the skill body will be near-empty")
+	// body quality is judged from the extracted overview and topic groups.
+	if !hasExtractedBody(skill) {
+		add(ports.SeverityWarning, "no overview or topic groups extracted; the skill body will be near-empty")
 	}
 
 	if !domain.IsCategory(skill.Metadata.Category) {
@@ -117,17 +117,11 @@ func (v *SkillValidator) validateName(name, file string) []ports.ValidationError
 	return nil
 }
 
-// hasExtractedBody reports whether section mapping produced any substantive
-// content. A skill with none renders to little more than its frontmatter.
-func hasExtractedBody(m *domain.SkillMetadata) bool {
-	return m.WhenToUse != "" ||
-		m.Prerequisites != "" ||
-		m.ImplementationSteps != "" ||
-		m.KeyPrinciples != "" ||
-		m.WhenToApply != "" ||
-		m.Comparison != "" ||
-		m.AntiPatterns != "" ||
-		len(m.Techniques) > 0
+// hasExtractedBody reports whether the hub has an overview or at least one
+// topic group. A skill with neither renders to little more than its
+// frontmatter.
+func hasExtractedBody(skill *domain.Skill) bool {
+	return skill.Metadata.Overview != "" || len(skill.Groups) > 0
 }
 
 // skillFile returns the best available identifier for error reporting,
