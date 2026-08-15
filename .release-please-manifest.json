@@ -1,5 +1,5 @@
 {
-  "skillgen": "1.1.0",
+  "skillgen": "1.2.0",
   ".claude-plugin": "1.1.0",
   "plugins/patterns": "1.1.0",
   "plugins/enforce": "1.1.0",

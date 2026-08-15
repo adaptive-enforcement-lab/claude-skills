@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.2.0](https://github.com/adaptive-enforcement-lab/claude-skills/compare/v1.1.0...v1.2.0) (2026-08-15)
+
+
+### Features
+
+* generate README.md from the same data as the skills ([4bfd5fe](https://github.com/adaptive-enforcement-lab/claude-skills/commit/4bfd5fe765ea060442d87181812749a93416f573))
+
+
+### Bug Fixes
+
+* correct services/ layout in the generated README's repo tree ([b13f6da](https://github.com/adaptive-enforcement-lab/claude-skills/commit/b13f6da670beb5e354772f0aaf729b171ed0c4da))
+* correct the second stale services/ description in the generated README ([ff57520](https://github.com/adaptive-enforcement-lab/claude-skills/commit/ff57520719a937bde8370584b60c048e770885de))
+
 ## [1.1.0](https://github.com/adaptive-enforcement-lab/claude-skills/compare/v1.0.3...v1.1.0) (2026-08-15)
 
 
