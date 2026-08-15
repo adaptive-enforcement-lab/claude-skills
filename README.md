@@ -173,7 +173,7 @@ cd skillgen && go test ./...
 - **Domain** (`skillgen/internal/domain`): core entities, no external dependencies
 - **Ports** (`skillgen/internal/ports`): interfaces for external dependencies
 - **Adapters** (`skillgen/internal/adapters`): filesystem, markdown parser, logger
-- **Services** (`skillgen/internal/services`): extractor, generator, validator
+- **Services** (`skillgen/internal/services`): marketplace and README generation, plus extractor/, generator/, validator/ subpackages
 
 Pipeline: read every doc in a category → extract each as a lightweight `Topic` (title, one-line description, URL) → `HubBuilder` aggregates them into one hub `Skill` per category (grouped topics, plus each doc's full body assembled once) → render templates → write `SKILL.md`, `reference.md`, and the `library/` tree → generate marketplace files and this README.
 
