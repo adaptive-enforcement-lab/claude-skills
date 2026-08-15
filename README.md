@@ -21,7 +21,7 @@ Claude Code skills marketplace for secure development patterns, enforcement auto
 
 | Collection | Version | Topics indexed | Focus |
 | ---------- | ------- | --------------: | ----- |
-| [`build`](plugins/build/skills/build) | 1.1.0 | 13 | Use when building a Go CLI, wiring release-please for automated versioning, packaging a container… |
+| [`build`](plugins/build/skills/build) | 1.1.1 | 13 | Use when building a Go CLI, wiring release-please for automated versioning, packaging a container… |
 | [`enforce`](plugins/enforce/skills/enforce) | 1.1.0 | 34 | Use when setting up or reviewing policy-as-code enforcement — writing Kyverno or OPA policies… |
 | [`patterns`](plugins/patterns/skills/patterns) | 1.1.0 | 38 | Use when designing or reviewing automation architecture for GitHub Actions, Argo Workflows, or Argo… |
 | [`secure`](plugins/secure/skills/secure) | 1.1.0 | 33 | Use when hardening GitHub Actions workflows, managing secrets or self-hosted runners, configuring OIDC or… |
