@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.1.0](https://github.com/adaptive-enforcement-lab/claude-skills/compare/marketplace-v1.0.2...marketplace-v1.1.0) (2026-08-15)
+
+
+### Features
+
+* replace per-doc skills with lean hub skills and offline reference docs ([082ac8e](https://github.com/adaptive-enforcement-lab/claude-skills/commit/082ac8ec85e00ab42d5e0f9aa5d2ecfaf2d433d7))
+
+
+### Maintenance
+
+* **main:** release build 1.1.0 ([#99](https://github.com/adaptive-enforcement-lab/claude-skills/issues/99)) ([7040682](https://github.com/adaptive-enforcement-lab/claude-skills/commit/70406823265fec57c0ae9963ec322658fbff91e5))
+* **main:** release enforce 1.1.0 ([#96](https://github.com/adaptive-enforcement-lab/claude-skills/issues/96)) ([4f3d329](https://github.com/adaptive-enforcement-lab/claude-skills/commit/4f3d32976706370e8c3db1b2aad2f42e04893b5a))
+* **main:** release patterns 1.1.0 ([#98](https://github.com/adaptive-enforcement-lab/claude-skills/issues/98)) ([a15e953](https://github.com/adaptive-enforcement-lab/claude-skills/commit/a15e9535a6e063c1ceea8bcf5753caa5b67b9073))
+* **main:** release secure 1.1.0 ([#95](https://github.com/adaptive-enforcement-lab/claude-skills/issues/95)) ([1f858ec](https://github.com/adaptive-enforcement-lab/claude-skills/commit/1f858ecc6476b3c3808fe4f8983d4feead2f4a89))
+
 ## [1.0.2](https://github.com/adaptive-enforcement-lab/claude-skills/compare/marketplace-v1.0.1...marketplace-v1.0.2) (2026-07-25)
 
 
