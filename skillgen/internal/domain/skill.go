@@ -24,22 +24,25 @@ type SkillMetadata struct {
 }
 
 // TopicGroup is a themed cluster of topics within a hub skill (e.g. the
-// "Architecture Patterns" group within the "patterns" hub), fanning out to
-// the upstream documentation instead of duplicating it.
+// "Architecture Patterns" group within the "patterns" hub).
 type TopicGroup struct {
 	Title         string // Group heading
 	Description   string // One-line group blurb
-	URL           string // Link to the group's own section page, if any
+	URL           string // Upstream URL to the group's own section page, if any
 	ReferenceBody string // Full cleaned body of the group's own doc, if any
 	Topics        []Topic
 }
 
-// Topic is a single link-out entry: a title, one-line description, and a
-// URL to the upstream documentation page.
+// Topic is a single index entry: a title, one-line description, and a link
+// to the bundled library/ copy of the doc (SKILL.md links here, not to the
+// live site, so the skill is fully usable offline — the library file itself
+// carries the upstream URL as its "Source:" line). URL is kept for the
+// upstream link but is not rendered in SKILL.md.
 type Topic struct {
 	Title         string
 	Description   string
 	URL           string
+	LibraryPath   string // Path to the library/ file, relative to SKILL.md
 	ReferenceBody string // Full cleaned body of the topic's doc, for reference.md
 }
 

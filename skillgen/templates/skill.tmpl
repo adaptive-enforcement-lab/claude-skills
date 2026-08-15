@@ -14,7 +14,7 @@ description: >-
 {{if .Description}}
 {{.Description}}
 {{end -}}
-{{range .Topics}}- [{{.Title}}]({{.URL}}){{if .Description}} — {{.Description}}{{end}}
+{{range .Topics}}- [{{.Title}}]({{.LibraryPath}}){{if .Description}} — {{.Description}}{{end}}
 {{end -}}
 {{end}}
 ## Full Reference
