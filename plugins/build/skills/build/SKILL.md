@@ -10,6 +10,10 @@ description: >-
 
 Development tools and release processes.
 
+## Consolidating Automated Dependency Updates
+
+This guide outlines strategies for merging…
+
 ## Documentation as Skills
 
 Compile MkDocs documentation into Claude Code…
